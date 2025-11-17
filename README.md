@@ -46,3 +46,19 @@ backend/
 5. Add tests, deployment scripts, and documentation.
 
 Stay tuned as we iterate aggressively with many small commits.
+
+## Local Development
+
+### Backend (FastAPI + Gemini proxy)
+1. `cd backend`
+2. Create a virtual env (`python -m venv .venv` or `uv venv`) and activate it.
+3. `pip install -e .[dev]`
+4. Copy `.env.example` to `.env` and add `GEMINI_API_KEY` when ready.
+5. `uvicorn app.main:app --reload`
+
+### Frontend (Svelte + Three.js scene)
+1. `cd frontend`
+2. `cp .env.example .env` and adjust `VITE_API_BASE_URL` if needed.
+3. `npm install`
+4. `npm run dev` (or `npm run check` for static analysis)
+5. Open the printed URL to explore the dashboard UI.
