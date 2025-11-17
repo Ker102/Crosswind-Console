@@ -11,11 +11,11 @@ A unified research dashboard that surfaces job opportunities, travel deals, and 
 ## High-Level Architecture
 ```
 frontend/ (Svelte + Vite)
-  src/lib/api.ts        # Typed front-end gateway to FastAPI
-  src/lib/state.ts      # Store + derived selectors
-  src/routes/+page.svelte
-  src/routes/+layout.svelte
-  static/3d/scene.json  # Placeholder for Spline/Three.js scene data
+  src/App.svelte            # Immersive dashboard shell + layout
+  src/lib/api.ts            # Typed front-end gateway to FastAPI
+  src/lib/state.ts          # Writable stores + derived selectors
+  src/lib/components/       # Three.js scene + insight cards
+  src/lib/types.ts          # Shared contracts w/ backend
 backend/
   app/main.py           # FastAPI application
   app/routers/
