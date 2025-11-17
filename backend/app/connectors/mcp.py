@@ -1,22 +1,24 @@
-"""Thin abstractions that would call MCP servers for live data.
-
-Right now the connectors return curated mock payloads to unblock the
-end-to-end flow. Each method mimics asynchronous IO so the rest of the
-application can be written exactly as if it were talking to Firecrawl or
-other remote services.
-"""
+"""High-level client that calls Firecrawl/Playwright MCP servers."""
 
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import logging
 import random
+import textwrap
 from typing import Any
 
 from ..schemas import Domain, Insight
+from ..mcp.hub import FirecrawlToolset, MCPHub
+
+logger = logging.getLogger(__name__)
 
 
 class MCPConnector:
     def __init__(self) -> None:
+        self.hub = MCPHub()
+        self.firecrawl = FirecrawlToolset(self.hub)
         self._sample_payloads: dict[Domain, list[Insight]] = {
             Domain.jobs: [
                 Insight(
@@ -75,8 +77,40 @@ class MCPConnector:
         }
 
     async def fetch_domain(self, domain: Domain, *, prompt: str | None, filters: dict[str, Any] | None) -> list[Insight]:
-        """Pretend to fetch live data via Firecrawl/bespoke MCP servers."""
+        query = self._build_query(domain, prompt, filters)
+        if not query:
+            return await self._fallback(domain, prompt)
 
+        try:
+            results = await self.firecrawl.search(query)
+            insights = self._convert_firecrawl_results(results, domain)
+            if insights:
+                return insights
+        except Exception as exc:  # pragma: no cover - network/runtime issues fall back to mocks
+            logger.warning("Firecrawl query failed (%s): %s", domain.value, exc)
+
+        return await self._fallback(domain, prompt)
+
+    def _build_query(self, domain: Domain, prompt: str | None, filters: dict[str, Any] | None) -> str | None:
+        base = {
+            Domain.jobs: "latest hiring intel",
+            Domain.travel: "travel deals",
+            Domain.trends: "social media trends",
+        }[domain]
+
+        parts = [base]
+        if prompt:
+            parts.append(prompt.strip())
+        if filters:
+            filter_terms = " ".join(
+                f"{key}:{value}" for key, value in filters.items() if isinstance(value, (str, int))
+            )
+            if filter_terms:
+                parts.append(filter_terms)
+        joined = " ".join(part for part in parts if part)
+        return joined or None
+
+    async def _fallback(self, domain: Domain, prompt: str | None) -> list[Insight]:
         await asyncio.sleep(0.05)
         base_payload = self._sample_payloads.get(domain, [])
         dynamic_payload: list[Insight] = []
@@ -91,6 +125,43 @@ class MCPConnector:
                     clone.metadata.setdefault("prompt_tags", []).append(tokens[0])
             dynamic_payload.append(clone)
         return dynamic_payload
+
+    def _convert_firecrawl_results(self, payload: list[dict[str, Any]], domain: Domain) -> list[Insight]:
+        insights: list[Insight] = []
+        for idx, entry in enumerate(payload):
+            title = (entry.get("title") or entry.get("metadata", {}).get("title") or "Untitled source").strip()
+            url = entry.get("url") or entry.get("metadata", {}).get("sourceURL")
+            summary_source = (
+                entry.get("description")
+                or entry.get("markdown")
+                or entry.get("snippet")
+                or entry.get("metadata", {}).get("description")
+                or ""
+            )
+            description = textwrap.shorten(summary_source.replace("\n", " "), width=220, placeholder="…")
+            metadata = {
+                "source": entry.get("metadata", {}),
+                "position": idx + 1,
+            }
+            if entry.get("markdown"):
+                metadata["markdown_preview"] = entry["markdown"][:1200]
+
+            insights.append(
+                Insight(
+                    id=self._build_id(domain, url or title, idx),
+                    title=title,
+                    description=description or "See linked source for more details.",
+                    source=url,
+                    score=max(0.35, 0.85 - idx * 0.1),
+                    metadata=metadata,
+                )
+            )
+        return insights
+
+    @staticmethod
+    def _build_id(domain: Domain, seed: str, idx: int) -> str:
+        digest = hashlib.sha1(f"{seed}-{idx}".encode(), usedforsecurity=False).hexdigest()[:10]
+        return f"{domain.value}-{digest}"
 
 
 mcp_connector = MCPConnector()

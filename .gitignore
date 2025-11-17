@@ -1,3 +1,4 @@
 .env
 auth/.env
 auth/prisma/dev.db
+auth/prisma/prisma/dev.db
