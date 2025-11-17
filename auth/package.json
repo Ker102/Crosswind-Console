@@ -6,7 +6,7 @@
     "dev": "dotenv -e ../.env -- next dev",
     "build": "dotenv -e ../.env -- next build",
     "start": "dotenv -e ../.env -- next start",
-    "lint": "dotenv -e ../.env -- next lint --dir ."
+    "lint": "dotenv -e ../.env -- eslint . --ext ts,tsx"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
