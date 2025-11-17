@@ -62,3 +62,11 @@ Stay tuned as we iterate aggressively with many small commits.
 3. `npm install`
 4. `npm run dev` (or `npm run check` for static analysis)
 5. Open the printed URL to explore the dashboard UI.
+
+### MCP Servers (Playwright + Firecrawl)
+1. `cp .env.example .env` and add `FIRECRAWL_API_KEY` (Firecrawl dashboard) plus optional `PLAYWRIGHT_BROWSERS_PATH`.
+2. Ensure Node.js ≥ 18 is installed.
+3. Launch servers in separate terminals:
+   - `./mcp/run_firecrawl.sh`
+   - `./mcp/run_playwright.sh`
+4. Point your MCP-aware client (Gemini CLI, future backend tooling) to `mcp/servers.config.json` for ready-made command definitions.

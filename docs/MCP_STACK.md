@@ -1,17 +1,17 @@
 # MCP Server Stack Blueprint
 
-We layer the discovery backend with MCP servers so each category (jobs, travel, trends) can tap into live browsers, crawlers, and APIs. The first milestone is to register the two foundational servers—Playwright and Firecrawl—exposed through the Docker MCP gateway. Subsequent phases will bolt on specialized servers per category.
+We layer the discovery backend with MCP servers so each category (jobs, travel, trends) can tap into live browsers, crawlers, and APIs. The first milestone is to register the two foundational servers—Playwright and Firecrawl—**running locally via the scripts inside `mcp/`**. Subsequent phases will bolt on specialized servers per category.
 
 ## Base Servers (Activated Now)
 
 | Server | Tools | Purpose | Notes |
 | --- | --- | --- | --- |
-| `MCP_DOCKER::browser_*` (Playwright) | `browser_navigate`, `browser_click`, `browser_evaluate`, etc. | Headless browsing to walk job boards, airline portals, OTA dashboards, and social media surfaces when APIs are unavailable. | Already exposed by the Docker gateway. Use when structured APIs are missing or when verifying scraped context visually. |
-| `MCP_DOCKER::firecrawl_*` (Firecrawl) | `firecrawl_search`, `firecrawl_scrape`, `firecrawl_extract`, `firecrawl_map` | High-volume scraping/searching layer for structured extraction of flights, accommodations, job posts, and trend write-ups. | Default to `firecrawl_search` → `firecrawl_scrape` per domain due to better throttling + caching. |
+| `mcp/run_playwright.sh` (Playwright MCP) | `browser_navigate`, `browser_click`, `browser_evaluate`, etc. | Headless browsing to walk job boards, airline portals, OTA dashboards, and social media surfaces when APIs are unavailable. | Launches `npx @playwright/mcp@latest`; optional env `PLAYWRIGHT_BROWSERS_PATH` supported. |
+| `mcp/run_firecrawl.sh` (Firecrawl MCP) | `firecrawl_search`, `firecrawl_scrape`, `firecrawl_extract`, `firecrawl_map` | High-volume scraping/searching layer for structured extraction of flights, accommodations, job posts, and trend write-ups. | Requires `FIRECRAWL_API_KEY`; command wraps `npx -y firecrawl-mcp`. |
 
 ### How to Call Them
-- **Python/Backend**: use the `MCP_DOCKER` tools via the CLI harness (e.g., `firecrawl_search` for job keywords, or `browser_navigate` + `browser_scrape` flows). Wrap these calls behind async connector functions so FastAPI endpoints stay responsive.
-- **Ops**: ensure the Docker MCP gateway is up; no extra config is needed beyond referencing the correct tool names.
+- **Python/Backend**: once the stdio servers are running, connect via MCP clients (e.g., the upcoming Gemini integration or a standalone `mcp` Python SDK) using the declarative config in `mcp/servers.config.json`.
+- **Ops**: run `./mcp/run_firecrawl.sh` and `./mcp/run_playwright.sh` locally (or containerize them) and keep the processes alive alongside FastAPI.
 
 ## Category Roadmap
 
