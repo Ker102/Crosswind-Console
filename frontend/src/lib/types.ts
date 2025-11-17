@@ -33,3 +33,25 @@ export interface LLMResponse {
   model: string
   latency_ms?: number | null
 }
+
+export interface UserSession {
+  user?: {
+    id: string
+    name?: string | null
+    email?: string | null
+    image?: string | null
+  }
+  expires?: string
+}
+
+export interface StoredProgressPayload {
+  summary: string
+  items: Insight[]
+}
+
+export interface StoredProgress {
+  domain: Domain
+  prompt?: string | null
+  payload?: StoredProgressPayload | null
+  updatedAt?: string | null
+}

@@ -1,21 +1,26 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import SceneCanvas from './lib/components/SceneCanvas.svelte'
   import InsightCard from './lib/components/InsightCard.svelte'
   import {
     askLLM,
+    authReadyStore,
     categoryMeta,
     errorStore,
     infoChips,
+    initAuth,
     insightsStore,
     llmLatencyStore,
     llmOutputStore,
     loadingStore,
     promptStore,
     selectedDomain,
+    sessionStore,
     setDomain,
     summaryStore,
     triggerDiscovery,
   } from './lib/state'
+  import { getSignInUrl, getSignOutUrl } from './lib/auth'
   import type { Domain } from './lib/types'
 
   const domainEntries = Object.entries(categoryMeta) as [Domain, (typeof categoryMeta)[Domain]][]
@@ -33,9 +38,27 @@
     if (!$promptStore) return
     await askLLM($promptStore)
   }
+
+  onMount(() => {
+    initAuth()
+  })
 </script>
 
 <div class="page">
+  <div class="auth-bar">
+    {#if $authReadyStore}
+      {#if $sessionStore}
+        <span>Signed in as {$sessionStore.user?.email ?? $sessionStore.user?.name}</span>
+        <a class="auth-button" href={getSignOutUrl()}>Sign out</a>
+      {:else}
+        <span>Guest session. Sign in to sync your discoveries.</span>
+        <a class="auth-button primary" href={getSignInUrl()}>Sign in with Google</a>
+      {/if}
+    {:else}
+      <span>Checking authentication …</span>
+    {/if}
+  </div>
+
   <header class="hero">
     <div class="hero__scene">
       <SceneCanvas />
@@ -136,6 +159,31 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+  }
+
+  .auth-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .auth-button {
+    border-radius: 999px;
+    padding: 0.45rem 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    font-weight: 600;
+  }
+
+  .auth-button.primary {
+    background: #0077b6;
   }
 
   .hero {

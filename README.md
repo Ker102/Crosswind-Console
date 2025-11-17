@@ -11,11 +11,11 @@ A unified research dashboard that surfaces job opportunities, travel deals, and 
 ## High-Level Architecture
 ```
 frontend/ (Svelte + Vite)
-  src/App.svelte            # Immersive dashboard shell + layout
+  src/App.svelte            # Immersive dashboard shell + layout + auth hooks
   src/lib/api.ts            # Typed front-end gateway to FastAPI
-  src/lib/state.ts          # Writable stores + derived selectors
+  src/lib/state.ts          # Stores, persistence triggers, auth bootstrap
   src/lib/components/       # Three.js scene + insight cards
-  src/lib/types.ts          # Shared contracts w/ backend
+  src/lib/types.ts          # Shared contracts w/ backend + auth
 backend/
   app/main.py           # FastAPI application
   app/routers/
@@ -28,6 +28,13 @@ backend/
     llm.py
   app/schemas.py        # Pydantic models
   tests/
+auth/ (Next.js + NextAuth)
+  prisma/schema.prisma       # User/Account/Session/Progress tables
+  src/lib/authOptions.ts     # NextAuth config (Google OAuth + Prisma adapter)
+  src/lib/prisma.ts          # Prisma client singleton
+  src/app/api/auth/[...nextauth]
+  src/app/api/progress       # Session-aware persistence API
+  src/app/api/session        # Session snapshot + CORS for Svelte UI
 ```
 
 ## Workflow Overview
@@ -62,6 +69,13 @@ Stay tuned as we iterate aggressively with many small commits.
 3. `npm install`
 4. `npm run dev` (or `npm run check` for static analysis)
 5. Open the printed URL to explore the dashboard UI.
+
+### Auth Service (NextAuth + Prisma)
+1. `cd auth`
+2. Ensure the repo-level `.env` (copied from `.env.example`) includes Google OAuth creds, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `FRONTEND_ORIGIN`, and `DATABASE_URL`.
+3. `set -a && source ../.env && set +a && npx prisma migrate dev --name init` (first run only).
+4. `npm run dev -- --port 3001` (scripts automatically load the shared `.env`).
+5. Visit `http://localhost:3001` to test sign-in and the `/api/progress` endpoint.
 
 ### MCP Servers (Playwright + Firecrawl)
 1. `cp .env.example .env` and add `FIRECRAWL_API_KEY` (Firecrawl dashboard) plus optional `PLAYWRIGHT_BROWSERS_PATH`.
