@@ -2,3 +2,19 @@
 auth/.env
 auth/prisma/dev.db
 auth/prisma/prisma/dev.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
