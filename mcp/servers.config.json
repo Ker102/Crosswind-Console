@@ -3,16 +3,60 @@
   "mcpServers": {
     "firecrawl": {
       "command": "npx",
-      "args": ["-y", "firecrawl-mcp"],
+      "args": [
+        "-y",
+        "firecrawl-mcp"
+      ],
       "env": {
         "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
       }
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"],
+      "args": [
+        "@playwright/mcp@latest"
+      ],
       "env": {
         "PLAYWRIGHT_BROWSERS_PATH": "${PLAYWRIGHT_BROWSERS_PATH:-0}"
+      }
+    },
+    "travel": {
+      "command": "python",
+      "args": [
+        "mcp/travel_server.py"
+      ],
+      "env": {
+        "RAPIDAPI_KEY": "${RAPIDAPI_KEY}"
+      }
+    },
+    "trends": {
+      "command": "python",
+      "args": [
+        "mcp/trends_server.py"
+      ],
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}",
+        "RAPIDAPI_KEY": "${RAPIDAPI_KEY}",
+        "X_BEARER_TOKEN": "${X_BEARER_TOKEN}"
+      }
+    },
+    "jobs": {
+      "command": "python",
+      "args": [
+        "mcp/jobs_server.py"
+      ],
+      "env": {
+        "RAPIDAPI_KEY": "${RAPIDAPI_KEY}"
+      }
+    },
+    "search": {
+      "command": "python",
+      "args": [
+        "mcp/search_server.py"
+      ],
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}",
+        "GOOGLE_SEARCH_CX": "${GOOGLE_SEARCH_CX}"
       }
     }
   }

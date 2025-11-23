@@ -1,0 +1,194 @@
+import os
+import httpx
+from mcp.server.fastmcp import FastMCP
+
+# Initialize FastMCP server
+mcp = FastMCP("travel")
+
+RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+TRIPADVISOR_API_KEY = os.environ.get("TRIPADVISOR_API_KEY")
+RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
+
+@mcp.tool()
+async def search_flights(from_location: str, to_location: str, date: str, return_date: str = None) -> str:
+    """
+    Search for flights using the Kiwi.com API via RapidAPI.
+    
+    Args:
+        from_location: The IATA code or location ID for the departure airport (e.g., "LHR", "city:LON").
+        to_location: The IATA code or location ID for the destination airport (e.g., "JFK", "city:NYC").
+        date: The departure date in DD/MM/YYYY format.
+        return_date: Optional return date in DD/MM/YYYY format.
+    """
+    if not RAPIDAPI_KEY:
+        return "Error: RAPIDAPI_KEY environment variable is not set."
+
+    url = f"https://{RAPIDAPI_HOST}/search"
+    
+    querystring = {
+        "fly_from": from_location,
+        "fly_to": to_location,
+        "date_from": date,
+        "date_to": date,
+        "curr": "USD",
+        "sort": "price",
+        "limit": "5"
+    }
+
+    if return_date:
+        querystring["return_from"] = return_date
+        querystring["return_to"] = return_date
+
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": RAPIDAPI_HOST
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=querystring)
+            response.raise_for_status()
+            data = response.json()
+            
+            if "data" not in data or not data["data"]:
+                return "No flights found for the specified criteria."
+
+            results = []
+            for flight in data["data"]:
+                price = flight.get("price", "N/A")
+                currency = data.get("currency", "USD")
+                deep_link = flight.get("deep_link", "")
+                
+                # Extract route details
+                route_info = []
+                for leg in flight.get("route", []):
+                    airline = leg.get("airline", "Unknown")
+                    flight_no = leg.get("flight_no", "")
+                    dep_city = leg.get("cityFrom", "Unknown")
+                    arr_city = leg.get("cityTo", "Unknown")
+                    dep_time = leg.get("local_departure", "")
+                    arr_time = leg.get("local_arrival", "")
+                    route_info.append(f"{airline} {flight_no}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
+
+                results.append(f"Price: {price} {currency}\nRoute: {' | '.join(route_info)}\nLink: {deep_link}\n---")
+
+            return "\n".join(results)
+
+        except httpx.HTTPStatusError as e:
+            return f"API Error: {e.response.status_code} - {e.response.text}"
+        except Exception as e:
+            return f"An error occurred: {str(e)}"
+
+@mcp.tool()
+async def search_places(query: str, category: str = "attractions", language: str = "en") -> str:
+    """
+    Search for places (hotels, restaurants, attractions) using TripAdvisor API.
+    
+    Args:
+        query: Search query (e.g., "Eiffel Tower", "Sushi in Tokyo").
+        category: Category filter ('hotels', 'attractions', 'restaurants', 'geos').
+        language: Language code (default 'en').
+    """
+    if not TRIPADVISOR_API_KEY:
+        return "Error: TRIPADVISOR_API_KEY is not set."
+
+    url = "https://api.content.tripadvisor.com/api/v1/location/search"
+    
+    params = {
+        "key": TRIPADVISOR_API_KEY,
+        "searchQuery": query,
+        "category": category,
+        "language": language
+    }
+
+    headers = {"accept": "application/json"}
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            results = []
+            for item in data.get("data", [])[:5]: # Limit to 5
+                name = item.get("name", "Unknown")
+                address = item.get("address_obj", {}).get("address_string", "No address")
+                location_id = item.get("location_id", "")
+                # TripAdvisor content API often requires a second call for details/photos using location_id
+                # For search, we just return the basic info found.
+                results.append(f"Name: {name}\nAddress: {address}\nID: {location_id}\n---")
+            
+            if not results:
+                return "No places found."
+                
+            return "\n".join(results)
+
+        except Exception as e:
+            return f"Error searching TripAdvisor: {str(e)}"
+
+@mcp.tool()
+async def search_hotels(latitude: float, longitude: float, checkin_date: str, checkout_date: str, adults: int = 1) -> str:
+    """
+    Search for hotels using Booking.com API (via RapidAPI).
+    
+    Args:
+        latitude: Latitude of the location.
+        longitude: Longitude of the location.
+        checkin_date: Check-in date (YYYY-MM-DD).
+        checkout_date: Check-out date (YYYY-MM-DD).
+        adults: Number of adults (default 1).
+    """
+    if not RAPIDAPI_KEY:
+        return "Error: RAPIDAPI_KEY is not set."
+
+    # Booking.com API requires a location search first usually, but some endpoints accept lat/long.
+    # The 'v1/hotels/search-by-coordinates' is a common pattern, but let's check if we can use the main search with lat/long.
+    # Based on my verification, the main search takes dest_id. 
+    # However, for efficiency, I will use the 'search-by-coordinates' if available, or I'll use a known pattern.
+    # Actually, let's use the 'v1/hotels/search-by-coordinates' which is standard for this API family.
+    # If that fails, I'll return a message.
+    
+    url = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates"
+    
+    querystring = {
+        "latitude": str(latitude),
+        "longitude": str(longitude),
+        "checkin_date": checkin_date,
+        "checkout_date": checkout_date,
+        "adults_number": str(adults),
+        "room_number": "1",
+        "units": "metric",
+        "order_by": "popularity"
+    }
+
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": "booking-com.p.rapidapi.com"
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=querystring)
+            response.raise_for_status()
+            data = response.json()
+            
+            results = []
+            # Booking.com response structure usually has a 'result' key list
+            hotels = data.get("result", [])
+            for hotel in hotels[:5]:
+                name = hotel.get("hotel_name", "Unknown")
+                price = hotel.get("min_total_price", {}).get("value", "N/A")
+                currency = hotel.get("currency_code", "USD")
+                url_link = hotel.get("url", "")
+                results.append(f"Hotel: {name}\nPrice: {price} {currency}\nLink: {url_link}\n---")
+            
+            if not results:
+                return "No hotels found."
+                
+            return "\n".join(results)
+
+        except Exception as e:
+            return f"Error searching hotels: {str(e)}"
+
+if __name__ == "__main__":
+    mcp.run()

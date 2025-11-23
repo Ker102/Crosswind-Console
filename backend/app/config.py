@@ -18,6 +18,13 @@ class Settings(BaseSettings):
     google_client_secret: str | None = None
     frontend_origin: str | None = None
     enable_mock_data: bool = True
+    
+    # MCP Keys
+    rapidapi_key: str | None = None
+    google_maps_api_key: str | None = None
+    google_search_cx: str | None = None
+    x_bearer_token: str | None = None
+    tripadvisor_api_key: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
