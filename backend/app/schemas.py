@@ -34,10 +34,16 @@ class DiscoveryResponse(BaseModel):
     llm_trace: str | None = None
 
 
+class ChatMessage(BaseModel):
+    role: Literal["user", "model"]
+    content: str
+
+
 class LLMRequest(BaseModel):
     mode: Literal["jobs", "travel", "trends", "general"] = "general"
     prompt: str
     context: list[Insight] | None = None
+    history: list[ChatMessage] | None = None
 
 
 class LLMResponse(BaseModel):

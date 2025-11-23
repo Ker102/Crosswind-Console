@@ -190,5 +190,53 @@ async def search_hotels(latitude: float, longitude: float, checkin_date: str, ch
         except Exception as e:
             return f"Error searching hotels: {str(e)}"
 
+@mcp.tool()
+async def search_flights_backup(from_entity: str, to_entity: str, date: str) -> str:
+    """
+    Backup flight search using Flights Sky (Skyscanner) API.
+    
+    Args:
+        from_entity: Origin entity ID (e.g., "LOND-sky", "NYCA-sky").
+        to_entity: Destination entity ID (e.g., "PARI-sky").
+        date: Departure date (YYYY-MM-DD).
+    """
+    if not RAPIDAPI_KEY:
+        return "Error: RAPIDAPI_KEY is not set."
+
+    url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
+    
+    # Note: This API requires specific Entity IDs. 
+    # Ideally, we would have a helper tool to find these IDs first (e.g., /flights/auto-complete).
+    # For this backup tool, we assume the LLM might try to guess or we provide common ones in prompt context.
+    # Or better, we implement a quick lookup if needed, but for now keeping it simple as a backup.
+    
+    querystring = {
+        "fromEntityId": from_entity,
+        "toEntityId": to_entity,
+        "departDate": date,
+        "adults": "1",
+        "currency": "USD",
+        "market": "US",
+        "locale": "en-US"
+    }
+
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": "flights-sky.p.rapidapi.com"
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=querystring)
+            response.raise_for_status()
+            data = response.json()
+            
+            # Parse response (structure varies, usually 'itineraries' or 'quotes')
+            # Returning raw snippet for now as backup
+            return str(data)[:2000]
+
+        except Exception as e:
+            return f"Error searching flights (backup): {str(e)}"
+
 if __name__ == "__main__":
     mcp.run()

@@ -22,11 +22,11 @@ except Exception:
 try:
     from mcp.jobs_server import get_active_jobs, search_jobs
     from mcp.search_server import web_search
-    from mcp.travel_server import search_flights, search_places, search_hotels
+    from mcp.travel_server import search_flights, search_places, search_hotels, search_flights_backup
     from mcp.trends_server import get_google_trends, get_youtube_trends, search_tweets, search_youtube
     
     MCP_TOOLS = [
-        search_flights, search_places, search_hotels,
+        search_flights, search_places, search_hotels, search_flights_backup,
         search_jobs, get_active_jobs,
         web_search,
         get_youtube_trends, search_youtube, get_google_trends, search_tweets
@@ -96,7 +96,7 @@ class GeminiClient:
         text = response.text if hasattr(response, "text") else str(response)
         return LLMResult(text=text, latency_ms=latency_ms, model=self.model_id)
 
-    async def respond(self, prompt: str, context: Iterable[Insight] | None = None) -> LLMResult:
+    async def respond(self, prompt: str, context: Iterable[Insight] | None = None, history: Iterable[Any] | None = None) -> LLMResult:
         combined_prompt = prompt
         if context:
             combined_prompt += "\n\nContext:\n" + "\n".join(
@@ -113,14 +113,22 @@ class GeminiClient:
         loop = asyncio.get_running_loop()
         start = time.perf_counter()
         
+        # Convert history to Gemini format if provided
+        chat_history = []
+        if history:
+            for msg in history:
+                chat_history.append({
+                    "role": msg.role,
+                    "parts": [msg.content]
+                })
+
         # Enable automatic function calling
-        # Note: generate_content with tools returns a response that might contain function calls.
-        # The library handles the loop if we use the chat interface or configure it correctly.
-        # For simple one-shot with tools, we might need to handle the turn-taking or use `start_chat`.
-        # `request_options={"function_calling_mode": "AUTO"}` is default when tools are present.
-        
         # Using chat session for automatic tool use loop
-        chat = self._model.start_chat(enable_automatic_function_calling=True)
+        chat = self._model.start_chat(
+            history=chat_history,
+            enable_automatic_function_calling=True
+        )
+        
         response = await loop.run_in_executor(None, lambda: chat.send_message(combined_prompt))
         
         latency_ms = (time.perf_counter() - start) * 1000

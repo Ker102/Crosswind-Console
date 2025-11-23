@@ -13,5 +13,5 @@ router = APIRouter(prefix="/llm", tags=["llm"])
 async def run_llm_prompt(
     payload: LLMRequest, llm_client: GeminiClient = Depends(get_llm_client)
 ) -> LLMResponse:
-    result = await llm_client.respond(payload.prompt, payload.context)
+    result = await llm_client.respond(payload.prompt, payload.context, payload.history)
     return LLMResponse(output=result.text, model=result.model, latency_ms=result.latency_ms)
