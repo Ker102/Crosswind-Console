@@ -2,6 +2,20 @@
   import { onMount, onDestroy } from "svelte";
   import { fly, fade } from "svelte/transition";
   import IconCloud from "./IconCloud.svelte";
+  import {
+    Plane,
+    Mountain,
+    Car,
+    Laptop,
+    Coffee,
+    AlarmClock,
+    Twitter,
+    Instagram,
+    Facebook,
+    Linkedin,
+    Sparkles,
+    Clapperboard,
+  } from "lucide-svelte";
 
   let text = $state("");
   const phrases = ["TRAVEL", "JOBS", "TRENDS"];
@@ -95,17 +109,65 @@
       class="selection-container"
       in:fly={{ y: 1000, duration: 1000, delay: 500 }}
     >
+      <!-- Background Logos (Only in Selection View) -->
+      <div class="background-logos">
+        <!-- MCP Logo -->
+        <img
+          src="/mcp.png"
+          alt="MCP"
+          class="bg-logo mcp-logo"
+          style="top: 10%; left: 10%; transform: rotate(-15deg);"
+        />
+        <!-- Firecrawl Logo (PNG) -->
+        <img
+          src="/firecrawl.png"
+          alt="Firecrawl"
+          class="bg-logo firecrawl-logo"
+          style="top: 20%; right: 15%; transform: rotate(10deg); width: 100px;"
+        />
+        <!-- Gemini Logo (User Asset) -->
+        <img
+          src="/gemini_logo_v2.png"
+          alt="Gemini"
+          class="bg-logo gemini-logo"
+          style="bottom: 15%; left: 20%; transform: rotate(5deg); width: 80px; border-radius: 10px;"
+        />
+        <!-- Playwright Logo (User Asset - Transparent) -->
+        <img
+          src="/playwright_masks_transparent.png"
+          alt="Playwright"
+          class="bg-logo playwright-logo"
+          style="bottom: 25%; right: 10%; transform: rotate(-10deg); width: 80px;"
+        />
+      </div>
+
       <h2 class="selection-title">CHOOSE YOUR PATH</h2>
       <div class="cards">
         <div class="card travel">
+          <div class="card-icons">
+            <Plane size={24} />
+            <Mountain size={24} />
+            <Car size={24} />
+          </div>
           <h3>TRAVEL</h3>
           <p>Explore the world with best deals.</p>
         </div>
         <div class="card jobs">
+          <div class="card-icons">
+            <Laptop size={24} />
+            <Coffee size={24} />
+            <AlarmClock size={24} />
+          </div>
           <h3>JOBS</h3>
           <p>Find your next career opportunity.</p>
         </div>
         <div class="card trends">
+          <div class="card-icons">
+            <Twitter size={24} />
+            <Instagram size={24} />
+            <Facebook size={24} />
+            <Linkedin size={24} />
+          </div>
           <h3>TRENDS</h3>
           <p>Stay ahead with latest insights.</p>
         </div>
@@ -147,6 +209,29 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden; /* Ensure logos don't overflow */
+  }
+
+  /* Background Logos */
+  .background-logos {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 0; /* Behind selection content */
+  }
+
+  .bg-logo {
+    position: absolute;
+    opacity: 0.4; /* Increased visibility */
+    filter: grayscale(0%); /* Remove grayscale for better visibility */
+  }
+
+  .mcp-logo {
+    width: 100px;
+    height: auto;
   }
 
   .landing-content {
@@ -158,6 +243,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 10; /* Above logos */
   }
 
   .logo {
@@ -192,7 +278,7 @@
     letter-spacing: -0.05em;
     text-transform: uppercase;
 
-    /* Radial Fade from Bottom (Typewriter Text) */
+    /* Radial Fade from Bottom (Typewriter Text) - Relaxed Radius */
     background: radial-gradient(
       circle at 50% 100%,
       #ff3bff 0%,
@@ -204,6 +290,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    display: inline-block; /* Ensure background-clip works */
   }
 
   .highlight {
@@ -262,7 +349,7 @@
   /* Selection View Styles */
   .selection-container {
     text-align: center;
-    z-index: 20;
+    z-index: 20; /* Above logos */
   }
 
   .selection-title {
@@ -290,11 +377,21 @@
       transform 0.3s ease,
       background 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .card:hover {
     transform: translateY(-10px);
     background: rgba(255, 255, 255, 0.9);
+  }
+
+  .card-icons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #555;
   }
 
   .card h3 {
@@ -313,9 +410,22 @@
   .travel h3 {
     color: #00a991;
   }
-  .jobs h3 {
-    color: #0a66c2;
+
+  /* Jobs Card - Brown-Greyish Vibe */
+  .jobs {
+    background: rgba(180, 170, 160, 0.2); /* Brownish tint */
+    border-color: rgba(140, 130, 120, 0.4);
   }
+  .jobs:hover {
+    background: rgba(180, 170, 160, 0.4);
+  }
+  .jobs h3 {
+    color: #6d5e52; /* Brown-grey text */
+  }
+  .jobs .card-icons {
+    color: #6d5e52;
+  }
+
   .trends h3 {
     color: #ff0000;
   }
