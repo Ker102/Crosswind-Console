@@ -256,9 +256,9 @@
                     group.position.set(x, y, z);
                     group.lookAt(camera.position);
 
-                    // Random rotation
-                    group.rotateX(Math.random() * Math.PI);
-                    group.rotateY(Math.random() * Math.PI);
+                    // Constrained random rotation (Face user with slight variation)
+                    group.rotateX((Math.random() - 0.5) * 0.5);
+                    group.rotateY((Math.random() - 0.5) * 0.5);
 
                     // --- TILE CREATION ---
                     let material: THREE.MeshPhysicalMaterial;

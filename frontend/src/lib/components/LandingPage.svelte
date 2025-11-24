@@ -78,7 +78,8 @@
         <div class="header">
           <div class="title-wrapper">
             <h1 class="title">
-              START YOUR JOURNEY IN<br />
+              ACCESS THOUSANDS OF RESOURCES FROM BRANDS AND SERVICES WITH AI TO
+              GET STARTED WITH<br />
               <span class="highlight">{text}</span><span class="cursor">|</span>
             </h1>
           </div>
@@ -180,20 +181,38 @@
   .title-wrapper {
     position: relative;
     display: inline-block;
+    max-width: 1200px;
   }
 
   .title {
-    font-size: 5rem;
+    font-size: 3.5rem;
     line-height: 1.1;
     font-weight: 900;
-    color: #1a1a1a;
     margin: 0;
     letter-spacing: -0.05em;
     text-transform: uppercase;
+
+    /* Radial Fade from Bottom (Typewriter Text) */
+    background: radial-gradient(
+      circle at 50% 100%,
+      #ff3bff 0%,
+      #ecbfbf 25%,
+      #5c24ff 50%,
+      #1a1a1a 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .highlight {
-    color: #0055da;
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 800;
   }
 
   .cursor {
