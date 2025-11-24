@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { fly, fade } from "svelte/transition";
   import IconCloud from "./IconCloud.svelte";
+  import { Icon } from "@steeze-ui/svelte-icon";
   import {
     Plane,
     Mountain,
@@ -16,6 +17,21 @@
     Sparkles,
     Clapperboard,
   } from "lucide-svelte";
+  import {
+    Glassdoor,
+    Facebook as FacebookIcon,
+    Tiktok,
+    Tripadvisor,
+    Airbnb,
+    Svelte,
+    Python,
+    Fastapi,
+    Postgresql,
+    Typescript,
+    Tailwindcss,
+    Vite,
+    Threedotjs,
+  } from "@steeze-ui/simple-icons";
 
   let text = $state("");
   const phrases = ["TRAVEL", "JOBS", "TRENDS"];
@@ -63,8 +79,11 @@
     if (showLanding && e.deltaY > 0) {
       handleTransition();
     } else if (!showLanding && e.deltaY < 0) {
-      // Scroll back up to hero
-      showLanding = true;
+      // Only scroll back up if we are at the top of the selection container
+      const container = document.querySelector(".selection-scroll-container");
+      if (container && container.scrollTop === 0) {
+        showLanding = true;
+      }
     }
   };
 
@@ -83,10 +102,7 @@
   <div class="logo">Crosswind Console</div>
 
   {#if showLanding}
-    <div
-      class="landing-content"
-      out:fly={{ y: -1000, duration: 1000, opacity: 0 }}
-    >
+    <div class="landing-content" transition:fly={{ y: -1000, duration: 1000 }}>
       <IconCloud />
       <div class="content">
         <div class="header">
@@ -107,9 +123,9 @@
   {:else}
     <div
       class="selection-container"
-      in:fly={{ y: 1000, duration: 1000, delay: 500 }}
+      transition:fly={{ y: 1000, duration: 1000 }}
     >
-      <!-- Background Logos (Only in Selection View) -->
+      <!-- Background Logos (Fixed in Selection View) -->
       <div class="background-logos">
         <!-- MCP Logo -->
         <img
@@ -141,35 +157,113 @@
         />
       </div>
 
-      <h2 class="selection-title">CHOOSE YOUR PATH</h2>
-      <div class="cards">
-        <div class="card travel">
-          <div class="card-icons">
-            <Plane size={24} />
-            <Mountain size={24} />
-            <Car size={24} />
+      <div class="selection-scroll-container">
+        <div class="section categories-section">
+          <h2 class="selection-title">CHOOSE YOUR PATH</h2>
+          <div class="cards">
+            <div class="card travel">
+              <div class="card-icons">
+                <Plane size={24} />
+                <Mountain size={24} />
+                <Car size={24} />
+              </div>
+              <h3>TRAVEL</h3>
+              <p>Explore the world with best deals.</p>
+            </div>
+            <div class="card jobs">
+              <div class="card-icons">
+                <Laptop size={24} />
+                <Coffee size={24} />
+                <AlarmClock size={24} />
+              </div>
+              <h3>JOBS</h3>
+              <p>Find your next career opportunity.</p>
+            </div>
+            <div class="card trends">
+              <div class="card-icons">
+                <Twitter size={24} />
+                <Instagram size={24} />
+                <Facebook size={24} />
+                <Linkedin size={24} />
+              </div>
+              <h3>TRENDS</h3>
+              <p>Stay ahead with latest insights.</p>
+            </div>
           </div>
-          <h3>TRAVEL</h3>
-          <p>Explore the world with best deals.</p>
         </div>
-        <div class="card jobs">
-          <div class="card-icons">
-            <Laptop size={24} />
-            <Coffee size={24} />
-            <AlarmClock size={24} />
+
+        <div class="section tools-section">
+          <h2 class="section-title">TOOLS USED</h2>
+          <div class="tools-grid">
+            <div class="tool-icon" title="Glassdoor">
+              <Icon src={Glassdoor} size="40" />
+            </div>
+            <div class="tool-icon" title="Facebook">
+              <Icon src={FacebookIcon} size="40" />
+            </div>
+            <div class="tool-icon" title="TikTok">
+              <Icon src={Tiktok} size="40" />
+            </div>
+            <div class="tool-icon" title="TripAdvisor">
+              <Icon src={Tripadvisor} size="40" />
+            </div>
+            <div class="tool-icon" title="Airbnb">
+              <Icon src={Airbnb} size="40" />
+            </div>
+            <!-- Local Logos for MCP/Firecrawl in Grid -->
+            <div class="tool-icon" title="MCP">
+              <img
+                src="/mcp.png"
+                alt="MCP"
+                style="width: 40px; height: 40px; object-fit: contain;"
+              />
+            </div>
+            <div class="tool-icon" title="Firecrawl">
+              <img
+                src="/firecrawl.png"
+                alt="Firecrawl"
+                style="width: 40px; height: 40px; object-fit: contain;"
+              />
+            </div>
           </div>
-          <h3>JOBS</h3>
-          <p>Find your next career opportunity.</p>
         </div>
-        <div class="card trends">
-          <div class="card-icons">
-            <Twitter size={24} />
-            <Instagram size={24} />
-            <Facebook size={24} />
-            <Linkedin size={24} />
+
+        <div class="section tech-section">
+          <h2 class="section-title">TECHNOLOGIES STACK</h2>
+          <div class="tools-grid">
+            <div class="tool-icon" title="Svelte">
+              <Icon src={Svelte} size="40" />
+            </div>
+            <div class="tool-icon" title="Python">
+              <Icon src={Python} size="40" />
+            </div>
+            <div class="tool-icon" title="FastAPI">
+              <Icon src={Fastapi} size="40" />
+            </div>
+            <div class="tool-icon" title="PostgreSQL">
+              <Icon src={Postgresql} size="40" />
+            </div>
+            <div class="tool-icon" title="TypeScript">
+              <Icon src={Typescript} size="40" />
+            </div>
+            <div class="tool-icon" title="TailwindCSS">
+              <Icon src={Tailwindcss} size="40" />
+            </div>
+            <div class="tool-icon" title="Vite">
+              <Icon src={Vite} size="40" />
+            </div>
+            <div class="tool-icon" title="Three.js">
+              <Icon src={Threedotjs} size="40" />
+            </div>
           </div>
-          <h3>TRENDS</h3>
-          <p>Stay ahead with latest insights.</p>
+        </div>
+
+        <div class="section connect-section">
+          <h2 class="section-title">CONNECT WITH ME</h2>
+          <div class="connect-content">
+            <p>Let's build something amazing together.</p>
+            <!-- Add social links or form here later -->
+          </div>
         </div>
       </div>
     </div>
@@ -221,6 +315,7 @@
     height: 100%;
     pointer-events: none; /* Let clicks pass through */
     z-index: 0; /* Behind selection content */
+    position: fixed; /* Keep fixed while scrolling */
   }
 
   .bg-logo {
@@ -348,11 +443,48 @@
 
   /* Selection View Styles */
   .selection-container {
-    text-align: center;
-    z-index: 20; /* Above logos */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .selection-title {
+  .selection-scroll-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 10vh; /* Start content a bit down */
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    /* Hide scrollbar for cleaner look */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .selection-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .section {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 10; /* Above logos */
+  }
+
+  .selection-title,
+  .section-title {
     font-size: 3rem;
     font-weight: 900;
     margin-bottom: 3rem;
@@ -364,6 +496,7 @@
     display: flex;
     gap: 2rem;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .card {
@@ -428,5 +561,42 @@
 
   .trends h3 {
     color: #ff0000;
+  }
+
+  /* Tools & Tech Section */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 2rem;
+    width: 80%;
+    justify-items: center;
+  }
+
+  .tool-icon {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    padding: 1rem;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+    color: #333;
+  }
+
+  .tool-icon:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+  }
+
+  /* Connect Section */
+  .connect-content {
+    font-size: 1.2rem;
+    color: #333;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
   }
 </style>
