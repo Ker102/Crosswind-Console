@@ -33,6 +33,10 @@
     Threedotjs,
   } from "@steeze-ui/simple-icons";
 
+  let { onSelectCategory } = $props<{
+    onSelectCategory: (category: string) => void;
+  }>();
+
   let text = $state("");
   const phrases = ["TRAVEL", "JOBS", "TRENDS"];
   let phraseIndex = 0;
@@ -161,7 +165,13 @@
         <div class="section categories-section">
           <h2 class="selection-title">CHOOSE YOUR PATH</h2>
           <div class="cards">
-            <div class="card travel">
+            <div
+              class="card travel"
+              onclick={() => onSelectCategory("travel")}
+              role="button"
+              tabindex="0"
+              onkeydown={(e) => e.key === "Enter" && onSelectCategory("travel")}
+            >
               <div class="card-icons">
                 <Plane size={24} />
                 <Mountain size={24} />
@@ -170,7 +180,13 @@
               <h3>TRAVEL</h3>
               <p>Explore the world with best deals.</p>
             </div>
-            <div class="card jobs">
+            <div
+              class="card jobs"
+              onclick={() => onSelectCategory("jobs")}
+              role="button"
+              tabindex="0"
+              onkeydown={(e) => e.key === "Enter" && onSelectCategory("jobs")}
+            >
               <div class="card-icons">
                 <Laptop size={24} />
                 <Coffee size={24} />
@@ -179,7 +195,13 @@
               <h3>JOBS</h3>
               <p>Find your next career opportunity.</p>
             </div>
-            <div class="card trends">
+            <div
+              class="card trends"
+              onclick={() => onSelectCategory("trends")}
+              role="button"
+              tabindex="0"
+              onkeydown={(e) => e.key === "Enter" && onSelectCategory("trends")}
+            >
               <div class="card-icons">
                 <Twitter size={24} />
                 <Instagram size={24} />
