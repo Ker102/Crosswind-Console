@@ -20,6 +20,7 @@
     BrainCircuit,
     TrendingUp,
     Briefcase,
+    Github,
   } from "lucide-svelte";
   import {
     Glassdoor,
@@ -270,42 +271,6 @@
           </div>
         </div>
 
-        <div class="section tools-section">
-          <h2 class="section-title">TOOLS USED</h2>
-          <div class="tools-grid">
-            <div class="tool-icon" title="Glassdoor">
-              <Icon src={Glassdoor} size="40" />
-            </div>
-            <div class="tool-icon" title="Facebook">
-              <Icon src={FacebookIcon} size="40" />
-            </div>
-            <div class="tool-icon" title="TikTok">
-              <Icon src={Tiktok} size="40" />
-            </div>
-            <div class="tool-icon" title="TripAdvisor">
-              <Icon src={Tripadvisor} size="40" />
-            </div>
-            <div class="tool-icon" title="Airbnb">
-              <Icon src={Airbnb} size="40" />
-            </div>
-            <!-- Local Logos for MCP/Firecrawl in Grid -->
-            <div class="tool-icon" title="MCP">
-              <img
-                src="/mcp.png"
-                alt="MCP"
-                style="width: 40px; height: 40px; object-fit: contain;"
-              />
-            </div>
-            <div class="tool-icon" title="Firecrawl">
-              <img
-                src="/firecrawl.png"
-                alt="Firecrawl"
-                style="width: 40px; height: 40px; object-fit: contain;"
-              />
-            </div>
-          </div>
-        </div>
-
         <div class="section tech-section">
           <h2 class="section-title">TECHNOLOGIES STACK</h2>
           <div class="tools-grid">
@@ -333,14 +298,69 @@
             <div class="tool-icon" title="Three.js">
               <Icon src={Threedotjs} size="40" />
             </div>
+            <!-- Crucial Tech -->
+            <div class="tool-icon" title="Firecrawl">
+              <img
+                src="/firecrawl.png"
+                alt="Firecrawl"
+                style="width: 40px; height: 40px; object-fit: contain;"
+              />
+            </div>
+            <div class="tool-icon" title="MCP">
+              <img
+                src="/mcp.png"
+                alt="MCP"
+                style="width: 40px; height: 40px; object-fit: contain;"
+              />
+            </div>
+            <div class="tool-icon" title="RapidAPI">
+              <Globe size={40} />
+            </div>
           </div>
         </div>
 
         <div class="section connect-section">
           <h2 class="section-title">CONNECT WITH ME</h2>
           <div class="connect-content">
+            <div class="social-links">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="LinkedIn"
+              >
+                <Linkedin size={32} />
+              </a>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="GitHub"
+              >
+                <Github size={32} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Instagram"
+              >
+                <Instagram size={32} />
+              </a>
+              <a
+                href="https://yourwebsite.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Website"
+              >
+                <Globe size={32} />
+              </a>
+            </div>
             <p>Let's build something amazing together.</p>
-            <!-- Add social links or form here later -->
           </div>
         </div>
       </div>
@@ -793,5 +813,32 @@
     font-weight: 700;
     color: #666;
     text-transform: uppercase;
+  }
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-link {
+    color: #333;
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+  }
+
+  .social-link:hover {
+    transform: translateY(-5px) scale(1.1);
+    color: #000;
+    background: rgba(255, 255, 255, 0.8);
   }
 </style>
