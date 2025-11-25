@@ -16,6 +16,10 @@
     Linkedin,
     Sparkles,
     Clapperboard,
+    Globe,
+    BrainCircuit,
+    TrendingUp,
+    Briefcase,
   } from "lucide-svelte";
   import {
     Glassdoor,
@@ -112,10 +116,14 @@
         <div class="header">
           <div class="title-wrapper">
             <h1 class="title">
-              ACCESS THOUSANDS OF RESOURCES FROM BRANDS AND SERVICES WITH AI TO
-              GET STARTED WITH<br />
+              INTELLIGENT ORCHESTRATION FOR<br />
               <span class="highlight">{text}</span><span class="cursor">|</span>
             </h1>
+            <p class="description">
+              Harness the power of Gemini 3 Pro to analyze thousands of signals
+              from global platforms. From travel deals to career opportunities
+              and viral trends, Crosswind Console turns data into action.
+            </p>
           </div>
         </div>
 
@@ -210,6 +218,54 @@
               </div>
               <h3>TRENDS</h3>
               <p>Stay ahead with latest insights.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="section how-it-works-section">
+          <h2 class="section-title">HOW DOES IT WORK?</h2>
+          <p class="section-desc">
+            Our powerful AI model connects to hundreds of tools and APIs to
+            scrape, orchestrate, and analyze data in real-time, providing you
+            with the most accurate and actionable results.
+          </p>
+
+          <div class="workflow-visual">
+            <div class="step">
+              <div class="step-icon"><Globe size={40} /></div>
+              <h4>CONNECT</h4>
+              <p>Access 100+ Global APIs</p>
+            </div>
+            <div class="connector">→</div>
+            <div class="step">
+              <div class="step-icon"><BrainCircuit size={40} /></div>
+              <h4>ORCHESTRATE</h4>
+              <p>Gemini 3 Pro Analysis</p>
+            </div>
+            <div class="connector">→</div>
+            <div class="step">
+              <div class="step-icon"><Sparkles size={40} /></div>
+              <h4>DELIVER</h4>
+              <p>Actionable Insights</p>
+            </div>
+          </div>
+
+          <div class="data-showcase">
+            <div class="data-card">
+              <div class="data-icon"><Plane size={32} /></div>
+              <div class="data-stat">2M+</div>
+              <div class="data-label">Flights & Stays</div>
+            </div>
+            <div class="data-card">
+              <div class="data-icon"><Briefcase size={32} /></div>
+              <div class="data-stat">100M+</div>
+              <div class="data-label">Job Opportunities</div>
+            </div>
+            <div class="data-card">
+              <div class="data-icon"><TrendingUp size={32} /></div>
+              <div class="data-stat">1B+</div>
+              <div class="data-label">Social Signals</div>
             </div>
           </div>
         </div>
@@ -395,19 +451,30 @@
     letter-spacing: -0.05em;
     text-transform: uppercase;
 
-    /* Radial Fade from Bottom (Typewriter Text) - Relaxed Radius */
+    /* Radial Fade from Bottom (Typewriter Text) - Tighter Radius */
     background: radial-gradient(
       circle at 50% 100%,
       #ff3bff 0%,
-      #ecbfbf 25%,
-      #5c24ff 50%,
-      #1a1a1a 100%
+      #ecbfbf 10%,
+      #5c24ff 25%,
+      #1a1a1a 50%
     );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
     display: inline-block; /* Ensure background-clip works */
+  }
+
+  .description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-weight: 500;
   }
 
   .highlight {
@@ -620,5 +687,111 @@
     padding: 2rem;
     border-radius: 20px;
     backdrop-filter: blur(5px);
+  }
+
+  /* How It Works Section */
+  .how-it-works-section {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 4rem 2rem;
+    border-radius: 30px;
+    margin: 2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  .workflow-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .step-icon {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  .step h4 {
+    margin: 0;
+    font-weight: 900;
+    color: #1a1a1a;
+  }
+
+  .step p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .connector {
+    font-size: 2rem;
+    color: #aaa;
+    font-weight: 300;
+  }
+
+  .data-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .data-card {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 180px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  .data-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .data-icon {
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .data-stat {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #333, #666);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .data-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
   }
 </style>

@@ -29,6 +29,8 @@
         Leaf,
         Sprout,
         Flower,
+        BookOpen,
+        PenTool,
     } from "lucide-svelte";
 
     // Props
@@ -210,6 +212,9 @@
             <div class="plant p1"><Leaf size={120} strokeWidth={1} /></div>
             <div class="plant p2"><Sprout size={100} strokeWidth={1} /></div>
             <div class="plant p3"><Flower size={80} strokeWidth={1} /></div>
+            <div class="plant p4"><Coffee size={90} strokeWidth={1} /></div>
+            <div class="plant p5"><BookOpen size={110} strokeWidth={1} /></div>
+            <div class="plant p6"><PenTool size={70} strokeWidth={1} /></div>
         </div>
     {/if}
 
@@ -413,6 +418,24 @@
         transform: rotate(45deg);
         opacity: 0.5;
     }
+    .p4 {
+        top: 20%;
+        left: 10%;
+        transform: rotate(-15deg);
+        opacity: 0.6;
+    } /* Coffee */
+    .p5 {
+        bottom: 15%;
+        left: 25%;
+        transform: rotate(10deg);
+        opacity: 0.4;
+    } /* Notebook */
+    .p6 {
+        top: 15%;
+        right: 20%;
+        transform: rotate(-30deg);
+        opacity: 0.5;
+    } /* Pen */
 
     /* Top Bar */
     .top-bar {
