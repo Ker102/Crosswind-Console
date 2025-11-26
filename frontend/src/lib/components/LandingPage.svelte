@@ -21,6 +21,8 @@
     TrendingUp,
     Briefcase,
     Github,
+    Menu,
+    X,
   } from "lucide-svelte";
   import {
     Glassdoor,
@@ -50,6 +52,11 @@
   let timer: number;
 
   let showLanding = $state(true);
+  let isNavExpanded = $state(false);
+
+  const toggleNav = () => {
+    isNavExpanded = !isNavExpanded;
+  };
 
   const type = () => {
     const currentPhrase = phrases[phraseIndex];
@@ -108,6 +115,53 @@
 </script>
 
 <div class="landing-container">
+  <!-- Dynamic Island Navigation -->
+  <div class="nav-island" class:expanded={isNavExpanded}>
+    <div class="nav-content">
+      <button class="nav-toggle" onclick={toggleNav} aria-label="Toggle Menu">
+        {#if isNavExpanded}
+          <X size={20} color="#fff" />
+        {:else}
+          <Menu size={20} color="#fff" />
+        {/if}
+      </button>
+
+      {#if isNavExpanded}
+        <div class="nav-links" transition:fade={{ duration: 200 }}>
+          <a
+            href="#start"
+            onclick={(e) => {
+              e.preventDefault();
+              handleTransition();
+              toggleNav();
+            }}>Start</a
+          >
+          <a
+            href="#connect"
+            onclick={(e) => {
+              e.preventDefault();
+              toggleNav();
+            }}>Connect</a
+          >
+          <a
+            href="#capabilities"
+            onclick={(e) => {
+              e.preventDefault();
+              toggleNav();
+            }}>Capabilities</a
+          >
+          <a
+            href="#pricing"
+            onclick={(e) => {
+              e.preventDefault();
+              toggleNav();
+            }}>Pricing</a
+          >
+        </div>
+      {/if}
+    </div>
+  </div>
+
   <div class="logo">Crosswind Console</div>
 
   {#if showLanding}
@@ -840,5 +894,92 @@
     transform: translateY(-5px) scale(1.1);
     color: #000;
     background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Dynamic Island Navigation */
+  .nav-island {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 40px;
+    padding: 0.5rem;
+    z-index: 100;
+    transition:
+      width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-radius 0.4s ease;
+    width: 120px; /* Wider notch */
+    height: 40px; /* Sleeker height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-island.expanded {
+    width: 500px; /* Expanded width */
+    height: 60px; /* Taller when expanded */
+    border-radius: 30px;
+  }
+
+  .nav-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: absolute;
+    left: 50%; /* Center initially */
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .nav-island.expanded .nav-toggle {
+    left: 10px; /* Move to left when expanded */
+    transform: translateX(0);
+  }
+
+  .nav-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    margin-left: 60px; /* Space for toggle */
+    width: 100%;
+    justify-content: space-around;
+    white-space: nowrap;
+  }
+
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    opacity: 0.8;
+  }
+
+  .nav-links a:hover {
+    color: #b388ff;
+    opacity: 1;
   }
 </style>

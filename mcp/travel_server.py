@@ -238,5 +238,118 @@ async def search_flights_backup(from_entity: str, to_entity: str, date: str) -> 
         except Exception as e:
             return f"Error searching flights (backup): {str(e)}"
 
+GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY") # Using Maps key as it often covers Search too, or user should provide GOOGLE_API_KEY
+GOOGLE_SEARCH_CX = os.environ.get("GOOGLE_SEARCH_CX")
+
+@mcp.tool()
+async def search_ground_transport(from_location: str, to_location: str, date: str) -> str:
+    """
+    Search for ground transport (bus, train) using Google Search restricted to aggregators.
+    Returns deep links that can be scraped for details.
+    
+    Args:
+        from_location: Departure city (e.g., "London").
+        to_location: Destination city (e.g., "Paris").
+        date: Travel date (e.g., "December 12, 2025").
+    """
+    if not GOOGLE_API_KEY or not GOOGLE_SEARCH_CX:
+        return "Error: GOOGLE_MAPS_API_KEY or GOOGLE_SEARCH_CX is not set."
+
+    query = f"bus or train from {from_location} to {to_location} on {date} site:rome2rio.com OR site:omio.com OR site:busbud.com"
+    url = "https://www.googleapis.com/customsearch/v1"
+    
+    params = {
+        "key": GOOGLE_API_KEY,
+        "cx": GOOGLE_SEARCH_CX,
+        "q": query,
+        "num": 5
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if "items" not in data:
+                return "No results found."
+
+            results = []
+            for item in data["items"]:
+                title = item.get("title", "No title")
+                link = item.get("link", "")
+                snippet = item.get("snippet", "")
+                results.append(f"Title: {title}\nSnippet: {snippet}\nLink: {link}\n---")
+            
+            return "Found these routes. Use 'firecrawl' to scrape the links for details:\n\n" + "\n".join(results)
+
+        except Exception as e:
+            return f"Error searching ground transport: {str(e)}"
+
+@mcp.tool()
+async def search_ground_transport_backup(from_location: str, to_location: str, date: str) -> str:
+    """
+    Backup ground transport search using Kiwi API (RapidAPI).
+    Reliable for standard routes (FlixBus, DB, etc.) but less detailed than scraping.
+    
+    Args:
+        from_location: IATA code or city ID (e.g., "LHR", "city:LON").
+        to_location: IATA code or city ID (e.g., "PAR", "city:PAR").
+        date: Departure date (DD/MM/YYYY).
+    """
+    if not RAPIDAPI_KEY:
+        return "Error: RAPIDAPI_KEY is not set."
+
+    url = f"https://{RAPIDAPI_HOST}/search"
+    
+    querystring = {
+        "fly_from": from_location,
+        "fly_to": to_location,
+        "date_from": date,
+        "date_to": date,
+        "curr": "USD",
+        "sort": "price",
+        "limit": "5",
+        "vehicle_type": "train,bus" # Key parameter for ground transport
+    }
+
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": RAPIDAPI_HOST
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=querystring)
+            response.raise_for_status()
+            data = response.json()
+            
+            if "data" not in data or not data["data"]:
+                return "No ground transport found for the specified criteria."
+
+            results = []
+            for trip in data["data"]:
+                price = trip.get("price", "N/A")
+                currency = data.get("currency", "USD")
+                deep_link = trip.get("deep_link", "")
+                
+                route_info = []
+                for leg in trip.get("route", []):
+                    # Kiwi uses 'airline' field for bus/train operators too
+                    operator = leg.get("airline", "Unknown") 
+                    vehicle_type = leg.get("vehicle_type", "unknown")
+                    dep_city = leg.get("cityFrom", "Unknown")
+                    arr_city = leg.get("cityTo", "Unknown")
+                    dep_time = leg.get("local_departure", "")
+                    arr_time = leg.get("local_arrival", "")
+                    route_info.append(f"[{vehicle_type.upper()}] {operator}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
+
+                results.append(f"Price: {price} {currency}\nRoute: {' | '.join(route_info)}\nLink: {deep_link}\n---")
+
+            return "\n".join(results)
+
+        except Exception as e:
+            return f"Error searching ground transport (backup): {str(e)}"
+
 if __name__ == "__main__":
     mcp.run()

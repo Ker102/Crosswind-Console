@@ -1,86 +1,105 @@
-# Cross-Domain Intelligent Discovery Platform
+# Crosswind Console
 
-A unified research dashboard that surfaces job opportunities, travel deals, and social trend insights. The experience blends a Svelte-based immersive UI (with room for Spline/Three.js scenes) and a FastAPI orchestration layer that coordinates MCP-driven data gathering and Gemini-powered reasoning.
+![Status](https://img.shields.io/badge/Status-Active_Development-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+![Frontend](https://img.shields.io/badge/Frontend-Svelte_5_%2B_Vite-orange?style=for-the-badge&logo=svelte)
+![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_Python-blue?style=for-the-badge&logo=fastapi)
+![AI](https://img.shields.io/badge/AI-Intelligent_Orchestration-purple?style=for-the-badge&logo=google-gemini)
 
-## Vision
-- **Single workspace** where seekers toggle across jobs, travel, and social categories.
-- **Integrated LLM reasoning** (Google Gemini API) to enrich prompts and summarize MCP-sourced data.
-- **3D-enhanced UI** showcasing dynamic cards, stats, and visual metaphors for each domain.
-- **Modular data connectors** using MCP servers (Firecrawl, Fetch, browser automation) to reach best-of-breed APIs and live content.
+> **Intelligent Orchestration for the Modern Explorer.**
+> A unified research dashboard that blends immersive 3D aesthetics with powerful AI agents to surface opportunities in Travel, Jobs, and Social Trends.
 
-## High-Level Architecture
+---
+
+## 🚀 Overview
+
+**Crosswind Console** is not just a dashboard; it's an **AI-driven orchestrator**. It solves the problem of information fragmentation by deploying specialized agents to scour the web, analyze data, and present actionable insights in a single, cohesive interface.
+
+Whether you're looking for the cheapest flight to Tokyo, the next big career move, or a viral trend before it peaks, Crosswind Console coordinates the complex work of data gathering and reasoning behind the scenes, delivering results through a stunning, glassmorphic UI.
+
+---
+
+## ✨ Key Capabilities
+
+### 🧠 Intelligent Orchestration
+At its core, the system uses advanced **LLM Reasoning** to understand user intent. It doesn't just search; it *plans*.
+*   **Context-Aware**: Understands "Find me a trip to Paris" vs. "Find me a tech job in Paris".
+*   **Tool Chaining**: Automatically selects the right tools (Search, Scrapers, APIs) to fulfill a request.
+
+### 🌍 Multi-Modal Travel Agent
+A next-generation travel assistant that goes beyond simple flight search.
+*   **Hybrid Ground Transport Engine**: Combines **Google Search** discovery with **Firecrawl** deep scraping to find bus and train routes (FlixBus, Rome2Rio) that standard APIs miss.
+*   **Fallback Reliability**: Automatically switches to the **Kiwi API** for standard routes if scraping fails, ensuring you never get a "no results" error.
+*   **Flight Discovery**: Real-time flight pricing and route analysis.
+
+### 💼 Career & Trend Agents
+*   **Jobs Agent**: Aggregates opportunities from major platforms, filtering by relevance and potential.
+*   **Trends Agent**: Monitors social signals to identify rising topics and viral content.
+
+### 🎨 Immersive Experience
+*   **Dynamic Island Navigation**: A sleek, iOS-inspired navigation bar that expands and adapts to your context.
+*   **3D Visuals**: Interactive 3D elements (Icon Cloud) powered by Three.js for a premium feel.
+*   **Glassmorphism**: A modern, translucent design language that feels alive.
+
+---
+
+## 🛠️ How It Works
+
+The architecture is built for speed, modularity, and intelligence.
+
+1.  **The Interface (Frontend)**:
+    *   Built with **Svelte 5** and **Vite** for blazing fast performance.
+    *   Handles user interactions and renders the immersive 3D environment.
+    *   Communicates with the backend via typed API contracts.
+
+2.  **The Brain (Backend)**:
+    *   Powered by **FastAPI (Python)**.
+    *   Acts as the central coordinator, receiving user prompts and dispatching them to the appropriate agents.
+
+3.  **The Tools (MCP Servers)**:
+    *   We use the **Model Context Protocol (MCP)** to standardize how the AI interacts with external tools.
+    *   **Travel Server**: Handles flight/ground transport logic (Search + Scrape).
+    *   **Trends/Jobs Servers**: Specialized connectors for their respective domains.
+    *   **Docker Gateway**: Manages these tools securely and efficiently.
+
+---
+
+## 💻 Tech Stack
+
+*   **Frontend**: Svelte, TypeScript, TailwindCSS, Three.js
+*   **Backend**: Python, FastAPI, Uvicorn
+*   **Data & AI**: Model Context Protocol (MCP), Firecrawl, Playwright, Google Custom Search, RapidAPI
+*   **Infrastructure**: Docker
+
+---
+
+## ⚡ Getting Started
+
+### Prerequisites
+*   Node.js & npm
+*   Python 3.10+
+*   Docker (optional, for MCP Gateway)
+
+### 1. Backend Setup
+```bash
+cd backend
+python -m venv .venv
+# Activate virtual env (Windows: .venv\Scripts\activate, Mac/Linux: source .venv/bin/activate)
+pip install -e .
+uvicorn app.main:app --reload
 ```
-frontend/ (Svelte + Vite)
-  src/App.svelte            # Immersive dashboard shell + layout + auth hooks
-  src/lib/api.ts            # Typed front-end gateway to FastAPI
-  src/lib/state.ts          # Stores, persistence triggers, auth bootstrap
-  src/lib/components/       # Three.js scene + insight cards
-  src/lib/types.ts          # Shared contracts w/ backend + auth
-backend/
-  app/main.py           # FastAPI application
-  app/routers/
-    discovery.py        # Jobs/Travel/Trends endpoints
-    llm.py              # Gemini proxy endpoints
-  app/services/
-    jobs.py             # Aggregation logic (MCP stubs)
-    travel.py
-    trends.py
-    llm.py
-  app/schemas.py        # Pydantic models
-  tests/
-auth/ (Next.js + NextAuth)
-  prisma/schema.prisma       # User/Account/Session/Progress tables
-  src/lib/authOptions.ts     # NextAuth config (Google OAuth + Prisma adapter)
-  src/lib/prisma.ts          # Prisma client singleton
-  src/app/api/auth/[...nextauth]
-  src/app/api/progress       # Session-aware persistence API
-  src/app/api/session        # Session snapshot + CORS for Svelte UI
+
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
 ```
+Visit `http://localhost:5173` to launch the console.
 
-## Workflow Overview
-1. User selects a discovery mode (jobs, travel, trends).
-2. Frontend sends the selection and an optional natural-language prompt to FastAPI.
-3. FastAPI orchestrates:
-   - Domain-specific MCP connectors (Firecrawl for scraping, Fetch for structured pulls, etc.).
-   - Google Gemini API for reasoning + summarization.
-4. Aggregated insights are streamed back to the dashboard for visualization.
+### 3. MCP Servers (Optional)
+To enable full AI capabilities, ensure your `.env` file is configured with necessary API keys (`RAPIDAPI_KEY`, `GOOGLE_SEARCH_CX`, etc.) and run the specific server scripts in `mcp/`.
 
-## Planned Milestones
-1. Bootstrap FastAPI backend skeleton with domain routers and mocked responses.
-2. Initialize Svelte frontend with routing, state, and API helpers.
-3. Design immersive 3D-inspired dashboard (placeholder scene + cards/charts).
-4. Implement MCP and Gemini integration layers (API keys + server orchestration).
-5. Add tests, deployment scripts, and documentation.
+---
 
-Stay tuned as we iterate aggressively with many small commits.
-
-## Local Development
-
-### Backend (FastAPI + Gemini proxy)
-1. `cd backend`
-2. Create a virtual env (`python -m venv .venv` or `uv venv`) and activate it.
-3. `pip install -e .[dev]`
-4. Copy `.env.example` to `.env` and add `GEMINI_API_KEY` when ready.
-5. `uvicorn app.main:app --reload`
-
-### Frontend (Svelte + Three.js scene)
-1. `cd frontend`
-2. `cp .env.example .env` and adjust `VITE_API_BASE_URL` if needed.
-3. `npm install`
-4. `npm run dev` (or `npm run check` for static analysis)
-5. Open the printed URL to explore the dashboard UI.
-
-### Auth Service (NextAuth + Prisma)
-1. `cd auth`
-2. Ensure the repo-level `.env` (copied from `.env.example`) includes Google OAuth creds, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `FRONTEND_ORIGIN`, and `DATABASE_URL`.
-3. `set -a && source ../.env && set +a && npx prisma migrate dev --name init` (first run only).
-4. `npm run dev -- --port 3001` (scripts automatically load the shared `.env`).
-5. Visit `http://localhost:3001` to test sign-in and the `/api/progress` endpoint.
-
-### MCP Servers (Playwright + Firecrawl)
-1. `cp .env.example .env` and add `FIRECRAWL_API_KEY` (Firecrawl dashboard) plus optional `PLAYWRIGHT_BROWSERS_PATH`.
-2. Ensure Node.js ≥ 18 is installed.
-3. Launch servers in separate terminals:
-   - `./mcp/run_firecrawl.sh`
-   - `./mcp/run_playwright.sh`
-4. Point your MCP-aware client (Gemini CLI, future backend tooling) to `mcp/servers.config.json` for ready-made command definitions.
+*Built with ❤️ by the Crosswind Team.*
