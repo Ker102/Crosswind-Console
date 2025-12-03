@@ -141,6 +141,7 @@
     };
 
     let currentTheme = $derived(themes[category] || themes.travel);
+    let CurrentIcon = $derived(currentTheme.icon);
     let currentCapabilities = $derived(
         capabilities[category] || capabilities.travel,
     );
@@ -259,7 +260,6 @@
                         transition:fly={{ y: -10, duration: 200 }}
                     >
                         {#each Object.entries(themes) as [key, theme]}
-                            <!-- Force re-render -->
                             {@const ThemeIcon = theme.icon}
                             <button
                                 class="dropdown-item"

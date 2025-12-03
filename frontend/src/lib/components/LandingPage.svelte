@@ -522,6 +522,11 @@
     color: #1a1a1a;
     z-index: 30;
     letter-spacing: -0.05em;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
   }
 
   .content {
