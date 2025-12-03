@@ -23,7 +23,7 @@
     "travel": {
       "command": "python",
       "args": [
-        "mcp/travel_server.py"
+        "mcp_servers/travel_server.py"
       ],
       "env": {
         "RAPIDAPI_KEY": "${RAPIDAPI_KEY}"
@@ -32,7 +32,7 @@
     "trends": {
       "command": "python",
       "args": [
-        "mcp/trends_server.py"
+        "mcp_servers/trends_server.py"
       ],
       "env": {
         "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}",
@@ -43,7 +43,7 @@
     "jobs": {
       "command": "python",
       "args": [
-        "mcp/jobs_server.py"
+        "mcp_servers/jobs_server.py"
       ],
       "env": {
         "RAPIDAPI_KEY": "${RAPIDAPI_KEY}"
@@ -52,7 +52,7 @@
     "search": {
       "command": "python",
       "args": [
-        "mcp/search_server.py"
+        "mcp_servers/search_server.py"
       ],
       "env": {
         "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}",

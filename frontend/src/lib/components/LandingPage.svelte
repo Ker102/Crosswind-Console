@@ -23,6 +23,8 @@
     Github,
     Menu,
     X,
+    Bitcoin,
+    DollarSign,
   } from "lucide-svelte";
   import {
     Glassdoor,
@@ -39,6 +41,8 @@
     Vite,
     Threedotjs,
   } from "@steeze-ui/simple-icons";
+
+  // ... (rest of imports)
 
   let { onSelectCategory } = $props<{
     onSelectCategory: (category: string) => void;
@@ -162,7 +166,9 @@
     </div>
   </div>
 
-  <div class="logo">Crosswind Console</div>
+  <button class="logo" onclick={() => (showLanding = true)}
+    >Crosswind Console</button
+  >
 
   {#if showLanding}
     <div class="landing-content" transition:fly={{ y: -1000, duration: 1000 }}>
@@ -273,6 +279,20 @@
               </div>
               <h3>TRENDS</h3>
               <p>Stay ahead with latest insights.</p>
+            </div>
+            <div
+              class="card stocks"
+              role="button"
+              tabindex="0"
+              style="cursor: default;"
+            >
+              <div class="card-icons">
+                <Bitcoin size={24} />
+                <TrendingUp size={24} />
+                <DollarSign size={24} />
+              </div>
+              <h3>STOCKS & CRYPTO</h3>
+              <p class="coming-soon">Coming Soon</p>
             </div>
           </div>
         </div>
@@ -724,6 +744,27 @@
 
   .trends h3 {
     color: #ff0000;
+  }
+
+  /* Stocks Card - Purple/White Vibe */
+  .stocks {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(147, 51, 234, 0.3);
+  }
+  .stocks:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(147, 51, 234, 0.6);
+  }
+  .stocks h3 {
+    color: #9333ea; /* Purple text */
+  }
+  .stocks .card-icons {
+    color: #9333ea;
+  }
+  .coming-soon {
+    font-style: italic;
+    font-weight: 700;
+    color: #888 !important;
   }
 
   /* Tools & Tech Section */

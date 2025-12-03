@@ -20,13 +20,14 @@ except Exception:
 
 # Import MCP Tools
 try:
-    from mcp.jobs_server import get_active_jobs, search_jobs
-    from mcp.search_server import web_search
-    from mcp.travel_server import search_flights, search_places, search_hotels, search_flights_backup
-    from mcp.trends_server import get_google_trends, get_youtube_trends, search_tweets, search_youtube
+    from mcp_servers.jobs_server import get_active_jobs, search_jobs
+    from mcp_servers.search_server import web_search
+    from mcp_servers.travel_server import search_flights, search_places, search_hotels, search_flights_backup, search_ground_transport, search_ground_transport_backup
+    from mcp_servers.trends_server import get_google_trends, get_youtube_trends, search_tweets, search_youtube
     
     MCP_TOOLS = [
         search_flights, search_places, search_hotels, search_flights_backup,
+        search_ground_transport, search_ground_transport_backup,
         search_jobs, get_active_jobs,
         web_search,
         get_youtube_trends, search_youtube, get_google_trends, search_tweets

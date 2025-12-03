@@ -26,6 +26,7 @@ export interface LLMRequest {
   mode?: Domain | 'general'
   prompt: string
   context?: Insight[]
+  history?: { role: 'user' | 'model'; content: string }[]
 }
 
 export interface LLMResponse {

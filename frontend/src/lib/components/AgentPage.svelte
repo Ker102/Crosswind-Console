@@ -32,6 +32,7 @@
         BookOpen,
         PenTool,
     } from "lucide-svelte";
+    import { sendLLMPrompt } from "../api";
 
     // Props
     let { category, onBack, onCategoryChange } = $props<{
@@ -144,48 +145,67 @@
         capabilities[category] || capabilities.travel,
     );
 
-    // Mock Thinking Process
-    const simulateThinking = async () => {
-        isThinking = true;
-        thinkingSteps = [];
-
-        const steps = [
-            "Analyzing request intent...",
-            `Orchestrating ${category} MCP servers...`,
-            model === "thinking"
-                ? "Reasoning with Gemini 3 Pro..."
-                : "Querying Gemini 2 Fast...",
-            "Aggregating data streams...",
-            "Synthesizing intelligence...",
-        ];
-
-        for (const step of steps) {
-            thinkingSteps = [
-                ...thinkingSteps,
-                { text: step, status: "pending" },
-            ];
-            await new Promise((r) => setTimeout(r, 800));
-            thinkingSteps = thinkingSteps.map((s) =>
-                s.text === step ? { ...s, status: "done" } : s,
-            );
-        }
-
-        isThinking = false;
-        messages = [
-            ...messages,
-            {
-                role: "assistant",
-                content: `Here is a simulated response for your ${category} query using the ${model === "thinking" ? "Reasoning" : "Fast"} model. I have analyzed the data from our connected tools.`,
-            },
-        ];
-    };
-
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!prompt.trim()) return;
-        messages = [...messages, { role: "user", content: prompt }];
+
         const currentPrompt = prompt;
+        const userMsg = { role: "user", content: currentPrompt };
+
+        // Optimistically add user message
+        messages = [...messages, userMsg];
         prompt = "";
-        simulateThinking();
+        isThinking = true;
+        thinkingSteps = [
+            { text: "Sending request to Gemini...", status: "pending" },
+        ];
+
+        try {
+            // Simulate steps for UI feedback while waiting
+            const stepInterval = setInterval(() => {
+                const steps = [
+                    "Orchestrating MCP tools...",
+                    "Reasoning with Gemini...",
+                    "Synthesizing response...",
+                ];
+                const nextStep = steps[thinkingSteps.length % steps.length];
+                thinkingSteps = [
+                    ...thinkingSteps,
+                    { text: nextStep, status: "pending" },
+                ];
+            }, 2000);
+
+            const response = await sendLLMPrompt({
+                prompt: currentPrompt,
+                mode: category, // Map category to mode
+                history: messages.map((m) => ({
+                    role: m.role === "assistant" ? "model" : "user",
+                    content: m.content,
+                })),
+            });
+
+            clearInterval(stepInterval);
+
+            messages = [
+                ...messages,
+                {
+                    role: "assistant",
+                    content: response.output || "No response received.",
+                },
+            ];
+        } catch (error) {
+            console.error("LLM Error:", error);
+            messages = [
+                ...messages,
+                {
+                    role: "assistant",
+                    content:
+                        "Sorry, I encountered an error connecting to the agent. Please try again.",
+                },
+            ];
+        } finally {
+            isThinking = false;
+            thinkingSteps = [];
+        }
     };
 
     const handleCategorySwitch = (newCat: string) => {
@@ -228,7 +248,7 @@
                     class="cat-btn"
                     onclick={() => (showDropdown = !showDropdown)}
                 >
-                    <svelte:component this={currentTheme.icon} size={20} />
+                    <CurrentIcon size={20} />
                     <span class="cat-name">{currentTheme.name}</span>
                     <ChevronDown size={16} />
                 </button>
@@ -239,11 +259,13 @@
                         transition:fly={{ y: -10, duration: 200 }}
                     >
                         {#each Object.entries(themes) as [key, theme]}
+                            <!-- Force re-render -->
+                            {@const ThemeIcon = theme.icon}
                             <button
                                 class="dropdown-item"
                                 onclick={() => handleCategorySwitch(key)}
                             >
-                                <svelte:component this={theme.icon} size={16} />
+                                <ThemeIcon size={16} />
                                 {theme.name}
                             </button>
                         {/each}
@@ -280,11 +302,7 @@
             <div class="empty-state" in:fade>
                 <div class="hero-section">
                     <div class="icon-ring">
-                        <svelte:component
-                            this={currentTheme.icon}
-                            size={48}
-                            color="var(--primary)"
-                        />
+                        <CurrentIcon size={48} color="var(--primary)" />
                     </div>
                     <h1 class="gradient-title">{currentTheme.description}</h1>
 
