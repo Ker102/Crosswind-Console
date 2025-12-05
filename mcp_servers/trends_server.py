@@ -5,12 +5,8 @@ from mcp.server.fastmcp import FastMCP
 # Initialize FastMCP server
 mcp = FastMCP("trends")
 
-# API Keys and Endpoints
-YOUTUBE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY") # User said same key as Maps
-RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
-X_BEARER_TOKEN = os.environ.get("X_BEARER_TOKEN")
-
-# RapidAPI Hosts
+# API keys are read at call time in each function to ensure proper loading
+# RapidAPI Hosts (constants)
 INSTAGRAM_HOST = "instagram-scraper-2022.p.rapidapi.com"
 TIKTOK_HOST = "tiktok-scraper7.p.rapidapi.com"
 TRENDLY_HOST = "trendly.p.rapidapi.com"
@@ -24,6 +20,7 @@ async def get_youtube_trends(region_code: str = "US", max_results: int = 5) -> s
         region_code: ISO 3166-1 alpha-2 country code (e.g., "US", "GB", "IN").
         max_results: Number of videos to return (default 5).
     """
+    YOUTUBE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
     if not YOUTUBE_API_KEY:
         return "Error: GOOGLE_MAPS_API_KEY (used for YouTube) is not set."
 
@@ -64,6 +61,7 @@ async def search_youtube(query: str, max_results: int = 5) -> str:
         query: Search term.
         max_results: Number of videos to return.
     """
+    YOUTUBE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
     if not YOUTUBE_API_KEY:
         return "Error: GOOGLE_MAPS_API_KEY is not set."
 
@@ -103,6 +101,7 @@ async def get_google_trends(keyword: str, geo: str = "US") -> str:
         keyword: The term to check trends for.
         geo: Region code (e.g., "US").
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 

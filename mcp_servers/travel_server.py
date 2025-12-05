@@ -5,9 +5,7 @@ from mcp.server.fastmcp import FastMCP
 # Initialize FastMCP server
 mcp = FastMCP("travel")
 
-RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
-TRIPADVISOR_API_KEY = os.environ.get("TRIPADVISOR_API_KEY")
-RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
+# API keys are read at call time in each function to ensure proper loading
 
 @mcp.tool()
 async def search_flights(from_location: str, to_location: str, date: str, return_date: str = None) -> str:
@@ -20,6 +18,8 @@ async def search_flights(from_location: str, to_location: str, date: str, return
         date: The departure date in DD/MM/YYYY format.
         return_date: Optional return date in DD/MM/YYYY format.
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+    RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY environment variable is not set."
 
@@ -89,6 +89,7 @@ async def search_places(query: str, category: str = "attractions", language: str
         category: Category filter ('hotels', 'attractions', 'restaurants', 'geos').
         language: Language code (default 'en').
     """
+    TRIPADVISOR_API_KEY = os.environ.get("TRIPADVISOR_API_KEY")
     if not TRIPADVISOR_API_KEY:
         return "Error: TRIPADVISOR_API_KEY is not set."
 
@@ -138,6 +139,7 @@ async def search_hotels(latitude: float, longitude: float, checkin_date: str, ch
         checkout_date: Check-out date (YYYY-MM-DD).
         adults: Number of adults (default 1).
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 
@@ -200,6 +202,7 @@ async def search_flights_backup(from_entity: str, to_entity: str, date: str) -> 
         to_entity: Destination entity ID (e.g., "PARI-sky").
         date: Departure date (YYYY-MM-DD).
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 
@@ -238,8 +241,7 @@ async def search_flights_backup(from_entity: str, to_entity: str, date: str) -> 
         except Exception as e:
             return f"Error searching flights (backup): {str(e)}"
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY") # Using Maps key as it often covers Search too, or user should provide GOOGLE_API_KEY
-GOOGLE_SEARCH_CX = os.environ.get("GOOGLE_SEARCH_CX")
+# Google API keys are read at call time in each function
 
 @mcp.tool()
 async def search_ground_transport(from_location: str, to_location: str, date: str) -> str:
@@ -252,6 +254,8 @@ async def search_ground_transport(from_location: str, to_location: str, date: st
         to_location: Destination city (e.g., "Paris").
         date: Travel date (e.g., "December 12, 2025").
     """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    GOOGLE_SEARCH_CX = os.environ.get("GOOGLE_SEARCH_CX")
     if not GOOGLE_API_KEY or not GOOGLE_SEARCH_CX:
         return "Error: GOOGLE_MAPS_API_KEY or GOOGLE_SEARCH_CX is not set."
 
@@ -297,6 +301,8 @@ async def search_ground_transport_backup(from_location: str, to_location: str, d
         to_location: IATA code or city ID (e.g., "PAR", "city:PAR").
         date: Departure date (DD/MM/YYYY).
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+    RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 

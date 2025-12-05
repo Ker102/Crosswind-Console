@@ -3,8 +3,7 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("jobs")
-RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
-RAPIDAPI_HOST = "jsearch.p.rapidapi.com"
+# API keys are read at call time in each function to ensure proper loading
 
 @mcp.tool()
 async def search_jobs(query: str, location: str = "Remote", remote_jobs_only: bool = True) -> str:
@@ -16,6 +15,8 @@ async def search_jobs(query: str, location: str = "Remote", remote_jobs_only: bo
         location: Location (e.g., "New York", "Remote").
         remote_jobs_only: Whether to filter for remote jobs.
     """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+    RAPIDAPI_HOST = "jsearch.p.rapidapi.com"
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 

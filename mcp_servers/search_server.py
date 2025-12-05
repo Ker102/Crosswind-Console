@@ -4,9 +4,6 @@ from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("search")
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY") # User uses same key
-GOOGLE_CX = os.environ.get("GOOGLE_SEARCH_CX") # Custom Search Engine ID
-
 @mcp.tool()
 async def web_search(query: str, num_results: int = 5) -> str:
     """
@@ -16,6 +13,10 @@ async def web_search(query: str, num_results: int = 5) -> str:
         query: The search query.
         num_results: Number of results to return (max 10).
     """
+    # Read env vars at call time, not import time
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    GOOGLE_CX = os.environ.get("GOOGLE_SEARCH_CX")
+    
     if not GOOGLE_API_KEY:
         return "Error: GOOGLE_MAPS_API_KEY is not set."
     if not GOOGLE_CX:
