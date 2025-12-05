@@ -55,6 +55,11 @@ class GeminiClient:
         self._enabled = bool(self._api_key and genai)
         self._model = None
         
+        # Debug logging
+        print(f"[DEBUG] GEMINI_API_KEY loaded: {bool(self._api_key)}")
+        print(f"[DEBUG] google-generativeai imported: {bool(genai)}")
+        print(f"[DEBUG] Gemini enabled: {self._enabled}")
+        
         # Propagate settings to os.environ for MCP tools
         if settings.rapidapi_key: os.environ["RAPIDAPI_KEY"] = settings.rapidapi_key
         if settings.google_maps_api_key: os.environ["GOOGLE_MAPS_API_KEY"] = settings.google_maps_api_key
