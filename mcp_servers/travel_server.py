@@ -357,5 +357,70 @@ async def search_ground_transport_backup(from_location: str, to_location: str, d
         except Exception as e:
             return f"Error searching ground transport (backup): {str(e)}"
 
+@mcp.tool()
+async def get_directions(origin: str, destination: str, mode: str = "driving") -> str:
+    """
+    Get directions and route information between two locations using Google Directions API.
+    Useful for finding routes from airports to hotels, attractions, or any point of interest.
+    
+    Args:
+        origin: Starting location (e.g., "Malta International Airport", "35.8575,14.4775").
+        destination: End location (e.g., "Mdina, Malta", "Blue Grotto Malta").
+        mode: Travel mode - 'driving', 'walking', 'bicycling', or 'transit'.
+    """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not GOOGLE_API_KEY:
+        return "Error: GOOGLE_MAPS_API_KEY is not set."
+
+    url = "https://maps.googleapis.com/maps/api/directions/json"
+    params = {
+        "origin": origin,
+        "destination": destination,
+        "mode": mode,
+        "key": GOOGLE_API_KEY,
+        "alternatives": "true"  # Get multiple route options
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("status") != "OK":
+                return f"Error: {data.get('status')} - {data.get('error_message', 'No routes found')}"
+            
+            results = []
+            for i, route in enumerate(data.get("routes", [])[:3]):  # Max 3 routes
+                leg = route["legs"][0]  # First leg (direct route)
+                
+                distance = leg.get("distance", {}).get("text", "Unknown")
+                duration = leg.get("duration", {}).get("text", "Unknown")
+                start_address = leg.get("start_address", origin)
+                end_address = leg.get("end_address", destination)
+                
+                # Get step-by-step directions (summary)
+                steps = []
+                for step in leg.get("steps", [])[:5]:  # First 5 steps
+                    instruction = step.get("html_instructions", "")
+                    # Remove HTML tags
+                    instruction = instruction.replace("<b>", "").replace("</b>", "")
+                    instruction = instruction.replace("<div>", " ").replace("</div>", "")
+                    step_dist = step.get("distance", {}).get("text", "")
+                    steps.append(f"  • {instruction} ({step_dist})")
+                
+                route_summary = route.get("summary", "Main route")
+                results.append(
+                    f"Route {i+1}: {route_summary}\n"
+                    f"From: {start_address}\n"
+                    f"To: {end_address}\n"
+                    f"Distance: {distance} | Duration: {duration} ({mode})\n"
+                    f"Directions:\n" + "\n".join(steps) + "\n---"
+                )
+            
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error getting directions: {str(e)}"
+
 if __name__ == "__main__":
     mcp.run()
