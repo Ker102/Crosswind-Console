@@ -10,6 +10,7 @@ mcp = FastMCP("trends")
 INSTAGRAM_HOST = "instagram-scraper-2022.p.rapidapi.com"
 TIKTOK_HOST = "tiktok-scraper7.p.rapidapi.com"
 TRENDLY_HOST = "trendly.p.rapidapi.com"
+FACEBOOK_HOST = "facebook-scraper3.p.rapidapi.com"
 
 @mcp.tool()
 async def get_youtube_trends(region_code: str = "US", max_results: int = 5) -> str:
@@ -365,6 +366,54 @@ async def get_instagram_posts(hashtag: str, count: int = 10) -> str:
             return "\n".join(results)
         except Exception as e:
             return f"Error fetching Instagram posts: {str(e)}"
+
+@mcp.tool()
+async def search_facebook(query: str) -> str:
+    """
+    Search for public Facebook content (posts, pages) by keyword.
+    
+    Args:
+        query: Search term (e.g., "AI news", "travel tips", "cooking recipes").
+    """
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+    if not RAPIDAPI_KEY:
+        return "Error: RAPIDAPI_KEY is not set."
+
+    url = f"https://{FACEBOOK_HOST}/search"
+    params = {"query": query, "count": "10"}
+    
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": FACEBOOK_HOST
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            results_data = data.get("results", [])
+            if not results_data:
+                return f"No Facebook results found for '{query}'."
+            
+            results = []
+            for item in results_data[:7]:
+                title = item.get("title", "No title")[:100]
+                description = item.get("description", "No description")[:150]
+                url_link = item.get("url", "")
+                item_type = item.get("type", "unknown")
+                
+                results.append(
+                    f"📘 {title}\n"
+                    f"   {description}\n"
+                    f"   Type: {item_type}\n"
+                    f"   Link: {url_link}\n---"
+                )
+            
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error searching Facebook: {str(e)}"
 
 if __name__ == "__main__":
     mcp.run()

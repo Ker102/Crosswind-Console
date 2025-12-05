@@ -29,7 +29,7 @@ try:
     )
     from mcp_servers.trends_server import (
         get_google_trends, get_youtube_trends, search_tweets, search_youtube,
-        get_tiktok_trends, search_tiktok, search_instagram, get_instagram_posts
+        get_tiktok_trends, search_tiktok, search_instagram, get_instagram_posts, search_facebook
     )
     
     MCP_TOOLS = [
@@ -43,7 +43,7 @@ try:
         web_search,
         # Trends tools
         get_youtube_trends, search_youtube, get_google_trends, search_tweets,
-        get_tiktok_trends, search_tiktok, search_instagram, get_instagram_posts
+        get_tiktok_trends, search_tiktok, search_instagram, get_instagram_posts, search_facebook
     ]
 except ImportError:
     MCP_TOOLS = []
