@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { fly, fade, slide } from "svelte/transition";
     import { Icon } from "@steeze-ui/svelte-icon";
+    import { marked } from "marked";
     import {
         Plane,
         Mountain,
@@ -33,6 +34,17 @@
         PenTool,
     } from "lucide-svelte";
     import { sendLLMPrompt } from "../api";
+
+    // Configure marked for clean output
+    marked.setOptions({
+        breaks: true,
+        gfm: true,
+    });
+
+    // Parse markdown to HTML
+    function parseMarkdown(content: string): string {
+        return marked.parse(content) as string;
+    }
 
     // Props
     let { category, onBack, onCategoryChange } = $props<{
@@ -344,7 +356,13 @@
                         class="message {msg.role}"
                         in:fly={{ y: 20, duration: 300 }}
                     >
-                        <div class="msg-content">{msg.content}</div>
+                        {#if msg.role === "model"}
+                            <div class="msg-content markdown-body">
+                                {@html parseMarkdown(msg.content)}
+                            </div>
+                        {:else}
+                            <div class="msg-content">{msg.content}</div>
+                        {/if}
                     </div>
                 {/each}
 
@@ -813,6 +831,117 @@
         background: rgba(128, 128, 128, 0.1);
         color: var(--text);
         border-bottom-left-radius: 2px;
+    }
+
+    /* Markdown Body Styling */
+    .markdown-body {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .markdown-body :global(h1),
+    .markdown-body :global(h2),
+    .markdown-body :global(h3) {
+        margin: 0.8rem 0 0.4rem 0;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .markdown-body :global(h1) {
+        font-size: 1.4rem;
+    }
+    .markdown-body :global(h2) {
+        font-size: 1.2rem;
+    }
+    .markdown-body :global(h3) {
+        font-size: 1.1rem;
+    }
+
+    .markdown-body :global(p) {
+        margin: 0.5rem 0;
+    }
+
+    .markdown-body :global(ul),
+    .markdown-body :global(ol) {
+        margin: 0.5rem 0;
+        padding-left: 1.5rem;
+    }
+
+    .markdown-body :global(li) {
+        margin: 0.3rem 0;
+        position: relative;
+    }
+
+    .markdown-body :global(li::marker) {
+        color: var(--primary);
+    }
+
+    .markdown-body :global(strong) {
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .markdown-body :global(em) {
+        font-style: italic;
+        opacity: 0.9;
+    }
+
+    .markdown-body :global(code) {
+        background: rgba(128, 128, 128, 0.2);
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        font-family: "Fira Code", "JetBrains Mono", monospace;
+        font-size: 0.9em;
+    }
+
+    .markdown-body :global(pre) {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 0.5rem 0;
+    }
+
+    .markdown-body :global(pre code) {
+        background: none;
+        padding: 0;
+    }
+
+    .markdown-body :global(blockquote) {
+        border-left: 3px solid var(--primary);
+        padding-left: 1rem;
+        margin: 0.5rem 0;
+        opacity: 0.9;
+        font-style: italic;
+    }
+
+    .markdown-body :global(hr) {
+        border: none;
+        border-top: 1px solid rgba(128, 128, 128, 0.2);
+        margin: 1rem 0;
+    }
+
+    .markdown-body :global(a) {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+
+    .markdown-body :global(table) {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.5rem 0;
+    }
+
+    .markdown-body :global(th),
+    .markdown-body :global(td) {
+        padding: 0.5rem;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        text-align: left;
+    }
+
+    .markdown-body :global(th) {
+        background: rgba(128, 128, 128, 0.1);
+        font-weight: 600;
     }
 
     /* Thinking Indicator */
