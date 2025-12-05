@@ -193,53 +193,107 @@ async def search_hotels(latitude: float, longitude: float, checkin_date: str, ch
             return f"Error searching hotels: {str(e)}"
 
 @mcp.tool()
-async def search_flights_backup(from_entity: str, to_entity: str, date: str) -> str:
+async def search_flights_sky(from_location: str, to_location: str, date: str) -> str:
     """
-    Backup flight search using Flights Sky (Skyscanner) API.
+    Search for flights using Flights Sky (Skyscanner) API.
+    Use this ALONGSIDE search_flights to compare prices from multiple sources.
     
     Args:
-        from_entity: Origin entity ID (e.g., "LOND-sky", "NYCA-sky").
-        to_entity: Destination entity ID (e.g., "PARI-sky").
-        date: Departure date (YYYY-MM-DD).
+        from_location: Origin city or airport (e.g., "Tallinn", "New York", "TLL").
+        to_location: Destination city or airport (e.g., "Helsinki", "Paris", "HEL").
+        date: Departure date (YYYY-MM-DD format).
     """
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
-
-    url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
-    
-    # Note: This API requires specific Entity IDs. 
-    # Ideally, we would have a helper tool to find these IDs first (e.g., /flights/auto-complete).
-    # For this backup tool, we assume the LLM might try to guess or we provide common ones in prompt context.
-    # Or better, we implement a quick lookup if needed, but for now keeping it simple as a backup.
-    
-    querystring = {
-        "fromEntityId": from_entity,
-        "toEntityId": to_entity,
-        "departDate": date,
-        "adults": "1",
-        "currency": "USD",
-        "market": "US",
-        "locale": "en-US"
-    }
 
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
         "x-rapidapi-host": "flights-sky.p.rapidapi.com"
     }
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            response = await client.get(url, headers=headers, params=querystring)
-            response.raise_for_status()
-            data = response.json()
+            # Step 1: Auto-complete to get entity IDs for origin
+            auto_url = "https://flights-sky.p.rapidapi.com/flights/auto-complete"
             
-            # Parse response (structure varies, usually 'itineraries' or 'quotes')
-            # Returning raw snippet for now as backup
-            return str(data)[:2000]
+            from_response = await client.get(auto_url, headers=headers, params={"query": from_location})
+            from_response.raise_for_status()
+            from_data = from_response.json()
+            
+            from_entity = None
+            if from_data.get("data"):
+                from_entity = from_data["data"][0].get("id") or from_data["data"][0].get("entityId")
+            
+            if not from_entity:
+                return f"Could not find airport/city for: {from_location}"
+            
+            # Step 2: Auto-complete for destination
+            to_response = await client.get(auto_url, headers=headers, params={"query": to_location})
+            to_response.raise_for_status()
+            to_data = to_response.json()
+            
+            to_entity = None
+            if to_data.get("data"):
+                to_entity = to_data["data"][0].get("id") or to_data["data"][0].get("entityId")
+            
+            if not to_entity:
+                return f"Could not find airport/city for: {to_location}"
+            
+            # Step 3: Search for flights
+            search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
+            search_params = {
+                "fromEntityId": from_entity,
+                "toEntityId": to_entity,
+                "departDate": date,
+                "adults": "1",
+                "currency": "USD",
+                "market": "US",
+                "locale": "en-US"
+            }
+            
+            search_response = await client.get(search_url, headers=headers, params=search_params)
+            search_response.raise_for_status()
+            data = search_response.json()
+            
+            # Parse itineraries
+            itineraries = data.get("data", {}).get("itineraries", [])
+            if not itineraries:
+                return f"No flights found from {from_location} to {to_location} on {date}."
+            
+            results = []
+            for itin in itineraries[:5]:  # Top 5
+                price = itin.get("price", {}).get("formatted", "N/A")
+                
+                legs = itin.get("legs", [])
+                if legs:
+                    leg = legs[0]
+                    origin = leg.get("origin", {}).get("name", from_location)
+                    dest = leg.get("destination", {}).get("name", to_location)
+                    departure = leg.get("departure", "")[:16].replace("T", " ")
+                    arrival = leg.get("arrival", "")[:16].replace("T", " ")
+                    duration = leg.get("durationInMinutes", 0)
+                    hours, mins = divmod(duration, 60)
+                    
+                    carriers = leg.get("carriers", {}).get("marketing", [])
+                    airline = carriers[0].get("name", "Unknown") if carriers else "Unknown"
+                    
+                    stops = leg.get("stopCount", 0)
+                    stop_text = "Direct" if stops == 0 else f"{stops} stop(s)"
+                    
+                    results.append(
+                        f"✈️ {price} - {airline}\n"
+                        f"   {origin} → {dest}\n"
+                        f"   Depart: {departure} | Arrive: {arrival}\n"
+                        f"   Duration: {hours}h {mins}m | {stop_text}\n---"
+                    )
+            
+            return "\n".join(results) if results else "No flight details available."
 
+        except httpx.HTTPStatusError as e:
+            return f"Sky API Error: {e.response.status_code} - {e.response.text[:200]}"
         except Exception as e:
-            return f"Error searching flights (backup): {str(e)}"
+            return f"Error searching Sky flights: {str(e)}"
 
 # Google API keys are read at call time in each function
 

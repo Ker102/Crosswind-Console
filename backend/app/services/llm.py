@@ -23,7 +23,7 @@ try:
     from mcp_servers.jobs_server import get_active_jobs, search_jobs, optimize_resume, analyze_job_match
     from mcp_servers.search_server import web_search, scrape_webpage, crawl_website
     from mcp_servers.travel_server import (
-        search_flights, search_places, search_hotels, search_flights_backup,
+        search_flights, search_places, search_hotels, search_flights_sky,
         search_ground_transport, search_ground_transport_backup, get_directions,
         geocode_address, reverse_geocode, text_search_places, search_places_nearby
     )
@@ -33,8 +33,8 @@ try:
     )
     
     MCP_TOOLS = [
-        # Travel tools
-        search_flights, search_places, search_hotels, search_flights_backup,
+        # Travel tools (search_flights=Kiwi, search_flights_sky=Skyscanner - use BOTH for comparison)
+        search_flights, search_flights_sky, search_places, search_hotels,
         search_ground_transport, search_ground_transport_backup, get_directions,
         geocode_address, reverse_geocode, text_search_places, search_places_nearby,
         # Jobs tools
@@ -156,23 +156,26 @@ class GeminiClient:
             "travel": """You are a TRAVEL AGENT assistant with access to powerful tools. 
 
 ## YOUR PRIMARY TOOLS (use these first):
-- get_directions, search_flights, search_hotels, search_places
+- **FLIGHTS**: Use BOTH search_flights (Kiwi) AND search_flights_sky (Skyscanner) to compare prices!
+- get_directions, search_hotels, search_places
 - geocode_address, text_search_places, search_places_nearby
-- search_ground_transport, search_flights_backup
+- search_ground_transport
 
 ## BACKUP TOOLS (use when primary tools don't give complete info):
 - web_search, scrape_webpage, crawl_website
 
 ## RULES:
-1. **Always use get_directions** for "how to get from A to B" questions with specific transport info
-2. **Chain tools**: geocode first, then search nearby places
-3. **Be confident**: Include exact bus/tram numbers, walking times, station names
-4. **Never hedge** - present all tool results as helpful information
-5. **Transportation answers MUST include**: specific route numbers, departure points, total journey time
+1. **For flight searches**: Call BOTH search_flights AND search_flights_sky to give user best price comparison
+2. **Always use get_directions** for "how to get from A to B" questions with specific transport info
+3. **Chain tools**: geocode first, then search nearby places
+4. **Be confident**: Include exact bus/tram numbers, walking times, station names
+5. **Never hedge** - present all tool results as helpful information
+6. **Transportation answers MUST include**: specific route numbers, departure points, total journey time
 
 ## RESPONSE STYLE:
 - Bullet points or numbered steps for directions
 - Include addresses and distances for places
+- For flights: show prices from BOTH sources so user can compare
 - Be direct and actionable
 
 ## ALWAYS END WITH a relevant follow-up question:
