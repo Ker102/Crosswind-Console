@@ -422,5 +422,201 @@ async def get_directions(origin: str, destination: str, mode: str = "driving") -
         except Exception as e:
             return f"Error getting directions: {str(e)}"
 
+@mcp.tool()
+async def geocode_address(address: str) -> str:
+    """
+    Convert a street address or place name to geographic coordinates (latitude/longitude).
+    
+    Args:
+        address: The address or place name to geocode (e.g., "1600 Amphitheatre Parkway, Mountain View, CA").
+    """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not GOOGLE_API_KEY:
+        return "Error: GOOGLE_MAPS_API_KEY is not set."
+
+    url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": GOOGLE_API_KEY
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("status") != "OK":
+                return f"Geocoding failed: {data.get('status')} - {data.get('error_message', 'No results found')}"
+            
+            result = data["results"][0]
+            location = result["geometry"]["location"]
+            formatted = result["formatted_address"]
+            place_id = result.get("place_id", "")
+            
+            return (
+                f"Address: {formatted}\n"
+                f"Latitude: {location['lat']}\n"
+                f"Longitude: {location['lng']}\n"
+                f"Place ID: {place_id}"
+            )
+        except Exception as e:
+            return f"Error geocoding address: {str(e)}"
+
+@mcp.tool()
+async def reverse_geocode(latitude: float, longitude: float) -> str:
+    """
+    Convert geographic coordinates (latitude/longitude) to a human-readable address.
+    
+    Args:
+        latitude: The latitude coordinate.
+        longitude: The longitude coordinate.
+    """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not GOOGLE_API_KEY:
+        return "Error: GOOGLE_MAPS_API_KEY is not set."
+
+    url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "latlng": f"{latitude},{longitude}",
+        "key": GOOGLE_API_KEY
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("status") != "OK":
+                return f"Reverse geocoding failed: {data.get('status')}"
+            
+            results = []
+            for i, result in enumerate(data["results"][:3]):  # Top 3 results
+                formatted = result["formatted_address"]
+                types = ", ".join(result.get("types", [])[:3])
+                results.append(f"{i+1}. {formatted} (Type: {types})")
+            
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error reverse geocoding: {str(e)}"
+
+@mcp.tool()
+async def text_search_places(query: str, location: str = None) -> str:
+    """
+    Search for places using a text query. Great for finding restaurants, attractions, or any POI.
+    
+    Args:
+        query: Text query like "Best pizza in Rome" or "Museums near Eiffel Tower".
+        location: Optional location to bias results (e.g., "Paris, France" or "48.8566,2.3522").
+    """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not GOOGLE_API_KEY:
+        return "Error: GOOGLE_MAPS_API_KEY is not set."
+
+    # Using the Places API Text Search endpoint
+    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    params = {
+        "query": query,
+        "key": GOOGLE_API_KEY
+    }
+    
+    if location:
+        # Check if location is already lat,lng format
+        if "," in location and all(part.replace(".", "").replace("-", "").isdigit() for part in location.split(",")):
+            params["location"] = location
+            params["radius"] = 50000  # 50km radius
+        else:
+            # It's a text location, add to query
+            params["query"] = f"{query} near {location}"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("status") not in ["OK", "ZERO_RESULTS"]:
+                return f"Places search failed: {data.get('status')} - {data.get('error_message', '')}"
+            
+            if not data.get("results"):
+                return "No places found for your search."
+            
+            results = []
+            for place in data["results"][:5]:  # Top 5 results
+                name = place.get("name", "Unknown")
+                address = place.get("formatted_address", "No address")
+                rating = place.get("rating", "N/A")
+                user_ratings = place.get("user_ratings_total", 0)
+                types = ", ".join(place.get("types", [])[:3])
+                open_now = place.get("opening_hours", {}).get("open_now")
+                open_status = "Open now" if open_now else ("Closed" if open_now is False else "Hours unknown")
+                
+                results.append(
+                    f"📍 {name}\n"
+                    f"   Address: {address}\n"
+                    f"   Rating: {rating}⭐ ({user_ratings} reviews)\n"
+                    f"   Type: {types}\n"
+                    f"   Status: {open_status}\n---"
+                )
+            
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error searching places: {str(e)}"
+
+@mcp.tool()
+async def search_places_nearby(latitude: float, longitude: float, place_type: str, radius_meters: int = 1500) -> str:
+    """
+    Find places near a specific location by type. Use after getting coordinates from geocode_address.
+    
+    Args:
+        latitude: Center point latitude.
+        longitude: Center point longitude.
+        place_type: Type of place (restaurant, cafe, hotel, museum, tourist_attraction, bar, pharmacy, hospital, etc).
+        radius_meters: Search radius in meters (default 1500, max 50000).
+    """
+    GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not GOOGLE_API_KEY:
+        return "Error: GOOGLE_MAPS_API_KEY is not set."
+
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    params = {
+        "location": f"{latitude},{longitude}",
+        "radius": min(radius_meters, 50000),
+        "type": place_type,
+        "key": GOOGLE_API_KEY
+    }
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("status") not in ["OK", "ZERO_RESULTS"]:
+                return f"Nearby search failed: {data.get('status')}"
+            
+            if not data.get("results"):
+                return f"No {place_type}s found within {radius_meters}m."
+            
+            results = []
+            for place in data["results"][:7]:  # Top 7 results
+                name = place.get("name", "Unknown")
+                vicinity = place.get("vicinity", "No address")
+                rating = place.get("rating", "N/A")
+                user_ratings = place.get("user_ratings_total", 0)
+                open_now = place.get("opening_hours", {}).get("open_now")
+                open_status = "🟢 Open" if open_now else ("🔴 Closed" if open_now is False else "")
+                
+                results.append(
+                    f"📍 {name} {open_status}\n"
+                    f"   {vicinity}\n"
+                    f"   Rating: {rating}⭐ ({user_ratings} reviews)\n---"
+                )
+            
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error searching nearby: {str(e)}"
+
 if __name__ == "__main__":
     mcp.run()
