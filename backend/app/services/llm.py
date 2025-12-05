@@ -116,7 +116,6 @@ class GeminiClient:
                 trace="mock",
             )
         
-        loop = asyncio.get_running_loop()
         start = time.perf_counter()
         
         # Convert history to Gemini format if provided
@@ -128,18 +127,82 @@ class GeminiClient:
                     "parts": [msg.content]
                 })
 
-        # Enable automatic function calling
-        # Using chat session for automatic tool use loop
-        chat = self._model.start_chat(
-            history=chat_history,
-            enable_automatic_function_calling=True
+        # Manual function calling loop (async-compatible)
+        # Disable automatic function calling since our tools are async
+        chat = self._model.start_chat(history=chat_history)
+        
+        # Build tool name -> function mapping
+        tool_map = {func.__name__: func for func in MCP_TOOLS}
+        print(f"[DEBUG] Available tools: {list(tool_map.keys())}")
+        
+        trace_log = []
+        response = await asyncio.get_running_loop().run_in_executor(
+            None, lambda: chat.send_message(combined_prompt)
         )
         
-        response = await loop.run_in_executor(None, lambda: chat.send_message(combined_prompt))
+        # Loop to handle function calls
+        max_iterations = 5  # Prevent infinite loops
+        iteration = 0
+        
+        while iteration < max_iterations:
+            iteration += 1
+            
+            # Check if response contains function calls
+            if not response.candidates or not response.candidates[0].content.parts:
+                break
+                
+            function_calls = [
+                part.function_call for part in response.candidates[0].content.parts
+                if hasattr(part, 'function_call') and part.function_call
+            ]
+            
+            if not function_calls:
+                # No more function calls, we have the final response
+                break
+            
+            # Process each function call
+            function_responses = []
+            for fc in function_calls:
+                func_name = fc.name
+                func_args = dict(fc.args) if fc.args else {}
+                
+                print(f"[TOOL CALL] {func_name}({func_args})")
+                trace_log.append(f"Called: {func_name}({func_args})")
+                
+                if func_name in tool_map:
+                    try:
+                        # Call the async function
+                        result = await tool_map[func_name](**func_args)
+                        print(f"[TOOL RESULT] {func_name}: {str(result)[:200]}...")
+                        trace_log.append(f"Result: {str(result)[:100]}...")
+                    except Exception as e:
+                        result = f"Error calling {func_name}: {str(e)}"
+                        print(f"[TOOL ERROR] {func_name}: {e}")
+                        trace_log.append(f"Error: {str(e)}")
+                else:
+                    result = f"Unknown function: {func_name}"
+                    trace_log.append(f"Unknown: {func_name}")
+                
+                # Build function response
+                function_responses.append(
+                    genai.protos.Part(
+                        function_response=genai.protos.FunctionResponse(
+                            name=func_name,
+                            response={"result": str(result)}
+                        )
+                    )
+                )
+            
+            # Send function responses back to the model
+            response = await asyncio.get_running_loop().run_in_executor(
+                None, lambda: chat.send_message(function_responses)
+            )
         
         latency_ms = (time.perf_counter() - start) * 1000
         text = response.text if hasattr(response, "text") else str(response)
-        return LLMResult(text=text, latency_ms=latency_ms, model=self.model_id)
+        trace = " | ".join(trace_log) if trace_log else None
+        print(f"[DEBUG] Final response (latency: {latency_ms:.0f}ms): {text[:200]}...")
+        return LLMResult(text=text, latency_ms=latency_ms, model=self.model_id, trace=trace)
 
     def _build_fallback_summary(
         self, domain: Domain, insights: Iterable[Insight], prompt: str | None
