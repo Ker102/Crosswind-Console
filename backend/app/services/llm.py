@@ -165,7 +165,11 @@ class GeminiClient:
 - web_search, scrape_webpage, crawl_website
 
 ## RULES:
-1. **For flight searches**: Call BOTH search_flights AND search_flights_sky to give user best price comparison
+1. **For flight searches**: Call BOTH search_flights AND search_flights_sky to give user best price comparison.
+   - **Dates**: Use `date_from`/`date_to` (Kiwi) for ranges. Use `whole_month` (Skyscanner) for flexible monthly searches.
+   - **Round Trip**: Set `return_from`/`return_to` (Kiwi) or `return_date` (Skyscanner).
+   - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"`/`"FIRST_CLASS"` as requested.
+   - **Passengers**: Always include `adults`, `children`, `infants` counts if specified.
 2. **Always use get_directions** for "how to get from A to B" questions with specific transport info
 3. **Chain tools**: geocode first, then search nearby places
 4. **Be confident**: Include exact bus/tram numbers, walking times, station names

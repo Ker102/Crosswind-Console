@@ -102,6 +102,10 @@ TRIPADVISOR_API_KEY=your_tripadvisor_key
 - Decorated with `@mcp.tool()`
 - Must be async functions
 - Import in `llm.py` and add to `MCP_TOOLS` list
+- **Flight APIs**:
+    - `search_flights` (Kiwi): Date ranges, cabin class, direct only.
+    - `search_flights_sky` (Skyscanner): Whole month search, round trips.
+
 
 ## Common Issues
 

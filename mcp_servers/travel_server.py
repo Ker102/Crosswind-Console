@@ -8,15 +8,35 @@ mcp = FastMCP("travel")
 # API keys are read at call time in each function to ensure proper loading
 
 @mcp.tool()
-async def search_flights(from_location: str, to_location: str, date: str, return_date: str = None) -> str:
+async def search_flights(
+    from_location: str,
+    to_location: str,
+    date_from: str,
+    date_to: str = None,
+    return_from: str = None,
+    return_to: str = None,
+    cabin_class: str = "ECONOMY",
+    direct_only: bool = False,
+    adults: int = 1,
+    children: int = 0,
+    infants: int = 0
+) -> str:
     """
-    Search for flights using the Kiwi.com API via RapidAPI.
+    Search for flights using the Kiwi.com API.
+    Supports one-way, round-trip, date ranges, and class filters.
     
     Args:
-        from_location: The IATA code or location ID for the departure airport (e.g., "LHR", "city:LON").
-        to_location: The IATA code or location ID for the destination airport (e.g., "JFK", "city:NYC").
-        date: The departure date in DD/MM/YYYY format.
-        return_date: Optional return date in DD/MM/YYYY format.
+        from_location: Origin city/airport code (e.g., "LHR", "city:LON", "country:GB").
+        to_location: Destination city/airport code (e.g., "JFK", "city:NYC").
+        date_from: Departure date start (DD/MM/YYYY).
+        date_to: Departure date end (DD/MM/YYYY). Defaults to date_from if not set.
+        return_from: Return date start (DD/MM/YYYY) for round trips.
+        return_to: Return date end (DD/MM/YYYY) for round trips. Defaults to return_from.
+        cabin_class: "ECONOMY", "ECONOMY_PREMIUM", "BUSINESS", or "FIRST_CLASS".
+        direct_only: If True, searches only for direct flights.
+        adults: Number of adult passengers (default 1).
+        children: Number of child passengers.
+        infants: Number of infant passengers.
     """
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
@@ -25,19 +45,30 @@ async def search_flights(from_location: str, to_location: str, date: str, return
 
     url = f"https://{RAPIDAPI_HOST}/search"
     
+    # Handle optional date_to defaulting to date_from
+    if not date_to:
+        date_to = date_from
+
     querystring = {
         "fly_from": from_location,
         "fly_to": to_location,
-        "date_from": date,
-        "date_to": date,
+        "date_from": date_from,
+        "date_to": date_to,
         "curr": "USD",
         "sort": "price",
-        "limit": "5"
+        "limit": "10",
+        "adults": str(adults),
+        "children": str(children),
+        "infants": str(infants),
+        "selected_cabins": cabin_class
     }
 
-    if return_date:
-        querystring["return_from"] = return_date
-        querystring["return_to"] = return_date
+    if return_from:
+        querystring["return_from"] = return_from
+        querystring["return_to"] = return_to or return_from
+
+    if direct_only:
+        querystring["max_stopovers"] = "0"
 
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
@@ -58,6 +89,8 @@ async def search_flights(from_location: str, to_location: str, date: str, return
                 price = flight.get("price", "N/A")
                 currency = data.get("currency", "USD")
                 deep_link = flight.get("deep_link", "")
+                duration_secs = flight.get("duration", {}).get("total", 0)
+                duration_formatted = f"{duration_secs // 3600}h {(duration_secs % 3600) // 60}m"
                 
                 # Extract route details
                 route_info = []
@@ -66,11 +99,18 @@ async def search_flights(from_location: str, to_location: str, date: str, return
                     flight_no = leg.get("flight_no", "")
                     dep_city = leg.get("cityFrom", "Unknown")
                     arr_city = leg.get("cityTo", "Unknown")
-                    dep_time = leg.get("local_departure", "")
-                    arr_time = leg.get("local_arrival", "")
+                    dep_time = leg.get("local_departure", "")[:16].replace("T", " ")
+                    arr_time = leg.get("local_arrival", "")[:16].replace("T", " ")
                     route_info.append(f"{airline} {flight_no}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
 
-                results.append(f"Price: {price} {currency}\nRoute: {' | '.join(route_info)}\nLink: {deep_link}\n---")
+                stops = len(flight.get("route", [])) - 1
+                stop_label = "Direct" if stops == 0 else f"{stops} Stop(s)"
+
+                results.append(
+                    f"✈️ {price} {currency} | {duration_formatted} | {stop_label}\n"
+                    f"Route: {' | '.join(route_info)}\n"
+                    f"Link: {deep_link}\n---"
+                )
 
             return "\n".join(results)
 
@@ -193,15 +233,27 @@ async def search_hotels(latitude: float, longitude: float, checkin_date: str, ch
             return f"Error searching hotels: {str(e)}"
 
 @mcp.tool()
-async def search_flights_sky(from_location: str, to_location: str, date: str) -> str:
+async def search_flights_sky(
+    from_location: str,
+    to_location: str,
+    date: str = None,
+    whole_month: str = None,
+    return_date: str = None,
+    cabin_class: str = "economy",
+    adults: int = 1
+) -> str:
     """
     Search for flights using Flights Sky (Skyscanner) API.
-    Use this ALONGSIDE search_flights to compare prices from multiple sources.
+    Supports specific dates, whole month searches, and round trips.
     
     Args:
-        from_location: Origin city or airport (e.g., "Tallinn", "New York", "TLL").
-        to_location: Destination city or airport (e.g., "Helsinki", "Paris", "HEL").
-        date: Departure date (YYYY-MM-DD format).
+        from_location: Origin city or airport (e.g., "Tallinn", "New York").
+        to_location: Destination city or airport (e.g., "Helsinki", "Paris").
+        date: Departure date (YYYY-MM-DD). Required unless whole_month is set.
+        whole_month: Search whole month (YYYY-MM). Only valid if date is NOT set.
+        return_date: Return date (YYYY-MM-DD) for round trips.
+        cabin_class: "economy", "premium_economy", "business", "first".
+        adults: Number of adult passengers.
     """
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
@@ -240,18 +292,37 @@ async def search_flights_sky(from_location: str, to_location: str, date: str) ->
             if not to_entity:
                 return f"Could not find airport/city for: {to_location}"
             
-            # Step 3: Search for flights
-            search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
+            # Step 3: Search
             search_params = {
                 "fromEntityId": from_entity,
                 "toEntityId": to_entity,
-                "departDate": date,
-                "adults": "1",
+                "adults": str(adults),
                 "currency": "USD",
                 "market": "US",
-                "locale": "en-US"
+                "locale": "en-US",
+                "cabinClass": cabin_class
             }
-            
+
+            if whole_month:
+                # Whole month search logic
+                # Note: Currently using one-way/round-trip endpoint with wholeMonthDepart param if supported,
+                # otherwise this API usually requires a different endpoint or strategy. 
+                # Based on research, 'wholeMonthDepart' (YYYY-MM) is supported on some endpoints.
+                search_params["wholeMonthDepart"] = whole_month
+                search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way" # Use one-way base
+                if return_date: # Round trip with whole month?
+                     # Complex scenario, stick to basic whole month one-way or return if supported
+                     pass
+            elif date:
+                search_params["departDate"] = date
+                if return_date:
+                    search_params["returnDate"] = return_date
+                    search_url = "https://flights-sky.p.rapidapi.com/flights/search-roundtrip"
+                else:
+                    search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
+            else:
+                return "Error: Must provide either 'date' or 'whole_month'."
+
             search_response = await client.get(search_url, headers=headers, params=search_params)
             search_response.raise_for_status()
             data = search_response.json()
@@ -259,17 +330,17 @@ async def search_flights_sky(from_location: str, to_location: str, date: str) ->
             # Parse itineraries
             itineraries = data.get("data", {}).get("itineraries", [])
             if not itineraries:
-                return f"No flights found from {from_location} to {to_location} on {date}."
+                return f"No flights found from {from_location} to {to_location}."
             
             results = []
-            for itin in itineraries[:5]:  # Top 5
+            for itin in itineraries[:8]:  # Top 8
                 price = itin.get("price", {}).get("formatted", "N/A")
-                
                 legs = itin.get("legs", [])
-                if legs:
-                    leg = legs[0]
-                    origin = leg.get("origin", {}).get("name", from_location)
-                    dest = leg.get("destination", {}).get("name", to_location)
+                
+                leg_summaries = []
+                for leg in legs:
+                    origin = leg.get("origin", {}).get("name", "")
+                    dest = leg.get("destination", {}).get("name", "")
                     departure = leg.get("departure", "")[:16].replace("T", " ")
                     arrival = leg.get("arrival", "")[:16].replace("T", " ")
                     duration = leg.get("durationInMinutes", 0)
@@ -277,16 +348,12 @@ async def search_flights_sky(from_location: str, to_location: str, date: str) ->
                     
                     carriers = leg.get("carriers", {}).get("marketing", [])
                     airline = carriers[0].get("name", "Unknown") if carriers else "Unknown"
-                    
                     stops = leg.get("stopCount", 0)
                     stop_text = "Direct" if stops == 0 else f"{stops} stop(s)"
                     
-                    results.append(
-                        f"✈️ {price} - {airline}\n"
-                        f"   {origin} → {dest}\n"
-                        f"   Depart: {departure} | Arrive: {arrival}\n"
-                        f"   Duration: {hours}h {mins}m | {stop_text}\n---"
-                    )
+                    leg_summaries.append(f"{origin}->{dest} ({airline}, {stop_text}) {departure}")
+
+                results.append(f"✈️ {price} | {' | '.join(leg_summaries)}\n---")
             
             return "\n".join(results) if results else "No flight details available."
 

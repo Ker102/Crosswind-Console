@@ -38,6 +38,10 @@ Crosswind-Console is a unified research dashboard that surfaces job opportunitie
 ### MCP
 - Use `mcp/servers.config.json` for server configurations.
 - Ensure MCP servers are running for data fetching.
+- **Flight Search**:
+    - **Kiwi API (`search_flights`)**: Supports date ranges (`date_from`, `date_to`), round trips (`return_from`, `return_to`), cabin class (`ECONOMY`, `BUSINESS`, etc.), and direct flight filtering.
+    - **Skyscanner API (`search_flights_sky`)**: Supports specific dates, whole month search (`whole_month="YYYY-MM"`), and round trips.
+    - **Usage**: The LLM agent is instructed to use both for comprehensive price comparisons.
 
 ## Common Commands
 
