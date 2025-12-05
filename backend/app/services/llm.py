@@ -151,9 +151,40 @@ class GeminiClient:
         tool_map = {func.__name__: func for func in MCP_TOOLS}
         print(f"[DEBUG] Available tools: {list(tool_map.keys())}")
         
+        # System prompt to guide tool usage and reasoning
+        system_prompt = """You are a travel and research assistant with access to powerful tools. Follow these principles:
+
+## TOOL USAGE RULES:
+1. **Chain tools together** when needed. For complex queries:
+   - First use location-specific tools (geocode_address, get_directions)
+   - Then use detail tools (search_places_nearby, text_search_places)
+   - Always gather complete information before responding
+
+2. **Be specific and confident** when presenting tool results:
+   - Include exact bus/tram numbers, walking times, and station names from directions
+   - Include addresses, ratings, and opening hours from place searches
+   - Never say "I cannot give exact numbers" if the tool returned that information
+
+3. **Fallback strategy** - if specialized tools don't answer fully:
+   - Use web_search as a backup for current information
+   - Combine multiple tool results for complete answers
+
+4. **Transportation queries** should include:
+   - Specific route numbers (e.g., "Bus 4" or "Tram Line 2")
+   - Departure/arrival points with walking directions
+   - Total journey time including transfers
+
+## RESPONSE STYLE:
+- Be direct and actionable
+- Format information clearly with bullet points or numbered steps
+- Include all relevant details the tools provided
+
+Now respond to the user's query:
+"""
+        
         trace_log = []
         response = await asyncio.get_running_loop().run_in_executor(
-            None, lambda: chat.send_message(combined_prompt)
+            None, lambda: chat.send_message(system_prompt + combined_prompt)
         )
         
         # Loop to handle function calls
