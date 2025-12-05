@@ -69,10 +69,13 @@ class GeminiClient:
 
         if self._enabled:
             genai.configure(api_key=self._api_key)
-            # Initialize model with tools
+            # Initialize model with tools and max output tokens
             self._model = genai.GenerativeModel(
                 self.model_id,
-                tools=MCP_TOOLS
+                tools=MCP_TOOLS,
+                generation_config=genai.types.GenerationConfig(
+                    max_output_tokens=65536  # Maximum for gemini-2.5-pro
+                )
             )
 
     async def summarize(self, domain: Domain, insights: Iterable[Insight], prompt: str | None) -> LLMResult:
