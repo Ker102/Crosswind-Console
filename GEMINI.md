@@ -42,6 +42,10 @@ Crosswind-Console is a unified research dashboard that surfaces job opportunitie
     - **Kiwi API (`search_flights`)**: Supports date ranges (`date_from`, `date_to`), round trips (`return_from`, `return_to`), cabin class (`ECONOMY`, `BUSINESS`, etc.), and direct flight filtering.
     - **Skyscanner API (`search_flights_sky`)**: Supports specific dates, whole month search (`whole_month="YYYY-MM"`), and round trips.
     - **Usage**: The LLM agent is instructed to use both for comprehensive price comparisons.
+- **Airbnb Search**:
+    - **Apify Actor (`search_airbnb`)**: Uses `tri_angle/new-fast-airbnb-scraper` via `travel_server.py`.
+    - **Features**: Supports location, dates (`check_in`, `check_out`), guests (`adults`, `children`), price range, and currency.
+    - **Auth**: Requires `APIFY_API_TOKEN` in `.env`.
 
 ## Common Commands
 

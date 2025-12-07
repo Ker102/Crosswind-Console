@@ -351,12 +351,13 @@
             </div>
         {:else}
             <div class="messages">
+                <div class="message-spacer"></div>
                 {#each messages as msg}
                     <div
                         class="message {msg.role}"
                         in:fly={{ y: 20, duration: 300 }}
                     >
-                        {#if msg.role === "model"}
+                        {#if msg.role === "model" || msg.role === "assistant"}
                             <div class="msg-content markdown-body">
                                 {@html parseMarkdown(msg.content)}
                             </div>
@@ -367,15 +368,25 @@
                 {/each}
 
                 {#if isThinking}
-                    <div class="thinking-indicator" in:fade>
+                    <div class="thinking-indicator" in:slide>
                         <div class="thinking-header">
-                            <Loader2 size={16} class="spin" />
-                            <span>Thinking Process</span>
+                            <Loader2 class="spin" size={16} />
+                            <span>Reasoning...</span>
                         </div>
                         <div class="steps">
                             {#each thinkingSteps as step}
-                                <div class="step {step.status}">
-                                    <div class="step-dot"></div>
+                                <div
+                                    class="step {step.status}"
+                                    in:slide={{ axis: "y" }}
+                                >
+                                    {#if step.status === "pending"}
+                                        <div class="step-dot"></div>
+                                    {:else if step.status === "done"}
+                                        <div
+                                            class="step-dot"
+                                            style="background: var(--primary)"
+                                        ></div>
+                                    {/if}
                                     <span>{step.text}</span>
                                 </div>
                             {/each}
@@ -386,559 +397,87 @@
         {/if}
     </div>
 
-    <!-- Bottom Input Bar -->
+    <!-- Input Area -->
     <div class="input-area">
         <div class="input-wrapper">
             <input
                 type="text"
+                placeholder="Ask anything..."
                 bind:value={prompt}
-                onkeydown={(e) => e.key === "Enter" && handleSubmit()}
-                placeholder="Ask anything about {currentTheme.name}..."
+                onkeydown={(e) =>
+                    e.key === "Enter" && !isThinking && handleSubmit()}
             />
             <button
                 class="send-btn"
                 onclick={handleSubmit}
                 disabled={!prompt.trim() || isThinking}
             >
-                <Send size={20} />
+                {#if isThinking}
+                    <Loader2 class="spin" size={20} />
+                {:else}
+                    <Send size={20} />
+                {/if}
             </button>
         </div>
     </div>
 </div>
 
 <style>
-    .agent-container {
-        width: 100vw;
-        height: 100vh;
-        background-color: var(--bg);
-        color: var(--text);
-        display: flex;
-        flex-direction: column;
-        transition:
-            background-color 0.5s ease,
-            color 0.5s ease;
-        font-family: "Inter", sans-serif;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* Plants Background */
-    .plants-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.1;
-        color: #5d4037;
-    }
-
-    .plant {
-        position: absolute;
-    }
-    .p1 {
-        bottom: -20px;
-        left: -20px;
-        transform: rotate(15deg);
-    }
-    .p2 {
-        bottom: -10px;
-        right: -10px;
-        transform: rotate(-10deg);
-    }
-    .p3 {
-        top: 10%;
-        right: 5%;
-        transform: rotate(45deg);
-        opacity: 0.5;
-    }
-    .p4 {
-        top: 20%;
-        left: 10%;
-        transform: rotate(-15deg);
-        opacity: 0.6;
-    } /* Coffee */
-    .p5 {
-        bottom: 15%;
-        left: 25%;
-        transform: rotate(10deg);
-        opacity: 0.4;
-    } /* Notebook */
-    .p6 {
-        top: 15%;
-        right: 20%;
-        transform: rotate(-30deg);
-        opacity: 0.5;
-    } /* Pen */
-
-    /* Top Bar */
-    .top-bar {
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        z-index: 100;
-    }
-
-    .left-controls {
-        display: flex;
-        gap: 1.5rem;
-        align-items: center;
-    }
-
-    .back-btn {
-        background: none;
-        border: none;
-        color: var(--text);
-        font-size: 1.5rem;
-        cursor: pointer;
-        opacity: 0.7;
-        transition: opacity 0.2s;
-        padding: 0;
-    }
-    .back-btn:hover {
-        opacity: 1;
-    }
-
-    .category-selector {
-        position: relative;
-    }
-
-    .cat-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: rgba(128, 128, 128, 0.1);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        color: var(--text);
-        cursor: pointer;
-        font-weight: 700;
-        transition: all 0.2s;
-        font-size: 1rem;
-    }
-    .cat-btn:hover {
-        background: rgba(128, 128, 128, 0.2);
-    }
-
-    .dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 0.5rem;
-        background: var(--card-bg);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        border-radius: 8px;
-        padding: 0.5rem;
-        min-width: 180px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-        z-index: 200;
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        background: none;
-        border: none;
-        padding: 0.8rem;
-        color: var(--text);
-        cursor: pointer;
-        text-align: left;
-        border-radius: 4px;
-        font-weight: 500;
-        transition: background 0.2s;
-    }
-    .dropdown-item:hover {
-        background: rgba(128, 128, 128, 0.1);
-    }
-
-    .cat-desc {
-        font-weight: 400;
-        opacity: 0.7;
-        font-size: 0.9rem;
-        color: var(--text);
-    }
-
-    /* Model Toggle */
-    .model-toggle {
-        display: flex;
-        background: rgba(128, 128, 128, 0.1);
-        padding: 0.25rem;
-        border-radius: 8px;
-        gap: 0.25rem;
-        border: 1px solid rgba(128, 128, 128, 0.1);
-    }
-
-    .model-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: none;
-        border: none;
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        color: var(--text);
-        opacity: 0.6;
-        cursor: pointer;
-        font-size: 0.85rem;
-        transition: all 0.2s;
-    }
-
-    .model-btn.active {
-        background: var(--primary);
-        color: #fff; /* Always white text on active button for contrast */
-        opacity: 1;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Chat Area */
-    .chat-area {
-        flex: 1;
-        overflow-y: auto;
-        padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 10; /* Above plants */
-    }
-
-    .empty-state {
-        width: 100%;
-        max-width: 900px;
-        margin-top: 5vh;
-        display: flex;
-        flex-direction: column;
-        gap: 3rem;
-        animation: fadeIn 0.5s ease-out;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .hero-section {
-        text-align: center;
-    }
-
-    .icon-ring {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: rgba(var(--primary), 0.1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto 1.5rem;
-        border: 2px solid var(--primary);
-        box-shadow: 0 0 20px rgba(var(--primary), 0.3);
-    }
-
-    h1.gradient-title {
-        font-size: 2.5rem;
-        font-weight: 900;
-        margin: 0 0 0.5rem;
-        background: linear-gradient(
-            135deg,
-            var(--primary),
-            var(--accent),
-            #fff
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -0.03em;
-        text-transform: uppercase;
-    }
-
-    /* Powered By - Minimalist */
-    .powered-by-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-        opacity: 0.6;
-    }
-
-    .active-indicator {
-        width: 8px;
-        height: 8px;
-        background-color: #00e676; /* Always green for active */
-        border-radius: 50%;
-        box-shadow: 0 0 8px #00e676;
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.2);
-            opacity: 0.7;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    .powered-by-text {
-        font-size: 0.85rem;
-        font-weight: 400;
-        letter-spacing: 0.02em;
-        color: var(--text);
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-    }
-
-    .stat-card {
-        background: var(--card-bg);
-        border: 1px solid rgba(128, 128, 128, 0.1);
-        padding: 1.5rem;
-        border-radius: 16px;
-        text-align: center;
-        transition: transform 0.2s;
-    }
-    .stat-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary);
-    }
-
-    .stat-value {
-        font-size: 2rem;
-        font-weight: 900;
-        color: var(--primary);
-        margin-bottom: 0.2rem;
-    }
-
-    .stat-label {
-        font-size: 0.85rem;
-        opacity: 0.7;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .tools-list {
-        background: var(--card-bg);
-        border: 1px solid rgba(128, 128, 128, 0.1);
-        padding: 1.5rem;
-        border-radius: 16px;
-    }
-
-    .tools-list h3 {
-        font-size: 0.9rem;
-        margin: 0 0 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        opacity: 0.8;
-        color: var(--text);
-        -webkit-text-fill-color: var(--text); /* Reset gradient */
-    }
-
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-    }
-
-    .tool-tag {
-        background: rgba(128, 128, 128, 0.1);
-        padding: 0.4rem 0.8rem;
-        border-radius: 50px;
-        font-size: 0.85rem;
-        border: 1px solid rgba(128, 128, 128, 0.1);
-        transition: all 0.2s;
-    }
-    .tool-tag:hover {
-        background: var(--primary);
-        color: #fff;
-        border-color: var(--primary);
-    }
-
-    .guidance {
-        text-align: center;
-        font-size: 1.1rem;
+    /* Global Markdown Styles */
+    :global(.markdown-body) {
+        font-family: inherit;
         line-height: 1.6;
-        opacity: 0.8;
-        max-width: 700px;
-        margin: 0 auto;
-        font-style: italic;
-    }
-
-    /* Messages */
-    .messages {
-        width: 100%;
-        max-width: 800px;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .message {
-        display: flex;
-        flex-direction: column;
-        max-width: 80%;
-    }
-
-    .message.user {
-        align-self: flex-end;
-        align-items: flex-end;
-    }
-
-    .message.assistant {
-        align-self: flex-start;
-    }
-
-    .msg-content {
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-
-    .message.user .msg-content {
-        background: var(--primary);
-        color: #fff;
-        border-bottom-right-radius: 2px;
-    }
-
-    .message.assistant .msg-content {
-        background: rgba(128, 128, 128, 0.1);
         color: var(--text);
-        border-bottom-left-radius: 2px;
     }
-
-    /* Markdown Body Styling */
-    .markdown-body {
-        font-size: 1rem;
-        line-height: 1.6;
+    :global(.markdown-body p) {
+        margin-bottom: 1rem;
     }
-
-    .markdown-body :global(h1),
-    .markdown-body :global(h2),
-    .markdown-body :global(h3) {
-        margin: 0.8rem 0 0.4rem 0;
-        font-weight: 700;
-        color: var(--primary);
+    :global(.markdown-body h1),
+    :global(.markdown-body h2),
+    :global(.markdown-body h3) {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        line-height: 1.25;
     }
-
-    .markdown-body :global(h1) {
-        font-size: 1.4rem;
-    }
-    .markdown-body :global(h2) {
-        font-size: 1.2rem;
-    }
-    .markdown-body :global(h3) {
-        font-size: 1.1rem;
-    }
-
-    .markdown-body :global(p) {
-        margin: 0.5rem 0;
-    }
-
-    .markdown-body :global(ul),
-    .markdown-body :global(ol) {
-        margin: 0.5rem 0;
-        padding-left: 1.5rem;
-    }
-
-    .markdown-body :global(li) {
-        margin: 0.3rem 0;
-        position: relative;
-    }
-
-    .markdown-body :global(li::marker) {
-        color: var(--primary);
-    }
-
-    .markdown-body :global(strong) {
-        font-weight: 700;
-        color: var(--primary);
-    }
-
-    .markdown-body :global(em) {
-        font-style: italic;
-        opacity: 0.9;
-    }
-
-    .markdown-body :global(code) {
-        background: rgba(128, 128, 128, 0.2);
-        padding: 0.15rem 0.4rem;
+    :global(.markdown-body code) {
+        background: rgba(128, 128, 128, 0.1);
+        padding: 0.2em 0.4em;
         border-radius: 4px;
-        font-family: "Fira Code", "JetBrains Mono", monospace;
+        font-family: monospace;
         font-size: 0.9em;
     }
-
-    .markdown-body :global(pre) {
-        background: rgba(0, 0, 0, 0.3);
+    :global(.markdown-body pre) {
+        background: rgba(0, 0, 0, 0.2);
         padding: 1rem;
         border-radius: 8px;
         overflow-x: auto;
-        margin: 0.5rem 0;
-    }
-
-    .markdown-body :global(pre code) {
-        background: none;
-        padding: 0;
-    }
-
-    .markdown-body :global(blockquote) {
-        border-left: 3px solid var(--primary);
-        padding-left: 1rem;
-        margin: 0.5rem 0;
-        opacity: 0.9;
-        font-style: italic;
-    }
-
-    .markdown-body :global(hr) {
-        border: none;
-        border-top: 1px solid rgba(128, 128, 128, 0.2);
         margin: 1rem 0;
     }
-
-    .markdown-body :global(a) {
-        color: var(--primary);
-        text-decoration: underline;
+    :global(.markdown-body pre code) {
+        background: transparent;
+        padding: 0;
     }
-
-    .markdown-body :global(table) {
+    :global(.markdown-body ul),
+    :global(.markdown-body ol) {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+    }
+    :global(.markdown-body li) {
+        margin-bottom: 0.25rem;
+    }
+    :global(.markdown-body blockquote) {
+        border-left: 4px solid var(--primary);
+        padding-left: 1rem;
+        margin: 1rem 0;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    :global(.markdown-body table) {
         width: 100%;
         border-collapse: collapse;
-        margin: 0.5rem 0;
+        margin: 1rem 0;
     }
-
-    .markdown-body :global(th),
-    .markdown-body :global(td) {
-        padding: 0.5rem;
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        text-align: left;
-    }
-
+    /* Wrapped TH styles follow */
     .markdown-body :global(th) {
         background: rgba(128, 128, 128, 0.1);
         font-weight: 600;

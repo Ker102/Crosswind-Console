@@ -105,6 +105,8 @@ TRIPADVISOR_API_KEY=your_tripadvisor_key
 - **Flight APIs**:
     - `search_flights` (Kiwi): Date ranges, cabin class, direct only.
     - `search_flights_sky` (Skyscanner): Whole month search, round trips.
+- **Accommodation**:
+    - `search_airbnb` (Apify): Airbnb scraper with date/guest/price filters.
 
 
 ## Common Issues

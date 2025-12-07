@@ -739,5 +739,101 @@ async def search_places_nearby(latitude: float, longitude: float, place_type: st
         except Exception as e:
             return f"Error searching nearby: {str(e)}"
 
+@mcp.tool()
+async def search_airbnb(
+    location: str,
+    check_in: str = None,
+    check_out: str = None,
+    adults: int = 1,
+    children: int = 0,
+    min_price: int = None,
+    max_price: int = None,
+    currency: str = "USD",
+    max_listings: int = 5
+) -> str:
+    """
+    Search for Airbnb listings using Apify's new-fast-airbnb-scraper.
+    
+    Args:
+        location: Destination (e.g., "Paris", "New York").
+        check_in: Check-in date (YYYY-MM-DD).
+        check_out: Check-out date (YYYY-MM-DD).
+        adults: Number of adult guests.
+        children: Number of child guests.
+        min_price: Minimum price per night.
+        max_price: Maximum price per night.
+        currency: Currency code (default "USD").
+        max_listings: Maximum number of results to return (default 5).
+    """
+    APIFY_API_TOKEN = os.environ.get("APIFY_API_TOKEN")
+    if not APIFY_API_TOKEN:
+        return "Error: APIFY_API_TOKEN is not set in environment variables."
+
+    url = "https://api.apify.com/v2/acts/tri_angle~new-fast-airbnb-scraper/run-sync-get-dataset-items"
+    
+    headers = {
+        "Authorization": f"Bearer {APIFY_API_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "locationQueries": [location],
+        "adults": adults,
+        "children": children,
+        "currency": currency,
+        "maxListings": max_listings,
+        "locale": "en-US"
+    }
+
+    if check_in:
+        payload["checkIn"] = check_in
+    if check_out:
+        payload["checkOut"] = check_out
+    if min_price:
+        payload["minPrice"] = min_price
+    if max_price:
+        payload["maxPrice"] = max_price
+
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        try:
+            response = await client.post(url, headers=headers, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            
+            if not data:
+                return f"No Airbnb listings found for {location}."
+
+            results = []
+            for item in data:
+                name = item.get("name", "Unknown")
+                
+                # Handle price structure which can vary
+                price_info = item.get("pricing", {}).get("rate", {})
+                price_amount = price_info.get("amount", "N/A")
+                price_currency = price_info.get("currency", currency)
+                
+                rating = item.get("rating", "N/A")
+                url_link = item.get("url", "")
+                
+                # Try to get an image
+                photos = item.get("photos", [])
+                image_url = photos[0].get("pictureUrl", "") if photos else ""
+                
+                results.append(
+                    f"🏠 {name}\n"
+                    f"Price: {price_amount} {price_currency}/night\n"
+                    f"Rating: {rating} | Guests: {adults+children}\n"
+                    f"Link: {url_link}\n"
+                    f"Image: {image_url}\n"
+                    "---\n"
+                )
+            
+            return "".join(results)
+
+        except httpx.HTTPStatusError as e:
+            return f"Apify API Error: {e.response.status_code} - {e.response.text}"
+        except Exception as e:
+            return f"Error searching Airbnb: {str(e)}"
+
 if __name__ == "__main__":
     mcp.run()

@@ -25,7 +25,8 @@ try:
     from mcp_servers.travel_server import (
         search_flights, search_places, search_hotels, search_flights_sky,
         search_ground_transport, search_ground_transport_backup, get_directions,
-        geocode_address, reverse_geocode, text_search_places, search_places_nearby
+        geocode_address, reverse_geocode, text_search_places, search_places_nearby,
+        search_airbnb
     )
     from mcp_servers.trends_server import (
         get_google_trends, get_youtube_trends, search_tweets, search_youtube,
@@ -34,7 +35,7 @@ try:
     
     MCP_TOOLS = [
         # Travel tools (search_flights=Kiwi, search_flights_sky=Skyscanner - use BOTH for comparison)
-        search_flights, search_flights_sky, search_places, search_hotels,
+        search_flights, search_flights_sky, search_places, search_hotels, search_airbnb,
         search_ground_transport, search_ground_transport_backup, get_directions,
         geocode_address, reverse_geocode, text_search_places, search_places_nearby,
         # Jobs tools
@@ -79,6 +80,7 @@ class GeminiClient:
         if settings.google_search_cx: os.environ["GOOGLE_SEARCH_CX"] = settings.google_search_cx
         if settings.x_bearer_token: os.environ["X_BEARER_TOKEN"] = settings.x_bearer_token
         if settings.tripadvisor_api_key: os.environ["TRIPADVISOR_API_KEY"] = settings.tripadvisor_api_key
+        if settings.apify_api_token: os.environ["APIFY_API_TOKEN"] = settings.apify_api_token
 
         if self._enabled:
             genai.configure(api_key=self._api_key)
@@ -157,7 +159,8 @@ class GeminiClient:
 
 ## YOUR PRIMARY TOOLS (use these first):
 - **FLIGHTS**: Use BOTH search_flights (Kiwi) AND search_flights_sky (Skyscanner) to compare prices!
-- get_directions, search_hotels, search_places
+- **STAYS**: search_airbnb (Apify), search_hotels (Booking.com)
+- get_directions, search_places
 - geocode_address, text_search_places, search_places_nearby
 - search_ground_transport
 
@@ -170,8 +173,9 @@ class GeminiClient:
    - **Round Trip**: Set `return_from`/`return_to` (Kiwi) or `return_date` (Skyscanner).
    - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"`/`"FIRST_CLASS"` as requested.
    - **Passengers**: Always include `adults`, `children`, `infants` counts if specified.
-2. **Always use get_directions** for "how to get from A to B" questions with specific transport info
-3. **Chain tools**: geocode first, then search nearby places
+2. **For accommodation**: Use `search_airbnb` for apartments/longer stays and `search_hotels` for hotels.
+3. **Always use get_directions** for "how to get from A to B" questions with specific transport info
+4. **Chain tools**: geocode first, then search nearby places
 4. **Be confident**: Include exact bus/tram numbers, walking times, station names
 5. **Never hedge** - present all tool results as helpful information
 6. **Transportation answers MUST include**: specific route numbers, departure points, total journey time

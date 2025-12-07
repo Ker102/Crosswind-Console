@@ -1,104 +1,99 @@
 # Crosswind Console
 
-![Status](https://img.shields.io/badge/Status-Active_Development-success?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Beta_Release_Loading...-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Frontend](https://img.shields.io/badge/Frontend-Svelte_5_%2B_Vite-orange?style=for-the-badge&logo=svelte)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_Python-blue?style=for-the-badge&logo=fastapi)
-![AI](https://img.shields.io/badge/AI-Intelligent_Orchestration-purple?style=for-the-badge&logo=google-gemini)
+![AI](https://img.shields.io/badge/AI-Multi--Agent_Orchestration-purple?style=for-the-badge&logo=google-gemini)
 
-> **Intelligent Orchestration for the Modern Explorer.**
-> A unified research dashboard that blends immersive 3D aesthetics with powerful AI agents to surface opportunities in Travel, Jobs, and Social Trends.
+> **The High-Performance AI Orchestrator for the Modern Explorer.**
+> A unified, immersive research dashboard that coordinates specialized AI agents to surface deep insights in Travel, Careers, and Social Trends.
 
 ---
 
 ## 🚀 Overview
 
-**Crosswind Console** is not just a dashboard; it's an **AI-driven orchestrator**. It solves the problem of information fragmentation by deploying specialized agents to scour the web, analyze data, and present actionable insights in a single, cohesive interface.
+**Crosswind Console** is a cutting-edge **AI Orchestration Platform** built for speed and depth. Unlike generic chatbots, Crosswind deploys **3 specialized AI Agents** (and growing) that work in tandem to solve complex research tasks.
 
-Whether you're looking for the cheapest flight to Tokyo, the next big career move, or a viral trend before it peaks, Crosswind Console coordinates the complex work of data gathering and reasoning behind the scenes, delivering results through a stunning, glassmorphic UI.
+Built on the blazing-fast combination of **FastAPI** and **Svelte 5**, the application offers a premium, glassmorphic interface that feels instant and alive. It solves information fragmentation by giving each agent access to **powerful, real-time tools**—from deep web scrapers to flight aggregators—allowing them to fetch opportunities that standard searches miss.
 
----
-
-## ✨ Key Capabilities
-
-### 🧠 Intelligent Orchestration
-At its core, the system uses advanced **LLM Reasoning** to understand user intent. It doesn't just search; it *plans*.
-*   **Context-Aware**: Understands "Find me a trip to Paris" vs. "Find me a tech job in Paris".
-*   **Tool Chaining**: Automatically selects the right tools (Search, Scrapers, APIs) to fulfill a request.
-
-### 🌍 Multi-Modal Travel Agent
-A next-generation travel assistant that goes beyond simple flight search.
-*   **Hybrid Ground Transport Engine**: Combines **Google Search** discovery with **Firecrawl** deep scraping to find bus and train routes (FlixBus, Rome2Rio) that standard APIs miss.
-*   **Fallback Reliability**: Automatically switches to the **Kiwi API** for standard routes if scraping fails, ensuring you never get a "no results" error.
-*   **Flight Discovery**: Real-time flight pricing and route analysis.
-
-### 💼 Career & Trend Agents
-*   **Jobs Agent**: Aggregates opportunities from major platforms, filtering by relevance and potential.
-*   **Trends Agent**: Monitors social signals to identify rising topics and viral content.
-
-### 🎨 Immersive Experience
-*   **Dynamic Island Navigation**: A sleek, iOS-inspired navigation bar that expands and adapts to your context.
-*   **3D Visuals**: Interactive 3D elements (Icon Cloud) powered by Three.js for a premium feel.
-*   **Glassmorphism**: A modern, translucent design language that feels alive.
+> **Status**: 🚧 Early Production / Beta Coming Soon
 
 ---
 
-## 🛠️ How It Works
+## 🧠 Core Capabilities: The 3-Agent System
 
-The architecture is built for speed, modularity, and intelligence.
+Crosswind acts as a central brain, routing your intent to the expert agent best suited for the job.
 
-1.  **The Interface (Frontend)**:
-    *   Built with **Svelte 5** and **Vite** for blazing fast performance.
-    *   Handles user interactions and renders the immersive 3D environment.
-    *   Communicates with the backend via typed API contracts.
+### ✈️ 1. Travel Agent
+*The Ultimate Trip Architect.*
+*   **Accommodations**: Deep searches for **Airbnb** listings (via Apify) and hotels to find hidden gems and long-term stay deals.
+*   **Flights**: Compares prices across **Skyscanner** and **Kiwi** simultaneously to ensure you get the absolute best fare.
+*   **Ground Transport**: Unique "hybrid logic" that combines Google Search with deep scraping to find local bus and train routes (FlixBus, Rome2Rio).
 
-2.  **The Brain (Backend)**:
-    *   Powered by **FastAPI (Python)**.
-    *   Acts as the central coordinator, receiving user prompts and dispatching them to the appropriate agents.
+### 💼 2. Jobs & Career Agent
+*Your Personal Career Strategist.*
+*   **Opportunity Scout**: Aggregates job listings from major platforms, filtered by your specific criteria.
+*   **Resume Optimiztion**: analyzes your CV against target roles to maximize match potential.
+*   **Market Analysis**: Scrapes company data to give you the edge in interviews.
 
-3.  **The Tools (MCP Servers)**:
-    *   We use the **Model Context Protocol (MCP)** to standardize how the AI interacts with external tools.
-    *   **Travel Server**: Handles flight/ground transport logic (Search + Scrape).
-    *   **Trends/Jobs Servers**: Specialized connectors for their respective domains.
-    *   **Docker Gateway**: Manages these tools securely and efficiently.
+### 📈 3. Trends Agent
+*The Social Signal Decoder.*
+*   **Viral Hunter**: Monitors **TikTok, Twitter, and Instagram** to spot rising trends before they peak.
+*   **Cross-Platform Analysis**: Correlates data across platforms to validate true engagement.
+
+### 🔮 Coming Soon: Stocks & Crypto Agent
+*   **Market Watch**: Real-time analysis of financial markets and crypto assets.
+*   **Sentiment Analysis**: Correlating news and social sentiment with price action.
+
+---
+
+## ⚡ Engineered for Performance
+
+We refuse to compromise on speed or aesthetics.
+
+*   **Frontend**: Built with **Svelte 5** and **Vite**, delivering an interface that is reactive, lightweight, and capable of rendering complex 3D visualizations (Three.js) without stutter.
+*   **Backend**: **FastAPI** (Python) manages the orchestration layer, handling asynchronous tool execution and LLM streaming with millisecond latency.
+*   **Tooling**: Powered by the **Model Context Protocol (MCP)**, connecting our agents to a vast ecosystem of external APIs and data sources securely.
 
 ---
 
 ## 💻 Tech Stack
 
-*   **Frontend**: Svelte, TypeScript, TailwindCSS, Three.js
-*   **Backend**: Python, FastAPI, Uvicorn
-*   **Data & AI**: Model Context Protocol (MCP), Firecrawl, Playwright, Google Custom Search, RapidAPI
-*   **Infrastructure**: Docker
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend** | Svelte 5, TypeScript, TailwindCSS | High-performance reactive UI |
+| **3D Engine** | Three.js (Spline) | Immersive visual elements |
+| **Backend** | Python, FastAPI, Uvicorn | Async task orchestration |
+| **Intelligence** | Google Gemini Pro | Core reasoning engine |
+| **Data Tools** | MCP, Apify, Firecrawl, Kiwi, Skyscanner | Real-time data fetching |
+| **Infrastructure** | Docker | Containerized deployment |
 
 ---
 
-## ⚡ Getting Started
+## 🛠️ Getting Started (Dev)
 
 ### Prerequisites
 *   Node.js & npm
 *   Python 3.10+
-*   Docker (optional, for MCP Gateway)
+*   Docker (Optional)
 
-### 1. Backend Setup
+### 1. Backend
 ```bash
 cd backend
 python -m venv .venv
-# Activate virtual env (Windows: .venv\Scripts\activate, Mac/Linux: source .venv/bin/activate)
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e .
 uvicorn app.main:app --reload
 ```
 
-### 2. Frontend Setup
+### 2. Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Visit `http://localhost:5173` to launch the console.
-
-### 3. MCP Servers (Optional)
-To enable full AI capabilities, ensure your `.env` file is configured with necessary API keys (`RAPIDAPI_KEY`, `GOOGLE_SEARCH_CX`, etc.) and run the specific server scripts in `mcp/`.
+Visit `http://localhost:5173` to enter the console.
 
 ---
 
