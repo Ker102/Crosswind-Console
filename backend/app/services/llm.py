@@ -176,31 +176,32 @@ When user asks about **ferries** or travel by sea (especially Baltic routes like
 4. Major operators: Tallink Silja, Viking Line, Eckerö Line, Finnlines
 
 ## RULES:
-1. **For flight searches**: Call BOTH search_flights AND search_flights_sky to give user best price comparison.
-   - **Location format (Kiwi)**: Use IATA airport codes directly (e.g., "TLL", "HEL") NOT prefixed.
-   - **Location format (Skyscanner)**: Use city names (e.g., "Tallinn", "Helsinki").
-   - **Date format**: ALWAYS use YYYY-MM-DD (e.g., "2024-12-10").
-   - **Round Trip**: Set `return_from` (Kiwi) or `return_date` (Skyscanner).
+1. **For flight searches**: Call BOTH search_flights (Kiwi) AND search_flights_sky (Skyscanner) to compare prices.
+   - **Date format**: ALWAYS use ISO `YYYY-MM-DD`. If user omits year, assume **2025**.
+   - **Kiwi params**: `from_location`/`to_location` = IATA codes (e.g., "TLL", "HEL"); `date_from`, `return_from` (ISO).
+   - **Skyscanner params**: `from_location`/`to_location` can be city or IATA, but the API expects `placeIdFrom`/`placeIdTo` under the hood—**use IATA codes** and let the tool resolve. Set `date` and `return_date` (ISO).
+   - **search-incomplete**: If Skyscanner status is `incomplete`, poll `/flights/search-incomplete` with the returned `sessionId` until `status == "complete"`.
    - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"` as requested.
-   - **Passengers**: Always include `adults`, `children`, `infants` counts if specified.
+   - **Passengers**: Always include `adults`, `children`, `infants` when specified.
 
 ## FEW-SHOT EXAMPLES (User Prompt → Tool Call):
 
 **User**: "Find flights from Tallinn to Helsinki on December 10th"
-**Kiwi**: search_flights(from_location="TLL", to_location="HEL", date_from="2024-12-10")
-**Skyscanner**: search_flights_sky(from_location="Tallinn", to_location="Helsinki", date="2024-12-10")
+**Kiwi**: search_flights(from_location="TLL", to_location="HEL", date_from="2025-12-10")
+**Skyscanner**: search_flights_sky(from_location="TLL", to_location="HEL", date="2025-12-10")
+If status is incomplete → call flights_search_incomplete(sessionId=...) until complete.
 
 **User**: "Cheapest flights from London to Paris between December 10-20"
-**Kiwi**: search_flights(from_location="LHR", to_location="CDG", date_from="2024-12-10", date_to="2024-12-20")
-**Skyscanner**: search_flights_sky(from_location="London", to_location="Paris", date="2024-12-10")
+**Kiwi**: search_flights(from_location="LHR", to_location="CDG", date_from="2025-12-10", date_to="2025-12-20")
+**Skyscanner**: search_flights_sky(from_location="LHR", to_location="CDG", date="2025-12-10", return_date="2025-12-20")
 
 **User**: "Round trip from NYC to Tokyo, leaving Dec 15, returning Dec 25"
-**Kiwi**: search_flights(from_location="JFK", to_location="NRT", date_from="2024-12-15", return_from="2024-12-25")
-**Skyscanner**: search_flights_sky(from_location="New York", to_location="Tokyo", date="2024-12-15", return_date="2024-12-25")
+**Kiwi**: search_flights(from_location="JFK", to_location="NRT", date_from="2025-12-15", return_from="2025-12-25")
+**Skyscanner**: search_flights_sky(from_location="JFK", to_location="NRT", date="2025-12-15", return_date="2025-12-25")
 
 **User**: "Business class flights from Dubai to Singapore for 2 adults and 1 child"
-**Kiwi**: search_flights(from_location="DXB", to_location="SIN", date_from="2024-12-10", cabin_class="BUSINESS", adults=2, children=1)
-**Skyscanner**: search_flights_sky(from_location="Dubai", to_location="Singapore", date="2024-12-10", cabin_class="business", adults=2)
+**Kiwi**: search_flights(from_location="DXB", to_location="SIN", date_from="2025-12-10", cabin_class="BUSINESS", adults=2, children=1)
+**Skyscanner**: search_flights_sky(from_location="DXB", to_location="SIN", date="2025-12-10", cabin_class="business", adults=2)
 
 **User**: "Skyscanner didn't find good flights, try Google or Booking"
 **Action**: search_google_flights(from_location="London", to_location="Paris", date="2024-12-15")
