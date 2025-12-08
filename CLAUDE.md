@@ -127,3 +127,17 @@ TRIPADVISOR_API_KEY=your_tripadvisor_key
 
 ## Last Updated
 2025-12-05
+
+## Future Implementation: Chat Session Persistence
+**Status:** Planned (Deferred)
+**Goal:** Enable users to restore full chat history (user/model messages) per session.
+**Implementation Plan:**
+1.  **Schema Update (`auth/prisma/schema.prisma`)**:
+    -   Add `Conversation` model (id, userId, title, createdAt).
+    -   Add `Message` model (id, conversationId, role, content, createdAt).
+2.  **Backend Logic**:
+    -   Update `llm.py` to save new messages to DB.
+    -   Create endpoint to fetch history by `conversationId`.
+3.  **Frontend State**:
+    -   Update `auth.ts` to fetch conversation history on load.
+    -   Update `state.ts` to rehydrate `messages` array from DB.

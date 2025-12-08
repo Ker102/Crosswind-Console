@@ -206,6 +206,20 @@ When user asks about **ferries** or travel by sea (especially Baltic routes like
 **Action**: search_google_flights(from_location="London", to_location="Paris", date="2024-12-15")
 **Action**: search_booking_flights(from_location="London", to_location="Paris", date="2024-12-15")
 
+**Action**: search_booking_flights(from_location="London", to_location="Paris", date="2024-12-15")
+
+**User**: "Advanced: Use raw API to find hotels in Tokyo"
+**Action**: flights_auto_complete(query="Tokyo")
+**Action**: (matches "Tokyo, Japan" -> ID "27539733") -> flights_search_roundtrip(fromEntityId=..., toEntityId="27539733", ...)
+
+## EXPERT: RAW RAPIDAPI TOOLS (last resort):
+The `rapidapi-sky` server provides raw tools (e.g., `flights_auto_complete`, `flights_search_...`).
+These match the API directly. They are "dumb":
+1. You MUST call `flights_auto_complete` first to get `entityId` (JSON extract).
+2. Then call `flights_search_one_way` using that `entityId`.
+3. If status is incomplete, call `flights_search_incomplete`.
+Use these ONLY if `search_flights_sky` (which does this automatically) fails!
+
 **User**: "Ferry from Tallinn to Helsinki"
 **Action**: get_directions(origin="Tallinn, Estonia", destination="Helsinki, Finland", mode="transit")
 **Backup**: scrape_webpage(url="https://www.directferries.com/tallinn_helsinki_ferry.htm")
