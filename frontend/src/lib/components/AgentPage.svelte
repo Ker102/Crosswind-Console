@@ -423,6 +423,388 @@
 </div>
 
 <style>
+    /* Container */
+    .agent-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Plants Background (Jobs Theme) */
+    .plants-bg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.08;
+    }
+    .plant {
+        position: absolute;
+        color: var(--primary);
+    }
+    .p1 {
+        top: 10%;
+        left: 5%;
+    }
+    .p2 {
+        top: 60%;
+        left: 8%;
+    }
+    .p3 {
+        bottom: 15%;
+        left: 15%;
+    }
+    .p4 {
+        top: 20%;
+        right: 8%;
+    }
+    .p5 {
+        bottom: 25%;
+        right: 5%;
+    }
+    .p6 {
+        top: 50%;
+        right: 12%;
+    }
+
+    /* Top Bar */
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(128, 128, 128, 0.05);
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        position: relative;
+        z-index: 10;
+    }
+
+    .left-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .back-btn {
+        background: transparent;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        color: var(--text);
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    .back-btn:hover {
+        background: rgba(128, 128, 128, 0.1);
+    }
+
+    .category-selector {
+        position: relative;
+    }
+
+    .cat-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        color: var(--text);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+    .cat-btn:hover {
+        background: rgba(128, 128, 128, 0.1);
+    }
+
+    .cat-name {
+        font-weight: 600;
+    }
+
+    .dropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        background: var(--card-bg);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+        min-width: 150px;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+    }
+    .dropdown-item:hover {
+        background: rgba(128, 128, 128, 0.1);
+    }
+
+    .cat-desc {
+        color: var(--text);
+        opacity: 0.6;
+        font-size: 0.85rem;
+    }
+
+    .model-toggle {
+        display: flex;
+        gap: 0.5rem;
+        background: rgba(128, 128, 128, 0.1);
+        padding: 0.25rem;
+        border-radius: 8px;
+    }
+
+    .model-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        opacity: 0.6;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+    }
+    .model-btn:hover {
+        opacity: 0.8;
+    }
+    .model-btn.active {
+        background: var(--primary);
+        color: #fff;
+        opacity: 1;
+    }
+
+    /* Chat Area */
+    .chat-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Empty State */
+    .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        max-width: 700px;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .icon-ring {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(128, 128, 128, 0.05);
+        border: 2px solid var(--primary);
+    }
+
+    .gradient-title {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+    }
+
+    .powered-by-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .active-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--primary);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .powered-by-text {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin: 0;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .stat-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(128, 128, 128, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.7;
+    }
+
+    /* Tools List */
+    .tools-list {
+        width: 100%;
+    }
+
+    .tools-list h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+        margin-bottom: 1rem;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .tool-tag {
+        background: var(--card-bg);
+        border: 1px solid rgba(128, 128, 128, 0.15);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+
+    /* Guidance */
+    .guidance {
+        background: var(--card-bg);
+        border: 1px solid rgba(128, 128, 128, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        width: 100%;
+    }
+
+    .guidance p {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.85;
+    }
+
+    /* Messages */
+    .messages {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .message-spacer {
+        height: 1rem;
+    }
+
+    .message {
+        display: flex;
+        flex-direction: column;
+        max-width: 80%;
+    }
+
+    .message.user {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+
+    .message.assistant,
+    .message.model {
+        align-self: flex-start;
+    }
+
+    .msg-content {
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .message.user .msg-content {
+        background: var(--primary);
+        color: #fff;
+        border-bottom-right-radius: 2px;
+    }
+
+    .message.assistant .msg-content,
+    .message.model .msg-content {
+        background: rgba(128, 128, 128, 0.1);
+        color: var(--text);
+        border-bottom-left-radius: 2px;
+    }
+
     /* Global Markdown Styles */
     :global(.markdown-body) {
         font-family: inherit;
