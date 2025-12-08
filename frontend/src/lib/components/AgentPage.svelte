@@ -425,7 +425,7 @@
 <style>
     /* Container */
     .agent-container {
-        min-height: 100vh;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         background: var(--bg);
@@ -609,6 +609,7 @@
         align-items: center;
         position: relative;
         z-index: 1;
+        min-height: 0; /* Important for flex child scrolling */
     }
 
     /* Empty State */
@@ -930,12 +931,13 @@
 
     /* Input Area */
     .input-area {
-        padding: 2rem;
+        padding: 1.5rem 2rem;
         background: var(--bg);
         display: flex;
         justify-content: center;
         border-top: 1px solid rgba(128, 128, 128, 0.1);
         z-index: 100;
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .input-wrapper {

@@ -165,20 +165,57 @@ class GeminiClient:
 - search_ground_transport
 
 ## BACKUP TOOLS (use when primary tools don't give complete info):
+- **FLIGHTS BACKUP**: search_google_flights, search_booking_flights
 - web_search, scrape_webpage, crawl_website
+
+## FERRY & SEA TRAVEL:
+When user asks about **ferries** or travel by sea (especially Baltic routes like Tallinn-Helsinki):
+1. **FIRST**: Use `get_directions(origin="Tallinn", destination="Helsinki", mode="transit")` - Google includes ferry routes!
+2. **BACKUP**: Use `scrape_webpage` on directferries.com for schedules/prices
+3. **BACKUP**: Use `web_search` for "Tallinn Helsinki ferry schedule [month] [year]"
+4. Major operators: Tallink Silja, Viking Line, Eckerö Line, Finnlines
 
 ## RULES:
 1. **For flight searches**: Call BOTH search_flights AND search_flights_sky to give user best price comparison.
-   - **Dates**: Use `date_from`/`date_to` (Kiwi) for ranges. Use `whole_month` (Skyscanner) for flexible monthly searches.
-   - **Round Trip**: Set `return_from`/`return_to` (Kiwi) or `return_date` (Skyscanner).
-   - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"`/`"FIRST_CLASS"` as requested.
+   - **Location format (Kiwi)**: Use IATA airport codes directly (e.g., "TLL", "HEL") NOT prefixed.
+   - **Location format (Skyscanner)**: Use city names (e.g., "Tallinn", "Helsinki").
+   - **Date format**: ALWAYS use YYYY-MM-DD (e.g., "2024-12-10").
+   - **Round Trip**: Set `return_from` (Kiwi) or `return_date` (Skyscanner).
+   - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"` as requested.
    - **Passengers**: Always include `adults`, `children`, `infants` counts if specified.
+
+## FEW-SHOT EXAMPLES (User Prompt → Tool Call):
+
+**User**: "Find flights from Tallinn to Helsinki on December 10th"
+**Kiwi**: search_flights(from_location="TLL", to_location="HEL", date_from="2024-12-10")
+**Skyscanner**: search_flights_sky(from_location="Tallinn", to_location="Helsinki", date="2024-12-10")
+
+**User**: "Cheapest flights from London to Paris between December 10-20"
+**Kiwi**: search_flights(from_location="LHR", to_location="CDG", date_from="2024-12-10", date_to="2024-12-20")
+**Skyscanner**: search_flights_sky(from_location="London", to_location="Paris", date="2024-12-10")
+
+**User**: "Round trip from NYC to Tokyo, leaving Dec 15, returning Dec 25"
+**Kiwi**: search_flights(from_location="JFK", to_location="NRT", date_from="2024-12-15", return_from="2024-12-25")
+**Skyscanner**: search_flights_sky(from_location="New York", to_location="Tokyo", date="2024-12-15", return_date="2024-12-25")
+
+**User**: "Business class flights from Dubai to Singapore for 2 adults and 1 child"
+**Kiwi**: search_flights(from_location="DXB", to_location="SIN", date_from="2024-12-10", cabin_class="BUSINESS", adults=2, children=1)
+**Skyscanner**: search_flights_sky(from_location="Dubai", to_location="Singapore", date="2024-12-10", cabin_class="business", adults=2)
+
+**User**: "Skyscanner didn't find good flights, try Google or Booking"
+**Action**: search_google_flights(from_location="London", to_location="Paris", date="2024-12-15")
+**Action**: search_booking_flights(from_location="London", to_location="Paris", date="2024-12-15")
+
+**User**: "Ferry from Tallinn to Helsinki"
+**Action**: get_directions(origin="Tallinn, Estonia", destination="Helsinki, Finland", mode="transit")
+**Backup**: scrape_webpage(url="https://www.directferries.com/tallinn_helsinki_ferry.htm")
+
 2. **For accommodation**: Use `search_airbnb` for apartments/longer stays and `search_hotels` for hotels.
 3. **Always use get_directions** for "how to get from A to B" questions with specific transport info
 4. **Chain tools**: geocode first, then search nearby places
-4. **Be confident**: Include exact bus/tram numbers, walking times, station names
-5. **Never hedge** - present all tool results as helpful information
-6. **Transportation answers MUST include**: specific route numbers, departure points, total journey time
+5. **Be confident**: Include exact bus/tram numbers, walking times, station names
+6. **Never hedge** - present all tool results as helpful information
+7. **Transportation answers MUST include**: specific route numbers, departure points, total journey time
 
 ## RESPONSE STYLE:
 - Bullet points or numbered steps for directions

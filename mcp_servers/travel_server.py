@@ -1,5 +1,6 @@
 import os
 import httpx
+import asyncio
 from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP server
@@ -7,6 +8,7 @@ mcp = FastMCP("travel")
 
 # API keys are read at call time in each function to ensure proper loading
 
+@mcp.tool()
 @mcp.tool()
 async def search_flights(
     from_location: str,
@@ -22,16 +24,16 @@ async def search_flights(
     infants: int = 0
 ) -> str:
     """
-    Search for flights using the Kiwi.com API.
+    Search for flights using the Kiwi.com API (RapidAPI Wrapper).
     Supports one-way, round-trip, date ranges, and class filters.
     
     Args:
         from_location: Origin city/airport code (e.g., "LHR", "city:LON", "country:GB").
         to_location: Destination city/airport code (e.g., "JFK", "city:NYC").
-        date_from: Departure date start (DD/MM/YYYY).
-        date_to: Departure date end (DD/MM/YYYY). Defaults to date_from if not set.
-        return_from: Return date start (DD/MM/YYYY) for round trips.
-        return_to: Return date end (DD/MM/YYYY) for round trips. Defaults to return_from.
+        date_from: Departure date (DD-MM-YYYY or YYYY-MM-DD).
+        date_to: Optional departure date end range.
+        return_from: Return date (DD-MM-YYYY or YYYY-MM-DD) for round trips.
+        return_to: Optional return date end range.
         cabin_class: "ECONOMY", "ECONOMY_PREMIUM", "BUSINESS", or "FIRST_CLASS".
         direct_only: If True, searches only for direct flights.
         adults: Number of adult passengers (default 1).
@@ -43,32 +45,33 @@ async def search_flights(
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY environment variable is not set."
 
-    url = f"https://{RAPIDAPI_HOST}/search"
+    # Determine endpoint based on return date (Round Trip vs One Way)
+    if return_from:
+        url = f"https://{RAPIDAPI_HOST}/round-trip"
+    else:
+        url = f"https://{RAPIDAPI_HOST}/one-way"
     
-    # Handle optional date_to defaulting to date_from
-    if not date_to:
-        date_to = date_from
-
+    # Map parameters to RapidAPI Wrapper expectation
+    # wrapper params: source, destination, date, returnDate (for round trip)
     querystring = {
-        "fly_from": from_location,
-        "fly_to": to_location,
-        "date_from": date_from,
-        "date_to": date_to,
-        "curr": "USD",
+        "source": from_location,
+        "destination": to_location,
+        "date": date_from, # Wrapper usually expects single date or handling range isn't standard in this specific wrapper's basic endpoints, but passing primary date
+        "currency": "USD",
         "sort": "price",
         "limit": "10",
         "adults": str(adults),
         "children": str(children),
         "infants": str(infants),
-        "selected_cabins": cabin_class
+        "cabinClass": cabin_class,
+        "sortBy": "PRICE"
     }
 
     if return_from:
-        querystring["return_from"] = return_from
-        querystring["return_to"] = return_to or return_from
-
+        querystring["returnDate"] = return_from
+        
     if direct_only:
-        querystring["max_stopovers"] = "0"
+        querystring["maxStopsCount"] = "0"
 
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
@@ -81,38 +84,63 @@ async def search_flights(
             response.raise_for_status()
             data = response.json()
             
-            if "data" not in data or not data["data"]:
-                return "No flights found for the specified criteria."
+            # Wrapper response structure might differ. 
+            # Usually data['data'] contains list of flights or data itself is a list
+            # Let's handle generic 'data' key or direct list
+            flights = data.get("data", []) if isinstance(data, dict) else data
+            
+            if not flights:
+                 # Try deeper 'data' nesting which some wrappers use
+                 if isinstance(data, dict) and "data" in data and isinstance(data["data"], dict) and "itineraries" in data["data"]:
+                     flights = data["data"]["itineraries"]
+                 else:
+                    return f"No flights found from {from_location} to {to_location}."
 
             results = []
-            for flight in data["data"]:
+            for flight in flights[:10]:
                 price = flight.get("price", "N/A")
-                currency = data.get("currency", "USD")
+                if isinstance(price, dict): # Sometimes price is an object
+                     price = price.get("amount", "N/A")
+                     
                 deep_link = flight.get("deep_link", "")
-                duration_secs = flight.get("duration", {}).get("total", 0)
-                duration_formatted = f"{duration_secs // 3600}h {(duration_secs % 3600) // 60}m"
                 
-                # Extract route details
+                # Duration
+                duration_formatted = "N/A"
+                if "duration" in flight:
+                    if isinstance(flight["duration"], dict):
+                        total_secs = flight["duration"].get("total", 0)
+                        duration_formatted = f"{total_secs // 3600}h {(total_secs % 3600) // 60}m"
+                    else:
+                        duration_formatted = str(flight["duration"])
+
+                # Route info
                 route_info = []
-                for leg in flight.get("route", []):
+                # Check for 'route' or 'legs'
+                legs = flight.get("route", []) or flight.get("legs", [])
+                for leg in legs:
                     airline = leg.get("airline", "Unknown")
                     flight_no = leg.get("flight_no", "")
                     dep_city = leg.get("cityFrom", "Unknown")
                     arr_city = leg.get("cityTo", "Unknown")
-                    dep_time = leg.get("local_departure", "")[:16].replace("T", " ")
-                    arr_time = leg.get("local_arrival", "")[:16].replace("T", " ")
+                    
+                    # Local timestamps
+                    dep_time = leg.get("local_departure", "") or leg.get("departure", "")
+                    arr_time = leg.get("local_arrival", "") or leg.get("arrival", "")
+                    dep_time = dep_time[:16].replace("T", " ")
+                    arr_time = arr_time[:16].replace("T", " ")
+                    
                     route_info.append(f"{airline} {flight_no}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
 
-                stops = len(flight.get("route", [])) - 1
+                stops = len(legs) - 1
                 stop_label = "Direct" if stops == 0 else f"{stops} Stop(s)"
 
                 results.append(
-                    f"✈️ {price} {currency} | {duration_formatted} | {stop_label}\n"
+                    f"✈️ {price} USD | {duration_formatted} | {stop_label}\n"
                     f"Route: {' | '.join(route_info)}\n"
                     f"Link: {deep_link}\n---"
                 )
 
-            return "\n".join(results)
+            return "\n".join(results) if results else "No flight details available."
 
         except httpx.HTTPStatusError as e:
             return f"API Error: {e.response.status_code} - {e.response.text}"
@@ -232,8 +260,8 @@ async def search_hotels(latitude: float, longitude: float, checkin_date: str, ch
         except Exception as e:
             return f"Error searching hotels: {str(e)}"
 
-@mcp.tool()
-async def search_flights_sky(
+async def _execute_sky_search(
+    endpoint_prefix: str,
     from_location: str,
     to_location: str,
     date: str = None,
@@ -242,19 +270,7 @@ async def search_flights_sky(
     cabin_class: str = "economy",
     adults: int = 1
 ) -> str:
-    """
-    Search for flights using Flights Sky (Skyscanner) API.
-    Supports specific dates, whole month searches, and round trips.
-    
-    Args:
-        from_location: Origin city or airport (e.g., "Tallinn", "New York").
-        to_location: Destination city or airport (e.g., "Helsinki", "Paris").
-        date: Departure date (YYYY-MM-DD). Required unless whole_month is set.
-        whole_month: Search whole month (YYYY-MM). Only valid if date is NOT set.
-        return_date: Return date (YYYY-MM-DD) for round trips.
-        cabin_class: "economy", "premium_economy", "business", "first".
-        adults: Number of adult passengers.
-    """
+    """Helper to execute flight search on various Sky implementations (web, google, booking)."""
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
@@ -267,15 +283,23 @@ async def search_flights_sky(
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
             # Step 1: Auto-complete to get entity IDs for origin
-            auto_url = "https://flights-sky.p.rapidapi.com/flights/auto-complete"
+            # Note: Auto-complete is always under /web/flights/auto-complete in this API wrapper
+            auto_url = "https://flights-sky.p.rapidapi.com/web/flights/auto-complete"
             
             from_response = await client.get(auto_url, headers=headers, params={"query": from_location})
             from_response.raise_for_status()
             from_data = from_response.json()
             
+            # Extract entity ID 
             from_entity = None
-            if from_data.get("data"):
-                from_entity = from_data["data"][0].get("id") or from_data["data"][0].get("entityId")
+            if from_data.get("data") and len(from_data["data"]) > 0:
+                item = from_data["data"][0]
+                from_entity = (
+                    item.get("presentation", {}).get("id") or
+                    item.get("navigation", {}).get("entityId") or
+                    item.get("entityId") or
+                    item.get("id")
+                )
             
             if not from_entity:
                 return f"Could not find airport/city for: {from_location}"
@@ -286,8 +310,14 @@ async def search_flights_sky(
             to_data = to_response.json()
             
             to_entity = None
-            if to_data.get("data"):
-                to_entity = to_data["data"][0].get("id") or to_data["data"][0].get("entityId")
+            if to_data.get("data") and len(to_data["data"]) > 0:
+                item = to_data["data"][0]
+                to_entity = (
+                    item.get("presentation", {}).get("id") or
+                    item.get("navigation", {}).get("entityId") or
+                    item.get("entityId") or
+                    item.get("id")
+                )
             
             if not to_entity:
                 return f"Could not find airport/city for: {to_location}"
@@ -303,23 +333,20 @@ async def search_flights_sky(
                 "cabinClass": cabin_class
             }
 
+            base_search_url = f"https://flights-sky.p.rapidapi.com{endpoint_prefix}"
+            
             if whole_month:
-                # Whole month search logic
-                # Note: Currently using one-way/round-trip endpoint with wholeMonthDepart param if supported,
-                # otherwise this API usually requires a different endpoint or strategy. 
-                # Based on research, 'wholeMonthDepart' (YYYY-MM) is supported on some endpoints.
+                if endpoint_prefix != "/web/flights":
+                     return "Error: whole_month is only supported for standard Skyscanner search."
                 search_params["wholeMonthDepart"] = whole_month
-                search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way" # Use one-way base
-                if return_date: # Round trip with whole month?
-                     # Complex scenario, stick to basic whole month one-way or return if supported
-                     pass
+                search_url = f"{base_search_url}/search-one-way" # Usually handles it via param
             elif date:
                 search_params["departDate"] = date
                 if return_date:
                     search_params["returnDate"] = return_date
-                    search_url = "https://flights-sky.p.rapidapi.com/flights/search-roundtrip"
+                    search_url = f"{base_search_url}/search-roundtrip"
                 else:
-                    search_url = "https://flights-sky.p.rapidapi.com/flights/search-one-way"
+                    search_url = f"{base_search_url}/search-one-way"
             else:
                 return "Error: Must provide either 'date' or 'whole_month'."
 
@@ -327,40 +354,99 @@ async def search_flights_sky(
             search_response.raise_for_status()
             data = search_response.json()
             
-            # Parse itineraries
+            # handle incomplete, etc. same logic
+            context = data.get("context", {})
+            status = context.get("status", "complete")
+            session_id = context.get("sessionId")
+            
+            if status == "incomplete" and session_id:
+                # Use standard incomplete endpoint for all (shared usually)
+                incomplete_url = "https://flights-sky.p.rapidapi.com/web/flights/search-incomplete"
+                retries = 0
+                max_retries = 3
+                while status == "incomplete" and retries < max_retries:
+                    await asyncio.sleep(1.5)
+                    poll_response = await client.get(incomplete_url, headers=headers, params={"sessionId": session_id})
+                    if poll_response.status_code == 200:
+                        data = poll_response.json()
+                        status = data.get("context", {}).get("status", "complete")
+                    else:
+                        break
+                    retries += 1
+            
+            # Parse
             itineraries = data.get("data", {}).get("itineraries", [])
             if not itineraries:
-                return f"No flights found from {from_location} to {to_location}."
+                 if isinstance(data.get("data"), list):
+                     itineraries = data.get("data")
+
+            if not itineraries:
+                return "No flights found."
             
             results = []
-            for itin in itineraries[:8]:  # Top 8
+            for itin in itineraries[:8]:
                 price = itin.get("price", {}).get("formatted", "N/A")
                 legs = itin.get("legs", [])
-                
                 leg_summaries = []
                 for leg in legs:
-                    origin = leg.get("origin", {}).get("name", "")
-                    dest = leg.get("destination", {}).get("name", "")
-                    departure = leg.get("departure", "")[:16].replace("T", " ")
-                    arrival = leg.get("arrival", "")[:16].replace("T", " ")
-                    duration = leg.get("durationInMinutes", 0)
-                    hours, mins = divmod(duration, 60)
-                    
-                    carriers = leg.get("carriers", {}).get("marketing", [])
-                    airline = carriers[0].get("name", "Unknown") if carriers else "Unknown"
-                    stops = leg.get("stopCount", 0)
-                    stop_text = "Direct" if stops == 0 else f"{stops} stop(s)"
-                    
-                    leg_summaries.append(f"{origin}->{dest} ({airline}, {stop_text}) {departure}")
-
+                    origin_name = leg.get("origin", {}).get("name", "")
+                    dest_name = leg.get("destination", {}).get("name", "")
+                    carrier_list = leg.get("carriers", {}).get("marketing", [])
+                    airline = carrier_list[0].get("name", "Unknown") if carrier_list else "Unknown"
+                    timestamp = leg.get("departure", "")[:16].replace("T", " ")
+                    leg_summaries.append(f"{origin_name}->{dest_name} ({airline}) {timestamp}")
                 results.append(f"✈️ {price} | {' | '.join(leg_summaries)}\n---")
             
-            return "\n".join(results) if results else "No flight details available."
+            return "\n".join(results)
 
-        except httpx.HTTPStatusError as e:
-            return f"Sky API Error: {e.response.status_code} - {e.response.text[:200]}"
         except Exception as e:
-            return f"Error searching Sky flights: {str(e)}"
+            return f"Error executing flight search: {str(e)}"
+
+@mcp.tool()
+async def search_flights_sky(
+    from_location: str,
+    to_location: str,
+    date: str = None,
+    whole_month: str = None,
+    return_date: str = None,
+    cabin_class: str = "economy",
+    adults: int = 1
+) -> str:
+    """
+    Search for flights using Skyscanner (via Flights Sky API).
+    Supports specific dates, whole month, and round trips.
+    """
+    return await _execute_sky_search("/web/flights", from_location, to_location, date, whole_month, return_date, cabin_class, adults)
+
+@mcp.tool()
+async def search_google_flights(
+    from_location: str,
+    to_location: str,
+    date: str,
+    return_date: str = None,
+    cabin_class: str = "economy",
+    adults: int = 1
+) -> str:
+    """
+    Search for flights using Google Flights (via Flights Sky API).
+    Useful backup if Skyscanner fails. Requires specific date (no whole_month).
+    """
+    return await _execute_sky_search("/google/flights", from_location, to_location, date, None, return_date, cabin_class, adults)
+
+@mcp.tool()
+async def search_booking_flights(
+    from_location: str,
+    to_location: str,
+    date: str,
+    return_date: str = None,
+    cabin_class: str = "economy",
+    adults: int = 1
+) -> str:
+    """
+    Search for flights using Booking.com (via Flights Sky API).
+    Useful backup if Skyscanner fails. Requires specific date (no whole_month).
+    """
+    return await _execute_sky_search("/booking/flights", from_location, to_location, date, None, return_date, cabin_class, adults)
 
 # Google API keys are read at call time in each function
 
@@ -626,6 +712,7 @@ async def reverse_geocode(latitude: float, longitude: float) -> str:
 async def text_search_places(query: str, location: str = None) -> str:
     """
     Search for places using a text query. Great for finding restaurants, attractions, or any POI.
+    Uses the new Google Places API (New) for better results.
     
     Args:
         query: Text query like "Best pizza in Rome" or "Museums near Eiffel Tower".
@@ -635,46 +722,75 @@ async def text_search_places(query: str, location: str = None) -> str:
     if not GOOGLE_API_KEY:
         return "Error: GOOGLE_MAPS_API_KEY is not set."
 
-    # Using the Places API Text Search endpoint
-    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    params = {
-        "query": query,
-        "key": GOOGLE_API_KEY
+    # Using the Places API (New) Text Search endpoint
+    url = "https://places.googleapis.com/v1/places:searchText"
+    
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": GOOGLE_API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.types,places.currentOpeningHours,places.priceLevel,places.websiteUri"
     }
     
+    # Build request body
+    body = {
+        "textQuery": query,
+        "maxResultCount": 5
+    }
+    
+    # Add location bias if provided
     if location:
         # Check if location is already lat,lng format
-        if "," in location and all(part.replace(".", "").replace("-", "").isdigit() for part in location.split(",")):
-            params["location"] = location
-            params["radius"] = 50000  # 50km radius
+        if "," in location:
+            parts = location.split(",")
+            if len(parts) == 2:
+                try:
+                    lat = float(parts[0].strip())
+                    lng = float(parts[1].strip())
+                    body["locationBias"] = {
+                        "circle": {
+                            "center": {"latitude": lat, "longitude": lng},
+                            "radius": 50000.0  # 50km radius
+                        }
+                    }
+                except ValueError:
+                    # Not a valid lat,lng, treat as text
+                    body["textQuery"] = f"{query} near {location}"
         else:
             # It's a text location, add to query
-            params["query"] = f"{query} near {location}"
+            body["textQuery"] = f"{query} near {location}"
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, params=params)
+            response = await client.post(url, headers=headers, json=body)
             response.raise_for_status()
             data = response.json()
             
-            if data.get("status") not in ["OK", "ZERO_RESULTS"]:
-                return f"Places search failed: {data.get('status')} - {data.get('error_message', '')}"
-            
-            if not data.get("results"):
+            places = data.get("places", [])
+            if not places:
                 return "No places found for your search."
             
             results = []
-            for place in data["results"][:5]:  # Top 5 results
-                name = place.get("name", "Unknown")
-                address = place.get("formatted_address", "No address")
+            for place in places:
+                name = place.get("displayName", {}).get("text", "Unknown")
+                address = place.get("formattedAddress", "No address")
                 rating = place.get("rating", "N/A")
-                user_ratings = place.get("user_ratings_total", 0)
+                user_ratings = place.get("userRatingCount", 0)
                 types = ", ".join(place.get("types", [])[:3])
-                open_now = place.get("opening_hours", {}).get("open_now")
+                
+                # Check opening hours
+                open_now = None
+                if "currentOpeningHours" in place:
+                    open_now = place["currentOpeningHours"].get("openNow")
                 open_status = "Open now" if open_now else ("Closed" if open_now is False else "Hours unknown")
                 
+                # Price level
+                price = place.get("priceLevel", "")
+                price_str = {"PRICE_LEVEL_FREE": "Free", "PRICE_LEVEL_INEXPENSIVE": "$", 
+                            "PRICE_LEVEL_MODERATE": "$$", "PRICE_LEVEL_EXPENSIVE": "$$$",
+                            "PRICE_LEVEL_VERY_EXPENSIVE": "$$$$"}.get(price, "")
+                
                 results.append(
-                    f"📍 {name}\n"
+                    f"📍 {name} {price_str}\n"
                     f"   Address: {address}\n"
                     f"   Rating: {rating}⭐ ({user_ratings} reviews)\n"
                     f"   Type: {types}\n"
@@ -682,13 +798,17 @@ async def text_search_places(query: str, location: str = None) -> str:
                 )
             
             return "\n".join(results)
+        except httpx.HTTPStatusError as e:
+            error_detail = e.response.text if e.response else str(e)
+            return f"Places API error: {e.response.status_code} - {error_detail}"
         except Exception as e:
             return f"Error searching places: {str(e)}"
 
 @mcp.tool()
 async def search_places_nearby(latitude: float, longitude: float, place_type: str, radius_meters: int = 1500) -> str:
     """
-    Find places near a specific location by type. Use after getting coordinates from geocode_address.
+    Find places near a specific location by type. Uses the new Google Places API (New).
+    Use after getting coordinates from geocode_address.
     
     Args:
         latitude: Center point latitude.
@@ -700,42 +820,60 @@ async def search_places_nearby(latitude: float, longitude: float, place_type: st
     if not GOOGLE_API_KEY:
         return "Error: GOOGLE_MAPS_API_KEY is not set."
 
-    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-    params = {
-        "location": f"{latitude},{longitude}",
-        "radius": min(radius_meters, 50000),
-        "type": place_type,
-        "key": GOOGLE_API_KEY
+    # Using the Places API (New) Nearby Search endpoint
+    url = "https://places.googleapis.com/v1/places:searchNearby"
+    
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": GOOGLE_API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.types,places.currentOpeningHours,places.priceLevel"
+    }
+    
+    # Build request body
+    body = {
+        "includedTypes": [place_type],
+        "maxResultCount": 7,
+        "locationRestriction": {
+            "circle": {
+                "center": {"latitude": latitude, "longitude": longitude},
+                "radius": min(float(radius_meters), 50000.0)
+            }
+        }
     }
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, params=params)
+            response = await client.post(url, headers=headers, json=body)
             response.raise_for_status()
             data = response.json()
             
-            if data.get("status") not in ["OK", "ZERO_RESULTS"]:
-                return f"Nearby search failed: {data.get('status')}"
-            
-            if not data.get("results"):
+            places = data.get("places", [])
+            if not places:
                 return f"No {place_type}s found within {radius_meters}m."
             
             results = []
-            for place in data["results"][:7]:  # Top 7 results
-                name = place.get("name", "Unknown")
-                vicinity = place.get("vicinity", "No address")
+            for place in places:
+                name = place.get("displayName", {}).get("text", "Unknown")
+                address = place.get("formattedAddress", "No address")
                 rating = place.get("rating", "N/A")
-                user_ratings = place.get("user_ratings_total", 0)
-                open_now = place.get("opening_hours", {}).get("open_now")
+                user_ratings = place.get("userRatingCount", 0)
+                
+                # Check opening hours
+                open_now = None
+                if "currentOpeningHours" in place:
+                    open_now = place["currentOpeningHours"].get("openNow")
                 open_status = "🟢 Open" if open_now else ("🔴 Closed" if open_now is False else "")
                 
                 results.append(
                     f"📍 {name} {open_status}\n"
-                    f"   {vicinity}\n"
+                    f"   {address}\n"
                     f"   Rating: {rating}⭐ ({user_ratings} reviews)\n---"
                 )
             
             return "\n".join(results)
+        except httpx.HTTPStatusError as e:
+            error_detail = e.response.text if e.response else str(e)
+            return f"Nearby API error: {e.response.status_code} - {error_detail}"
         except Exception as e:
             return f"Error searching nearby: {str(e)}"
 
