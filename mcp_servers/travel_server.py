@@ -294,11 +294,15 @@ async def _execute_sky_search(
             from_entity = None
             if from_data.get("data") and len(from_data["data"]) > 0:
                 item = from_data["data"][0]
+                # RapidAPI payload may use different fields (PlaceId/IataCode/GeoId/etc.)
                 from_entity = (
-                    item.get("presentation", {}).get("id") or
-                    item.get("navigation", {}).get("entityId") or
-                    item.get("entityId") or
-                    item.get("id")
+                    item.get("PlaceId")
+                    or item.get("IataCode")
+                    or item.get("GeoId")
+                    or item.get("presentation", {}).get("id")
+                    or item.get("navigation", {}).get("entityId")
+                    or item.get("entityId")
+                    or item.get("id")
                 )
             
             if not from_entity:
@@ -313,10 +317,13 @@ async def _execute_sky_search(
             if to_data.get("data") and len(to_data["data"]) > 0:
                 item = to_data["data"][0]
                 to_entity = (
-                    item.get("presentation", {}).get("id") or
-                    item.get("navigation", {}).get("entityId") or
-                    item.get("entityId") or
-                    item.get("id")
+                    item.get("PlaceId")
+                    or item.get("IataCode")
+                    or item.get("GeoId")
+                    or item.get("presentation", {}).get("id")
+                    or item.get("navigation", {}).get("entityId")
+                    or item.get("entityId")
+                    or item.get("id")
                 )
             
             if not to_entity:
@@ -339,7 +346,7 @@ async def _execute_sky_search(
                 if endpoint_prefix != "/web/flights":
                      return "Error: whole_month is only supported for standard Skyscanner search."
                 search_params["wholeMonthDepart"] = whole_month
-                search_url = f"{base_search_url}/search-one-way" # Usually handles it via param
+                search_url = f"{base_search_url}/search-one-way"
             elif date:
                 search_params["departDate"] = date
                 if return_date:

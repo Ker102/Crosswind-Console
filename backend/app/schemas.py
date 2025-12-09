@@ -44,6 +44,7 @@ class LLMRequest(BaseModel):
     prompt: str
     context: list[Insight] | None = None
     history: list[ChatMessage] | None = None
+    travel_intent: dict[str, Any] | None = None
 
 
 class LLMResponse(BaseModel):

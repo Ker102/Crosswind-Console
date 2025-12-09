@@ -61,6 +61,34 @@
     let showDropdown = $state(false);
     let thinkingSteps = $state([]);
 
+    // Travel detailed vs sandbox and structured intent
+    let travelMode = $state<"detailed" | "sandbox">("detailed");
+    let tripType = $state<"one-way" | "round-trip" | "outbound-window" | "whole-month">(
+        "round-trip",
+    );
+    let transportMode = $state<"all" | "flights" | "ground" | "sea">("all");
+    let fromLocation = $state("");
+    let toLocation = $state("");
+    let departDate = $state("");
+    let returnDate = $state("");
+    let windowStart = $state("");
+    let windowEnd = $state("");
+    let wholeMonth = $state("");
+    let cabinClass = $state<
+        "ECONOMY" | "ECONOMY_PREMIUM" | "BUSINESS" | "FIRST_CLASS"
+    >("ECONOMY");
+    let directOnly = $state(false);
+    let adults = $state(1);
+    let children = $state(0);
+    let infants = $state(0);
+    let currency = $state("USD");
+    let accommodationsEnabled = $state(false);
+    let accommodationsCity = $state("");
+    let accommodationsPriceMin = $state<number | undefined>(undefined);
+    let accommodationsPriceMax = $state<number | undefined>(undefined);
+    let accommodationsMinRating = $state<number | undefined>(undefined);
+    let accommodationsMaxResults = $state(10);
+
     // Theme Configuration
     const themes = {
         travel: {
@@ -158,15 +186,51 @@
         capabilities[category] || capabilities.travel,
     );
 
-    const handleSubmit = async () => {
-        if (!prompt.trim()) return;
+    const getTravelIntent = () => {
+        if (category !== "travel" || travelMode === "sandbox") return undefined;
+        return {
+            mode: travelMode,
+            transportMode,
+            tripType,
+            from: fromLocation.trim(),
+            to: toLocation.trim(),
+            departDate: departDate || undefined,
+            returnDate: returnDate || undefined,
+            windowStart: windowStart || undefined,
+            windowEnd: windowEnd || undefined,
+            wholeMonth: wholeMonth || undefined,
+            cabinClass,
+            directOnly,
+            adults: Number(adults) || 1,
+            children: Number(children) || 0,
+            infants: Number(infants) || 0,
+            currency: currency || "USD",
+            accommodations: accommodationsEnabled
+                ? {
+                      enabled: true,
+                      city: (accommodationsCity || toLocation || "").trim() || undefined,
+                      priceMin: accommodationsPriceMin,
+                      priceMax: accommodationsPriceMax,
+                      minRating: accommodationsMinRating,
+                      maxResults: accommodationsMaxResults || 10,
+                      providers: ["booking", "airbnb", "tripadvisor"],
+                  }
+                : { enabled: false },
+        };
+    };
 
-        const currentPrompt = prompt;
+    const handleSubmit = async (overridePrompt?: string) => {
+        const chosenPrompt = overridePrompt ?? prompt;
+        if (!chosenPrompt.trim()) return;
+
+        const currentPrompt = chosenPrompt;
         const userMsg = { role: "user", content: currentPrompt };
 
         // Optimistically add user message
         messages = [...messages, userMsg];
-        prompt = "";
+        if (!overridePrompt) {
+            prompt = "";
+        }
         isThinking = true;
         thinkingSteps = [
             { text: "Sending request to Gemini...", status: "pending" },
@@ -194,6 +258,7 @@
                     role: m.role === "assistant" ? "model" : "user",
                     content: m.content,
                 })),
+                travel_intent: getTravelIntent(),
             });
 
             clearInterval(stepInterval);
@@ -308,6 +373,170 @@
         </div>
     </div>
 
+    {#if category === "travel"}
+        <div class="travel-panel">
+            <div class="mode-toggle">
+                <div class="left">
+                    <button
+                        type="button"
+                        class:active={travelMode === "detailed"}
+                        onclick={() => (travelMode = "detailed")}
+                    >
+                        Detailed (recommended)
+                    </button>
+                    <button
+                        type="button"
+                        class:active={travelMode === "sandbox"}
+                        onclick={() => (travelMode = "sandbox")}
+                    >
+                        Sandbox
+                    </button>
+                </div>
+                <button type="button" class="collapse-btn" onclick={() => (showTravelForm = !showTravelForm)}>
+                    {showTravelForm ? "Hide panel" : "Show panel"}
+                </button>
+            </div>
+
+            {#if travelMode === "detailed" && showTravelForm}
+                <div class="travel-form">
+                    <div class="form-grid compact">
+                        <div>
+                            <label>Trip type</label>
+                            <select bind:value={tripType}>
+                                <option value="one-way">One-way</option>
+                                <option value="round-trip">Round trip</option>
+                                <option value="outbound-window">Outbound window (Kiwi)</option>
+                                <option value="whole-month">Whole month (Skyscanner)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Travel mode</label>
+                            <select bind:value={transportMode}>
+                                <option value="all">All</option>
+                                <option value="flights">Flights only</option>
+                                <option value="ground">Ground only</option>
+                                <option value="sea">Sea only</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Currency</label>
+                            <input bind:value={currency} placeholder="USD" />
+                        </div>
+                        <div class="inline">
+                            <label>
+                                <input type="checkbox" bind:checked={directOnly} disabled={transportMode !== "all" && transportMode !== "flights"} />
+                                Direct only (flights)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div>
+                            <label>From</label>
+                            <input placeholder="e.g., TLL" bind:value={fromLocation} />
+                        </div>
+                        <div>
+                            <label>To</label>
+                            <input placeholder="e.g., HEL" bind:value={toLocation} />
+                        </div>
+                        {#if tripType !== "whole-month"}
+                            <div>
+                                <label>Depart</label>
+                                <input type="date" bind:value={departDate} />
+                            </div>
+                        {/if}
+                        {#if tripType === "round-trip"}
+                            <div>
+                                <label>Return</label>
+                                <input type="date" bind:value={returnDate} />
+                            </div>
+                        {/if}
+                        {#if tripType === "outbound-window"}
+                            <div>
+                                <label>Window start</label>
+                                <input type="date" bind:value={windowStart} />
+                            </div>
+                            <div>
+                                <label>Window end</label>
+                                <input type="date" bind:value={windowEnd} />
+                            </div>
+                        {/if}
+                        {#if tripType === "whole-month"}
+                            <div>
+                                <label>Whole month (YYYY-MM)</label>
+                                <input
+                                    type="month"
+                                    bind:value={wholeMonth}
+                                    placeholder="2025-12"
+                                />
+                            </div>
+                        {/if}
+                        <div>
+                            <label>Cabin (flights)</label>
+                            <select bind:value={cabinClass} disabled={transportMode !== "all" && transportMode !== "flights"}>
+                                <option value="ECONOMY">Economy</option>
+                                <option value="ECONOMY_PREMIUM">Premium Economy</option>
+                                <option value="BUSINESS">Business</option>
+                                <option value="FIRST_CLASS">First</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid passengers">
+                        <div>
+                            <label>Adults</label>
+                            <input type="number" min="1" bind:value={adults} />
+                        </div>
+                        <div>
+                            <label>Children</label>
+                            <input type="number" min="0" bind:value={children} />
+                        </div>
+                        <div>
+                            <label>Infants</label>
+                            <input type="number" min="0" bind:value={infants} />
+                        </div>
+                    </div>
+                    <div class="accommodation">
+                        <label class="inline">
+                            <input type="checkbox" bind:checked={accommodationsEnabled} />
+                            Also search accommodations (Booking, Airbnb, TripAdvisor)
+                        </label>
+                        {#if accommodationsEnabled}
+                            <div class="form-grid compact">
+                                <div>
+                                    <label>City (default = To)</label>
+                                    <input bind:value={accommodationsCity} placeholder="Leave blank to use destination" />
+                                </div>
+                                <div>
+                                    <label>Price min</label>
+                                    <input type="number" min="0" bind:value={accommodationsPriceMin} />
+                                </div>
+                                <div>
+                                    <label>Price max</label>
+                                    <input type="number" min="0" bind:value={accommodationsPriceMax} />
+                                </div>
+                                <div>
+                                    <label>Min rating</label>
+                                    <input type="number" min="1" max="5" step="0.1" bind:value={accommodationsMinRating} />
+                                </div>
+                                <div>
+                                    <label>Max results</label>
+                                    <input type="number" min="1" max="20" bind:value={accommodationsMaxResults} />
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                    <p class="hint">
+                        AI will use these details to format params for Kiwi (windows/round trips) and
+                        Skyscanner (single dates or whole-month), search accommodations if enabled, and remember them for follow-ups.
+                    </p>
+                    <div class="actions">
+                        <button class="primary" onclick={() => handleSubmit(prompt || "Use the travel form above")}>Search with AI</button>
+                    </div>
+                </div>
+            {/if}
+        </div>
+    {/if}
+
     <!-- Main Chat Area -->
     <div class="chat-area">
         {#if messages.length === 0}
@@ -406,11 +635,16 @@
                 bind:value={prompt}
                 onkeydown={(e) =>
                     e.key === "Enter" && !isThinking && handleSubmit()}
+                readonly={category === "travel" && travelMode === "detailed" && messages.length === 0}
             />
             <button
                 class="send-btn"
                 onclick={handleSubmit}
-                disabled={!prompt.trim() || isThinking}
+                disabled={
+                    isThinking ||
+                    (category === "travel" && travelMode === "detailed" && messages.length === 0) ||
+                    !prompt.trim()
+                }
             >
                 {#if isThinking}
                     <Loader2 class="spin" size={20} />
@@ -610,6 +844,110 @@
         position: relative;
         z-index: 1;
         min-height: 0; /* Important for flex child scrolling */
+    }
+
+    .travel-panel {
+        padding: 0.75rem 1.5rem;
+        background: rgba(128, 128, 128, 0.08);
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .mode-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    .mode-toggle .left {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .mode-toggle button {
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+    }
+    .mode-toggle button.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+    }
+    .collapse-btn {
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        background: rgba(0, 0, 0, 0.15);
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .travel-form {
+        background: var(--card-bg);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.75rem;
+    }
+    .form-grid.compact {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .form-grid input,
+    .form-grid select,
+    .form-row input,
+    .form-row select {
+        width: 100%;
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        background: rgba(0, 0, 0, 0.08);
+        color: var(--text);
+    }
+
+    label {
+        display: block;
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+    }
+
+    .inline {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .passengers input {
+        max-width: 120px;
+    }
+
+    .hint {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin: 0;
     }
 
     /* Empty State */

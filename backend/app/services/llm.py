@@ -120,8 +120,15 @@ class GeminiClient:
         text = response.text if hasattr(response, "text") else str(response)
         return LLMResult(text=text, latency_ms=latency_ms, model=self.model_id)
 
-    async def respond(self, prompt: str, context: Iterable[Insight] | None = None, history: Iterable[Any] | None = None, mode: str = "general") -> LLMResult:
+    async def respond(self, prompt: str, context: Iterable[Insight] | None = None, history: Iterable[Any] | None = None, mode: str = "general", travel_intent: dict | None = None) -> LLMResult:
         combined_prompt = prompt
+        if travel_intent and mode == "travel":
+            combined_prompt = (
+                "STRUCTURED_TRAVEL_INTENT (use this to build exact tool params):\n"
+                + str(travel_intent)
+                + "\n\nUser prompt:\n"
+                + combined_prompt
+            )
         if context:
             combined_prompt += "\n\nContext:\n" + "\n".join(
                 f"- {item.title}: {item.description}" for item in context
@@ -183,6 +190,10 @@ When user asks about **ferries** or travel by sea (especially Baltic routes like
      - If user gives a start–end range with NO explicit return (e.g., "Dec 10-20"), treat it as an **outbound window**. Use Kiwi with `date_from=<start>`, `date_to=<end>` and surface outbound options in that window. For Skyscanner, ask for a specific date or propose a few representative dates in that window.
      - If user explicitly mentions return, treat as round trip: set Kiwi `return_from`, Skyscanner `return_date`.
    - **Skyscanner params**: use IATA inputs; internally it maps to `placeIdFrom`/`placeIdTo`. Set `date` and optionally `return_date` (ISO).
+   - **Skyscanner whole month**: if user says “whole month” or only gives month, use `whole_month="YYYY-MM"` (only on `/web/flights/search-one-way`).
+   - **Raw RapidAPI (from docs)**:
+     - Kiwi (RapidAPI): `/one-way` or `/round-trip` with `source`, `destination`, `date`, optional `returnDate`, `adults`, `children`, `infants`, `cabinClass`, `limit`, `currency`, `sort`.
+     - Flights Sky: auto-complete first; then `/web/flights/search-one-way` or `/search-roundtrip` with `fromEntityId/placeIdFrom`, `toEntityId/placeIdTo`, `departDate`, optional `returnDate`, `adults`, `cabinClass`, `market`, `locale`, `currency`; if `context.status == incomplete`, poll `/flights/search-incomplete?sessionId=...` until complete.
    - **If Skyscanner says “could not find airport/city”**: immediately retry with the remote raw API:
      1) `flights_auto_complete(query="TLL")` → grab `PlaceId` (e.g., "TLL")
      2) `flights_auto_complete(query="HEL")` → grab `PlaceId`
@@ -191,6 +202,15 @@ When user asks about **ferries** or travel by sea (especially Baltic routes like
    - **If Skyscanner still fails**: fall back to `search_google_flights` then `search_booking_flights`.
    - **Filters**: Use `direct_only=True`, `cabin_class="BUSINESS"` as requested.
    - **Passengers**: Always include `adults`, `children`, `infants` when specified.
+2. **Accommodation add-on**: if travel_intent.accommodations.enabled:
+   - City = provided or destination.
+   - Price filters: honor priceMin/priceMax; minRating when present; maxResults <= 10.
+   - Use search_hotels (Booking) and search_airbnb (Apify); include links if present.
+3. **Deliberate multi-step plan before tools (think briefly, then act)**:
+   - Step 1: Normalize inputs (IATA, dates, tripType/window/month, transportMode).
+   - Step 2: Pick tools (Kiwi window/roundtrip, Skyscanner single/whole-month + incomplete polling; accommodations if enabled).
+   - Step 3: Execute tools; if incomplete, poll; if empty, fallbacks (Google/Booking flights or ground/sea).
+   - Step 4: Summarize with prices, carriers, dates, and links (max 10).
 
 ## FEW-SHOT EXAMPLES (User Prompt → Tool Call):
 
@@ -207,6 +227,10 @@ If result says “could not find airport/city” → raw fallback:
 **Kiwi (outbound window)**: search_flights(from_location="LHR", to_location="CDG", date_from="2025-12-10", date_to="2025-12-20")
 **Skyscanner**: ask for a specific date in that window, or propose a couple (e.g., 2025-12-12, 2025-12-18) and run search_flights_sky for each.
 If Skyscanner incomplete → flights_search_incomplete(sessionId=...); if still empty → search_google_flights then search_booking_flights.
+
+**User**: "Whole month flights from Tallinn to Helsinki in December"
+**Skyscanner whole-month**: search_flights_sky(from_location="TLL", to_location="HEL", whole_month="2025-12")
+If incomplete → flights_search_incomplete(sessionId=...); if still empty → search_google_flights then search_booking_flights.
 
 **User**: "Round trip from NYC to Tokyo, leaving Dec 15, returning Dec 25"
 **Kiwi**: search_flights(from_location="JFK", to_location="NRT", date_from="2025-12-15", return_from="2025-12-25")
@@ -273,6 +297,7 @@ Use these ONLY if `search_flights_sky` (which does this automatically) fails!
 3. **Use analyze_job_match** to score compatibility
 4. **Scrape company pages** when user wants info about specific employers
 5. **Be encouraging** but honest about job matches
+6. **Deliberate steps**: plan briefly (role/location/filters), then run search_jobs; if provided resume+JD, run analyze_job_match and optimize_resume; summarize with links.
 
 ## RESPONSE STYLE:
 - List jobs with title, company, location, salary (if available)
@@ -304,6 +329,7 @@ Use these ONLY if `search_flights_sky` (which does this automatically) fails!
 3. **Use get_*_trends** for what's currently viral
 4. **Combine platforms** for cross-platform trend analysis
 5. **Be data-driven** - include engagement metrics when available
+6. **Deliberate steps**: normalize topic/hashtags/geo/time; pick 2+ platforms; call trend + search APIs; synthesize top signals with dates/metrics.
 
 ## RESPONSE STYLE:
 - Include usernames, post dates, engagement (likes/views)
