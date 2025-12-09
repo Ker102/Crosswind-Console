@@ -70,6 +70,18 @@
         "--header",
         "x-api-key: ${RAPIDAPI_KEY}"
       ]
+    },
+    "rapidapi-kiwi": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.rapidapi.com",
+        "--header",
+        "x-api-host: kiwi-com-cheap-flights.p.rapidapi.com",
+        "--header",
+        "x-api-key: ${RAPIDAPI_KEY}"
+      ]
     }
   }
 }
