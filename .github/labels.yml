@@ -1,0 +1,97 @@
+# Repository Labels Configuration
+# This file defines the labels that should exist in the repository
+# Can be synced using tools like github-label-sync
+
+# Type labels
+- name: bug
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: enhancement
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: documentation
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: question
+  color: "d876e3"
+  description: "Further information is requested"
+
+# Component labels
+- name: frontend
+  color: "7057ff"
+  description: "Related to the Svelte frontend"
+
+- name: backend
+  color: "008672"
+  description: "Related to the FastAPI backend"
+
+- name: auth
+  color: "e99695"
+  description: "Related to the Next.js auth service"
+
+- name: mcp
+  color: "fbca04"
+  description: "Related to MCP servers"
+
+- name: database
+  color: "bfdadc"
+  description: "Related to Prisma/database"
+
+# Dependency labels
+- name: dependencies
+  color: "0366d6"
+  description: "Pull requests that update a dependency file"
+
+- name: github-actions
+  color: "000000"
+  description: "Related to GitHub Actions"
+
+# Status labels
+- name: auto-merge
+  color: "0e8a16"
+  description: "Eligible for automatic merging"
+
+- name: security
+  color: "ee0701"
+  description: "Security-related changes or vulnerabilities"
+
+- name: configuration
+  color: "c5def5"
+  description: "Configuration changes"
+
+# Priority labels
+- name: "priority: high"
+  color: "b60205"
+  description: "High priority"
+
+- name: "priority: medium"
+  color: "fbca04"
+  description: "Medium priority"
+
+- name: "priority: low"
+  color: "0e8a16"
+  description: "Low priority"
+
+# Size labels
+- name: "size: xs"
+  color: "009800"
+  description: "Extra small change"
+
+- name: "size: s"
+  color: "77dd77"
+  description: "Small change"
+
+- name: "size: m"
+  color: "ffbf00"
+  description: "Medium change"
+
+- name: "size: l"
+  color: "ff6f00"
+  description: "Large change"
+
+- name: "size: xl"
+  color: "ff0000"
+  description: "Extra large change"
