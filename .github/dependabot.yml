@@ -1,0 +1,109 @@
+# Dependabot configuration for automated dependency updates
+# Documentation: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Frontend (Svelte/Vite) - npm ecosystem
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "auto-merge"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      svelte:
+        patterns:
+          - "svelte*"
+          - "@sveltejs/*"
+      vite:
+        patterns:
+          - "vite*"
+      typescript:
+        patterns:
+          - "typescript*"
+          - "tslib"
+          - "@types/*"
+      three-js:
+        patterns:
+          - "three*"
+          - "@threlte/*"
+          - "@types/three"
+
+  # Auth service (Next.js) - npm ecosystem
+  - package-ecosystem: "npm"
+    directory: "/auth"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "auth"
+      - "auto-merge"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      next-auth:
+        patterns:
+          - "next*"
+          - "@auth/*"
+      prisma:
+        patterns:
+          - "prisma*"
+          - "@prisma/*"
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+
+  # Backend (FastAPI) - pip ecosystem
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "backend"
+      - "auto-merge"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      fastapi:
+        patterns:
+          - "fastapi*"
+          - "uvicorn*"
+          - "pydantic*"
+      ai-ml:
+        patterns:
+          - "google-generativeai*"
+          - "mcp*"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "auto-merge"
+    commit-message:
+      prefix: "chore(deps)"

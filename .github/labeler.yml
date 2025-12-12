@@ -1,0 +1,59 @@
+# Pull Request Labeler configuration
+# Automatically labels PRs based on changed files
+# Used by the labeler.yml workflow
+
+# Frontend labels
+frontend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/**"
+
+# Auth labels
+auth:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "auth/**"
+
+# Backend labels
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "backend/**"
+          - "mcp_servers/**"
+
+# Documentation labels
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "docs/**"
+
+# Configuration labels
+configuration:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - "**/*.json"
+          - "**/*.yml"
+          - "**/*.yaml"
+          - "**/*.toml"
+
+# GitHub Actions labels
+github-actions:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/actions/**"
+
+# Database/Prisma labels
+database:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/prisma/**"
+          - "**/*.prisma"
+
+# MCP servers labels
+mcp:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "mcp_servers/**"
