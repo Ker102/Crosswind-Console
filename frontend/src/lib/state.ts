@@ -36,6 +36,25 @@ export const sessionStore = writable<UserSession | null>(null)
 export const authReadyStore = writable(false)
 export const progressHydratingStore = writable(false)
 
+// Navigation state - using store for reliable cross-component reactivity
+export type PageType = 'landing' | 'agent'
+export const currentPageStore = writable<PageType>('landing')
+
+// Helper function to navigate to agent page with a category
+export function navigateToAgent(category: Domain) {
+  console.log('[STATE] navigateToAgent called with:', category)
+  console.log('[STATE] Before set - currentPageStore value:', get(currentPageStore))
+  selectedDomain.set(category)
+  currentPageStore.set('agent')
+  console.log('[STATE] After set - currentPageStore value:', get(currentPageStore))
+}
+
+// Helper function to navigate back to landing
+export function navigateToLanding() {
+  console.log('[STATE] navigateToLanding called')
+  currentPageStore.set('landing')
+}
+
 export const infoChips = derived(selectedDomain, ($domain) => [
   categoryMeta[$domain].description,
   'Powered by Gemini + MCP connectors',

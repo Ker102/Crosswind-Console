@@ -1,0 +1,316 @@
+
+> frontend@0.0.0 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend
+Getting Svelte diagnostics...
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:412:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Trip type</label>[36m
+                            <select bind:value={tripType}>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:425:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Travel mode</label>[36m
+                            <select bind:value={transportMode}>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:434:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Currency</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:455:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>From</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:463:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>To</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:472:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Depart</label>[36m
+                                <input type="date" bind:value={departDate} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:478:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Return</label>[36m
+                                <input type="date" bind:value={returnDate} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:484:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Window start</label>[36m
+                                <input type="date" bind:value={windowStart} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:488:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Window end</label>[36m
+                                <input type="date" bind:value={windowEnd} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:494:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Whole month (YYYY-MM)</label>[36m
+                                <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:503:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Cabin (flights)</label>[36m
+                            <select[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:521:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Adults</label>[36m
+                            <input type="number" min="1" bind:value={adults} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:525:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Children</label>[36m
+                            <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:533:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Infants</label>[36m
+                            <input type="number" min="0" bind:value={infants} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:548:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>City (default = To)</label>[36m
+                                    <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:556:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Price min</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:564:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Price max</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:572:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Min rating</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:582:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Max results</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:995:5
+[33mWarn[39m: Unused CSS selector ".form-row input"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m    .form-grid select,
+    [35m.form-row input[36m,
+    .form-row select {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:996:5
+[33mWarn[39m: Unused CSS selector ".form-row select"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m    .form-row input,
+    [35m.form-row select[36m {
+        width: 100%;[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:185:33
+[31mError[39m: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ travel: { name: string; primary: string; secondary: string; bg: string; text: string; accent: string; cardBg: string; icon: typeof Plane; description: string; }; jobs: { name: string; primary: string; ... 6 more ...; description: string; }; trends: { ...; }; }'. (ts)
+[36m
+    let currentTheme = $derived([35mthemes[category][36m || themes.travel);
+    let CurrentIcon = $derived(currentTheme.icon);[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:188:9
+[31mError[39m: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ travel: { stats: { value: string; label: string; }[]; tools: string[]; guidance: string; }; jobs: { stats: { value: string; label: string; }[]; tools: string[]; guidance: string; }; trends: { stats: { value: string; label: string; }[]; tools: string[]; guidance: string; }; }'. (ts)
+[36m    let currentCapabilities = $derived(
+        [35mcapabilities[category][36m || capabilities.travel,
+    );[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:234:21
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m        // Optimistically add user message
+        messages = [[35m...messages[36m, userMsg];
+        if (!overridePrompt) {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:234:34
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m        // Optimistically add user message
+        messages = [...messages, [35muserMsg[36m];
+        if (!overridePrompt) {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:240:13
+[31mError[39m: Type '{ text: string; status: string; }' is not assignable to type 'never'. (ts)
+[36m        thinkingSteps = [
+            [35m{ text: "Sending request to Gemini...", status: "pending" }[36m,
+        ];[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:253:21
+[31mError[39m: Type '{ text: string; status: string; }' is not assignable to type 'never'. (ts)
+[36m                thinkingSteps = [
+                    [35m...thinkingSteps[36m,
+                    { text: nextStep, status: "pending" },[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:254:21
+[31mError[39m: Type '{ text: string; status: string; }' is not assignable to type 'never'. (ts)
+[36m                    ...thinkingSteps,
+                    [35m{ text: nextStep, status: "pending" }[36m,
+                ];[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:262:29
+[31mError[39m: Property 'role' does not exist on type 'never'. (ts)
+[36m                history: messages.map((m) => ({
+                    role: m.[35mrole[36m === "assistant" ? "model" : "user",
+                    content: m.content,[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:263:32
+[31mError[39m: Property 'content' does not exist on type 'never'. (ts)
+[36m                    role: m.role === "assistant" ? "model" : "user",
+                    content: m.[35mcontent[36m,
+                })),[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:271:17
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m            messages = [
+                [35m...messages[36m,
+                {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:272:17
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m                ...messages,
+                [35m{
+                    role: "assistant",
+                    content: response.output || "No response received.",
+                }[36m,
+            ];[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:280:17
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m            messages = [
+                [35m...messages[36m,
+                {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:281:17
+[31mError[39m: Type '{ role: string; content: string; }' is not assignable to type 'never'. (ts)
+[36m                ...messages,
+                [35m{
+                    role: "assistant",
+                    content:
+                        "Sorry, I encountered an error connecting to the agent. Please try again.",
+                }[36m,
+            ];[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:659:45
+[31mError[39m: Property 'role' does not exist on type 'never'. (ts)
+[36m                    <div
+                        class="message {msg.[35mrole[36m}"
+                        in:fly={{ y: 20, duration: 300 }}[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:662:34
+[31mError[39m: Property 'role' does not exist on type 'never'. (ts)
+[36m                    >
+                        {#if msg.[35mrole[36m === "model" || msg.role === "assistant"}
+                            <div class="msg-content markdown-body">[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:662:58
+[31mError[39m: Property 'role' does not exist on type 'never'. (ts)
+[36m                    >
+                        {#if msg.role === "model" || msg.[35mrole[36m === "assistant"}
+                            <div class="msg-content markdown-body">[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:664:58
+[31mError[39m: Property 'content' does not exist on type 'never'. (ts)
+[36m                            <div class="msg-content markdown-body">
+                                {@html parseMarkdown(msg.[35mcontent[36m)}
+                            </div>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:667:59
+[31mError[39m: Property 'content' does not exist on type 'never'. (ts)
+[36m                        {:else}
+                            <div class="msg-content">{msg.[35mcontent[36m}</div>
+                        {/if}[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:681:55
+[31mError[39m: Property 'status' does not exist on type 'never'. (ts)
+[36m                                <div
+                                    class="step {step.[35mstatus[36m}"
+                                    in:slide={{ axis: "y" }}[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:684:47
+[31mError[39m: Property 'status' does not exist on type 'never'. (ts)
+[36m                                >
+                                    {#if step.[35mstatus[36m === "pending"}
+                                        <div class="step-dot"></div>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:686:52
+[31mError[39m: Property 'status' does not exist on type 'never'. (ts)
+[36m                                        <div class="step-dot"></div>
+                                    {:else if step.[35mstatus[36m === "done"}
+                                        <div[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:692:49
+[31mError[39m: Property 'text' does not exist on type 'never'. (ts)
+[36m                                    {/if}
+                                    <span>{step.[35mtext[36m}</span>
+                                </div>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:717:17
+[31mError[39m: Type '(overridePrompt?: string) => Promise<void>' is not assignable to type 'MouseEventHandler<HTMLButtonElement>'.
+  Types of parameters 'overridePrompt' and 'event' are incompatible.
+    Type 'MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }' is not assignable to type 'string | undefined'. (ts)
+[36m                class="send-btn"
+                [35monclick[36m={handleSubmit}
+                disabled={isThinking ||[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\App.svelte[39m:28:59
+[31mError[39m: Argument of type 'string' is not assignable to parameter of type 'Domain'. (ts)
+[36m{#if $currentPageStore === "landing"}
+  <LandingPage onSelectCategory={(cat) => navigateToAgent([35mcat[36m)} />
+{:else}[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\App.svelte[39m:33:48
+[31mError[39m: Argument of type 'string' is not assignable to parameter of type 'Domain'. (ts)
+[36m    onBack={navigateToLanding}
+    onCategoryChange={(cat) => navigateToAgent([35mcat[36m)}
+  />[39m
+
+====================================
+[31msvelte-check found 25 errors and 21 warnings in 2 files
+[39m

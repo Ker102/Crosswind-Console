@@ -9,7 +9,6 @@ mcp = FastMCP("travel")
 # API keys are read at call time in each function to ensure proper loading
 
 @mcp.tool()
-@mcp.tool()
 async def search_flights(
     from_location: str,
     to_location: str,
@@ -23,22 +22,22 @@ async def search_flights(
     children: int = 0,
     infants: int = 0
 ) -> str:
-    """
-    Search for flights using the Kiwi.com API (RapidAPI Wrapper).
-    Supports one-way, round-trip, date ranges, and class filters.
+    """Search flights via Kiwi.com API. Use IATA codes.
+    
+    CHAIN: FLIGHT_SEARCH_CHAIN - Call alongside search_flights_sky for price comparison.
     
     Args:
-        from_location: Origin city/airport code (e.g., "LHR", "city:LON", "country:GB").
-        to_location: Destination city/airport code (e.g., "JFK", "city:NYC").
-        date_from: Departure date (DD-MM-YYYY or YYYY-MM-DD).
-        date_to: Optional departure date end range.
-        return_from: Return date (DD-MM-YYYY or YYYY-MM-DD) for round trips.
-        return_to: Optional return date end range.
-        cabin_class: "ECONOMY", "ECONOMY_PREMIUM", "BUSINESS", or "FIRST_CLASS".
-        direct_only: If True, searches only for direct flights.
-        adults: Number of adult passengers (default 1).
-        children: Number of child passengers.
-        infants: Number of infant passengers.
+        from_location: Origin IATA code. Examples: TLL, LHR, JFK
+        to_location: Destination IATA code. Examples: HEL, CDG, NRT
+        date_from: Departure date. Format: YYYY-MM-DD. Example: 2025-01-15
+        date_to: End of departure window (optional). For flexible date searches.
+        return_from: Return date for round trips. Format: YYYY-MM-DD
+        return_to: End of return window (optional).
+        cabin_class: ECONOMY, ECONOMY_PREMIUM, BUSINESS, or FIRST_CLASS
+        direct_only: True = exclude connecting flights
+        adults: Adult passengers (12+ years). Default: 1
+        children: Child passengers (2-11 years). Default: 0
+        infants: Infant passengers (<2 years). Default: 0
     """
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     RAPIDAPI_HOST = "kiwi-com-cheap-flights.p.rapidapi.com"
@@ -149,13 +148,14 @@ async def search_flights(
 
 @mcp.tool()
 async def search_places(query: str, category: str = "attractions", language: str = "en") -> str:
-    """
-    Search for places (hotels, restaurants, attractions) using TripAdvisor API.
+    """Search places via TripAdvisor API.
+    
+    CHAIN: PLACES_CHAIN - Use for attractions, restaurants, sights.
     
     Args:
-        query: Search query (e.g., "Eiffel Tower", "Sushi in Tokyo").
-        category: Category filter ('hotels', 'attractions', 'restaurants', 'geos').
-        language: Language code (default 'en').
+        query: Search term. Examples: "Eiffel Tower", "restaurants in Tokyo"
+        category: Filter type. Options: hotels, attractions, restaurants, geos
+        language: Response language. Default: en
     """
     TRIPADVISOR_API_KEY = os.environ.get("TRIPADVISOR_API_KEY")
     if not TRIPADVISOR_API_KEY:
@@ -197,15 +197,16 @@ async def search_places(query: str, category: str = "attractions", language: str
 
 @mcp.tool()
 async def search_hotels(latitude: float, longitude: float, checkin_date: str, checkout_date: str, adults: int = 1) -> str:
-    """
-    Search for hotels using Booking.com API (via RapidAPI).
+    """Search hotels via Booking.com API.
+    
+    CHAIN: ACCOMMODATION_CHAIN - Call alongside search_airbnb for comparison.
     
     Args:
-        latitude: Latitude of the location.
-        longitude: Longitude of the location.
-        checkin_date: Check-in date (YYYY-MM-DD).
-        checkout_date: Check-out date (YYYY-MM-DD).
-        adults: Number of adults (default 1).
+        latitude: Location latitude. Get via geocode_address first.
+        longitude: Location longitude. Get via geocode_address first.
+        checkin_date: Check-in date. Format: YYYY-MM-DD
+        checkout_date: Check-out date. Format: YYYY-MM-DD
+        adults: Number of adult guests. Default: 1
     """
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
@@ -419,9 +420,18 @@ async def search_flights_sky(
     cabin_class: str = "economy",
     adults: int = 1
 ) -> str:
-    """
-    Search for flights using Skyscanner (via Flights Sky API).
-    Supports specific dates, whole month, and round trips.
+    """Search flights via Skyscanner API. Use IATA codes.
+    
+    CHAIN: FLIGHT_SEARCH_CHAIN - Call alongside search_flights (Kiwi) for price comparison.
+    
+    Args:
+        from_location: Origin IATA code. Examples: TLL, LHR, JFK
+        to_location: Destination IATA code. Examples: HEL, CDG, NRT
+        date: Departure date. Format: YYYY-MM-DD. Example: 2025-01-15
+        whole_month: Search entire month. Format: YYYY-MM. Example: 2025-01
+        return_date: Return date for round trips. Format: YYYY-MM-DD
+        cabin_class: economy, premium_economy, business, first
+        adults: Number of adult passengers. Default: 1
     """
     return await _execute_sky_search("/web/flights", from_location, to_location, date, whole_month, return_date, cabin_class, adults)
 
@@ -573,14 +583,15 @@ async def search_ground_transport_backup(from_location: str, to_location: str, d
 
 @mcp.tool()
 async def get_directions(origin: str, destination: str, mode: str = "driving") -> str:
-    """
-    Get directions and route information between two locations using Google Directions API.
-    Useful for finding routes from airports to hotels, attractions, or any point of interest.
+    """Get route between two locations via Google Directions API.
+    
+    CHAIN: TRANSPORT_CHAIN - Use for airport transfers, city navigation.
+    Also handles FERRY routes when mode="transit".
     
     Args:
-        origin: Starting location (e.g., "Malta International Airport", "35.8575,14.4775").
-        destination: End location (e.g., "Mdina, Malta", "Blue Grotto Malta").
-        mode: Travel mode - 'driving', 'walking', 'bicycling', or 'transit'.
+        origin: Starting point. Examples: "Paris CDG Airport", "48.8566,2.3522"
+        destination: End point. Examples: "Eiffel Tower", "Hotel Ritz Paris"
+        mode: Travel mode. Options: driving, walking, bicycling, transit
     """
     GOOGLE_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
     if not GOOGLE_API_KEY:

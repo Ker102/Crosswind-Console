@@ -1,27 +1,36 @@
 <script lang="ts">
   import LandingPage from "./lib/components/LandingPage.svelte";
   import AgentPage from "./lib/components/AgentPage.svelte";
+  import {
+    currentPageStore,
+    selectedDomain,
+    navigateToAgent,
+    navigateToLanding,
+  } from "./lib/state";
 
-  let currentPage = "landing"; // landing, agent
-  let selectedCategory = "travel";
-
-  const handleCategorySelect = (category: string) => {
-    selectedCategory = category;
-    currentPage = "agent";
-  };
-
-  const handleBack = () => {
-    currentPage = "landing";
-  };
+  // Debug logging - this will fire whenever stores change
+  $: console.log(
+    "[APP] Store values - page:",
+    $currentPageStore,
+    "domain:",
+    $selectedDomain,
+  );
 </script>
 
-{#if currentPage === "landing"}
-  <LandingPage onSelectCategory={handleCategorySelect} />
+<!-- Debug: Show current state using direct store access -->
+<div
+  style="position: fixed; top: 0; left: 0; background: black; color: lime; padding: 4px; z-index: 9999; font-size: 12px;"
+>
+  Page: {$currentPageStore} | Domain: {$selectedDomain}
+</div>
+
+{#if $currentPageStore === "landing"}
+  <LandingPage onSelectCategory={(cat) => navigateToAgent(cat)} />
 {:else}
   <AgentPage
-    category={selectedCategory}
-    onBack={handleBack}
-    onCategoryChange={handleCategorySelect}
+    category={$selectedDomain}
+    onBack={navigateToLanding}
+    onCategoryChange={(cat) => navigateToAgent(cat)}
   />
 {/if}
 

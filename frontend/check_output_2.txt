@@ -1,0 +1,163 @@
+
+> frontend@0.0.0 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend
+Getting Svelte diagnostics...
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:417:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Trip type</label>[36m
+                            <select bind:value={tripType}>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:430:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Travel mode</label>[36m
+                            <select bind:value={transportMode}>[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:439:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Currency</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:460:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>From</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:468:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>To</label>[36m
+                            <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:477:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Depart</label>[36m
+                                <input type="date" bind:value={departDate} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:483:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Return</label>[36m
+                                <input type="date" bind:value={returnDate} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:489:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Window start</label>[36m
+                                <input type="date" bind:value={windowStart} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:493:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Window end</label>[36m
+                                <input type="date" bind:value={windowEnd} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:499:33
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                            <div>
+                                [35m<label>Whole month (YYYY-MM)</label>[36m
+                                <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:508:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Cabin (flights)</label>[36m
+                            <select[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:526:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Adults</label>[36m
+                            <input type="number" min="1" bind:value={adults} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:530:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Children</label>[36m
+                            <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:538:29
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                        <div>
+                            [35m<label>Infants</label>[36m
+                            <input type="number" min="0" bind:value={infants} />[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:553:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>City (default = To)</label>[36m
+                                    <Autocomplete[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:561:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Price min</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:569:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Price max</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:577:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Min rating</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:587:37
+[33mWarn[39m: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+[36m                                <div>
+                                    [35m<label>Max results</label>[36m
+                                    <input[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:1000:5
+[33mWarn[39m: Unused CSS selector ".form-row input"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m    .form-grid select,
+    [35m.form-row input[36m,
+    .form-row select {[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\lib\components\AgentPage.svelte[39m:1001:5
+[33mWarn[39m: Unused CSS selector ".form-row select"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m    .form-row input,
+    [35m.form-row select[36m {
+        width: 100%;[39m
+
+c:\Users\krist\Desktop\Cursor-Projects\Projects\project04\Crosswind-Console\frontend\[32msrc\App.svelte[39m:28:59
+[31mError[39m: Argument of type 'string' is not assignable to parameter of type 'Domain'. (ts)
+[36m{#if $currentPageStore === "landing"}
+  <LandingPage onSelectCategory={(cat) => navigateToAgent([35mcat[36m)} />
+{:else}[39m
+
+====================================
+[31msvelte-check found 1 error and 21 warnings in 2 files
+[39m

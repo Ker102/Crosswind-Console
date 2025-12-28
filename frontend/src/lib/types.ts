@@ -1,4 +1,5 @@
 export type Domain = 'jobs' | 'travel' | 'trends'
+export type PageType = 'landing' | 'agent'
 
 export interface Insight {
   id: string
