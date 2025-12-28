@@ -33,7 +33,8 @@
         BookOpen,
         PenTool,
     } from "lucide-svelte";
-    import { sendLLMPrompt } from "../api";
+    import { sendLLMPrompt, searchAirports, searchCurrencies } from "../api";
+    import Autocomplete from "./Autocomplete.svelte";
 
     // Configure marked for clean output
     marked.setOptions({
@@ -60,12 +61,13 @@
     let messages = $state([]);
     let showDropdown = $state(false);
     let thinkingSteps = $state([]);
+    let showTravelForm = $state(true);
 
     // Travel detailed vs sandbox and structured intent
     let travelMode = $state<"detailed" | "sandbox">("detailed");
-    let tripType = $state<"one-way" | "round-trip" | "outbound-window" | "whole-month">(
-        "round-trip",
-    );
+    let tripType = $state<
+        "one-way" | "round-trip" | "outbound-window" | "whole-month"
+    >("round-trip");
     let transportMode = $state<"all" | "flights" | "ground" | "sea">("all");
     let fromLocation = $state("");
     let toLocation = $state("");
@@ -208,7 +210,9 @@
             accommodations: accommodationsEnabled
                 ? {
                       enabled: true,
-                      city: (accommodationsCity || toLocation || "").trim() || undefined,
+                      city:
+                          (accommodationsCity || toLocation || "").trim() ||
+                          undefined,
                       priceMin: accommodationsPriceMin,
                       priceMax: accommodationsPriceMax,
                       minRating: accommodationsMinRating,
@@ -392,7 +396,11 @@
                         Sandbox
                     </button>
                 </div>
-                <button type="button" class="collapse-btn" onclick={() => (showTravelForm = !showTravelForm)}>
+                <button
+                    type="button"
+                    class="collapse-btn"
+                    onclick={() => (showTravelForm = !showTravelForm)}
+                >
                     {showTravelForm ? "Hide panel" : "Show panel"}
                 </button>
             </div>
@@ -405,8 +413,12 @@
                             <select bind:value={tripType}>
                                 <option value="one-way">One-way</option>
                                 <option value="round-trip">Round trip</option>
-                                <option value="outbound-window">Outbound window (Kiwi)</option>
-                                <option value="whole-month">Whole month (Skyscanner)</option>
+                                <option value="outbound-window"
+                                    >Outbound window (Kiwi)</option
+                                >
+                                <option value="whole-month"
+                                    >Whole month (Skyscanner)</option
+                                >
                             </select>
                         </div>
                         <div>
@@ -420,11 +432,20 @@
                         </div>
                         <div>
                             <label>Currency</label>
-                            <input bind:value={currency} placeholder="USD" />
+                            <Autocomplete
+                                bind:value={currency}
+                                placeholder="e.g., USD, EUR"
+                                searchFn={searchCurrencies}
+                            />
                         </div>
                         <div class="inline">
                             <label>
-                                <input type="checkbox" bind:checked={directOnly} disabled={transportMode !== "all" && transportMode !== "flights"} />
+                                <input
+                                    type="checkbox"
+                                    bind:checked={directOnly}
+                                    disabled={transportMode !== "all" &&
+                                        transportMode !== "flights"}
+                                />
                                 Direct only (flights)
                             </label>
                         </div>
@@ -432,11 +453,19 @@
                     <div class="form-grid">
                         <div>
                             <label>From</label>
-                            <input placeholder="e.g., TLL" bind:value={fromLocation} />
+                            <Autocomplete
+                                bind:value={fromLocation}
+                                placeholder="e.g., Tallinn"
+                                searchFn={searchAirports}
+                            />
                         </div>
                         <div>
                             <label>To</label>
-                            <input placeholder="e.g., HEL" bind:value={toLocation} />
+                            <Autocomplete
+                                bind:value={toLocation}
+                                placeholder="e.g., Helsinki"
+                                searchFn={searchAirports}
+                            />
                         </div>
                         {#if tripType !== "whole-month"}
                             <div>
@@ -472,9 +501,15 @@
                         {/if}
                         <div>
                             <label>Cabin (flights)</label>
-                            <select bind:value={cabinClass} disabled={transportMode !== "all" && transportMode !== "flights"}>
+                            <select
+                                bind:value={cabinClass}
+                                disabled={transportMode !== "all" &&
+                                    transportMode !== "flights"}
+                            >
                                 <option value="ECONOMY">Economy</option>
-                                <option value="ECONOMY_PREMIUM">Premium Economy</option>
+                                <option value="ECONOMY_PREMIUM"
+                                    >Premium Economy</option
+                                >
                                 <option value="BUSINESS">Business</option>
                                 <option value="FIRST_CLASS">First</option>
                             </select>
@@ -488,7 +523,11 @@
                         </div>
                         <div>
                             <label>Children</label>
-                            <input type="number" min="0" bind:value={children} />
+                            <input
+                                type="number"
+                                min="0"
+                                bind:value={children}
+                            />
                         </div>
                         <div>
                             <label>Infants</label>
@@ -497,40 +536,74 @@
                     </div>
                     <div class="accommodation">
                         <label class="inline">
-                            <input type="checkbox" bind:checked={accommodationsEnabled} />
+                            <input
+                                type="checkbox"
+                                bind:checked={accommodationsEnabled}
+                            />
                             Also search accommodations (Booking, Airbnb, TripAdvisor)
                         </label>
                         {#if accommodationsEnabled}
                             <div class="form-grid compact">
                                 <div>
                                     <label>City (default = To)</label>
-                                    <input bind:value={accommodationsCity} placeholder="Leave blank to use destination" />
+                                    <Autocomplete
+                                        bind:value={accommodationsCity}
+                                        placeholder="Leave blank to use destination"
+                                        searchFn={searchAirports}
+                                    />
                                 </div>
                                 <div>
                                     <label>Price min</label>
-                                    <input type="number" min="0" bind:value={accommodationsPriceMin} />
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        bind:value={accommodationsPriceMin}
+                                    />
                                 </div>
                                 <div>
                                     <label>Price max</label>
-                                    <input type="number" min="0" bind:value={accommodationsPriceMax} />
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        bind:value={accommodationsPriceMax}
+                                    />
                                 </div>
                                 <div>
                                     <label>Min rating</label>
-                                    <input type="number" min="1" max="5" step="0.1" bind:value={accommodationsMinRating} />
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="5"
+                                        step="0.1"
+                                        bind:value={accommodationsMinRating}
+                                    />
                                 </div>
                                 <div>
                                     <label>Max results</label>
-                                    <input type="number" min="1" max="20" bind:value={accommodationsMaxResults} />
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="20"
+                                        bind:value={accommodationsMaxResults}
+                                    />
                                 </div>
                             </div>
                         {/if}
                     </div>
                     <p class="hint">
-                        AI will use these details to format params for Kiwi (windows/round trips) and
-                        Skyscanner (single dates or whole-month), search accommodations if enabled, and remember them for follow-ups.
+                        AI will use these details to format params for Kiwi
+                        (windows/round trips) and Skyscanner (single dates or
+                        whole-month), search accommodations if enabled, and
+                        remember them for follow-ups.
                     </p>
                     <div class="actions">
-                        <button class="primary" onclick={() => handleSubmit(prompt || "Use the travel form above")}>Search with AI</button>
+                        <button
+                            class="primary"
+                            onclick={() =>
+                                handleSubmit(
+                                    prompt || "Use the travel form above",
+                                )}>Search with AI</button
+                        >
                     </div>
                 </div>
             {/if}
@@ -635,16 +708,18 @@
                 bind:value={prompt}
                 onkeydown={(e) =>
                     e.key === "Enter" && !isThinking && handleSubmit()}
-                readonly={category === "travel" && travelMode === "detailed" && messages.length === 0}
+                readonly={category === "travel" &&
+                    travelMode === "detailed" &&
+                    messages.length === 0}
             />
             <button
                 class="send-btn"
                 onclick={handleSubmit}
-                disabled={
-                    isThinking ||
-                    (category === "travel" && travelMode === "detailed" && messages.length === 0) ||
-                    !prompt.trim()
-                }
+                disabled={isThinking ||
+                    (category === "travel" &&
+                        travelMode === "detailed" &&
+                        messages.length === 0) ||
+                    !prompt.trim()}
             >
                 {#if isThinking}
                     <Loader2 class="spin" size={20} />
