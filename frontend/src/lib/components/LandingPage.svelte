@@ -42,11 +42,22 @@
     Threedotjs,
   } from "@steeze-ui/simple-icons";
 
+  // Import navigation directly from state
+  import { navigateToAgent } from "../state";
+  import type { Domain } from "../types";
+
   // ... (rest of imports)
 
   let { onSelectCategory } = $props<{
-    onSelectCategory: (category: string) => void;
+    onSelectCategory: (category: Domain) => void;
   }>();
+
+  // Direct navigation using store - bypasses callback chain
+  const handleCategoryClick = (category: Domain) => {
+    console.log("[DEBUG] Category clicked:", category);
+    // Use direct store update instead of callback
+    navigateToAgent(category);
+  };
 
   let text = $state("");
   const phrases = ["TRAVEL", "JOBS", "TRENDS"];
@@ -236,10 +247,11 @@
           <div class="cards">
             <div
               class="card travel"
-              onclick={() => onSelectCategory("travel")}
+              onclick={() => handleCategoryClick("travel")}
               role="button"
               tabindex="0"
-              onkeydown={(e) => e.key === "Enter" && onSelectCategory("travel")}
+              onkeydown={(e) =>
+                e.key === "Enter" && handleCategoryClick("travel")}
             >
               <div class="card-icons">
                 <Plane size={24} />
@@ -251,10 +263,11 @@
             </div>
             <div
               class="card jobs"
-              onclick={() => onSelectCategory("jobs")}
+              onclick={() => handleCategoryClick("jobs")}
               role="button"
               tabindex="0"
-              onkeydown={(e) => e.key === "Enter" && onSelectCategory("jobs")}
+              onkeydown={(e) =>
+                e.key === "Enter" && handleCategoryClick("jobs")}
             >
               <div class="card-icons">
                 <Laptop size={24} />
@@ -266,10 +279,11 @@
             </div>
             <div
               class="card trends"
-              onclick={() => onSelectCategory("trends")}
+              onclick={() => handleCategoryClick("trends")}
               role="button"
               tabindex="0"
-              onkeydown={(e) => e.key === "Enter" && onSelectCategory("trends")}
+              onkeydown={(e) =>
+                e.key === "Enter" && handleCategoryClick("trends")}
             >
               <div class="card-icons">
                 <Twitter size={24} />

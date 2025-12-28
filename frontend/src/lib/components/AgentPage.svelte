@@ -35,6 +35,7 @@
     } from "lucide-svelte";
     import { sendLLMPrompt, searchAirports, searchCurrencies } from "../api";
     import Autocomplete from "./Autocomplete.svelte";
+    import type { Domain } from "../types";
 
     // Configure marked for clean output
     marked.setOptions({
@@ -49,18 +50,19 @@
 
     // Props
     let { category, onBack, onCategoryChange } = $props<{
-        category: string;
+        category: Domain;
         onBack: () => void;
-        onCategoryChange: (cat: string) => void;
+        onCategoryChange: (cat: Domain) => void;
     }>();
 
     // State
     let prompt = $state("");
     let isThinking = $state(false);
+
     let model = $state("thinking"); // thinking (Gemini 3 Pro), fast (Gemini 2 Fast)
-    let messages = $state([]);
+    let messages = $state<{ role: string; content: string }[]>([]);
     let showDropdown = $state(false);
-    let thinkingSteps = $state([]);
+    let thinkingSteps = $state<{ text: string; status: string }[]>([]);
     let showTravelForm = $state(true);
 
     // Travel detailed vs sandbox and structured intent
@@ -182,10 +184,13 @@
         },
     };
 
-    let currentTheme = $derived(themes[category] || themes.travel);
+    let currentTheme = $derived(
+        themes[category as keyof typeof themes] || themes.travel,
+    );
     let CurrentIcon = $derived(currentTheme.icon);
     let currentCapabilities = $derived(
-        capabilities[category] || capabilities.travel,
+        capabilities[category as keyof typeof capabilities] ||
+            capabilities.travel,
     );
 
     const getTravelIntent = () => {
@@ -714,7 +719,7 @@
             />
             <button
                 class="send-btn"
-                onclick={handleSubmit}
+                onclick={() => handleSubmit()}
                 disabled={isThinking ||
                     (category === "travel" &&
                         travelMode === "detailed" &&
