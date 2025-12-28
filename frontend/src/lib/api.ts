@@ -18,6 +18,14 @@ async function request<T>(path: string, payload: unknown): Promise<T> {
   return response.json() as Promise<T>
 }
 
+async function get<T>(path: string): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`)
+  if (!response.ok) {
+    throw new Error('API request failed')
+  }
+  return response.json() as Promise<T>
+}
+
 export function fetchDiscovery(payload: DiscoveryRequest) {
   return request<DiscoveryResponse>('/discovery/', payload)
 }
@@ -25,3 +33,15 @@ export function fetchDiscovery(payload: DiscoveryRequest) {
 export function sendLLMPrompt(payload: LLMRequest) {
   return request<LLMResponse>('/llm/prompt', payload)
 }
+
+// Autocomplete API
+export type AutocompleteItem = { value: string; label: string }
+
+export function searchAirports(query: string): Promise<AutocompleteItem[]> {
+  return get<AutocompleteItem[]>(`/autocomplete/airports?q=${encodeURIComponent(query)}`)
+}
+
+export function searchCurrencies(query: string): Promise<AutocompleteItem[]> {
+  return get<AutocompleteItem[]>(`/autocomplete/currencies?q=${encodeURIComponent(query)}`)
+}
+

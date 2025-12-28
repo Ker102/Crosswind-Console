@@ -5,139 +5,111 @@ Crosswind-Console is a unified research dashboard that surfaces job opportunitie
 
 ## Tech Stack
 - **Frontend**: Svelte 5 (Runes), Vite, Lucide Icons
-- **Backend**: FastAPI, Python 3.10+, Uvicorn
+- **Backend**: FastAPI, Python 3.10+, Uvicorn, SQLAlchemy
 - **Auth**: Next.js, NextAuth, Prisma
 - **AI/Data**: Google Gemini API (`google-generativeai`), MCP (Model Context Protocol)
-- **Database**: Prisma (PostgreSQL/SQLite)
+- **Database**: PostgreSQL + pgvector (Supabase for production), SQLite (local fallback)
 
 ## Directory Structure
 ```
 Crosswind-Console/
 ├── frontend/          # Svelte 5 app (Vite)
 │   └── src/lib/
-│       ├── components/  # UI components (LandingPage, AgentPage)
+│       ├── components/  # UI (LandingPage, AgentPage, Autocomplete)
 │       ├── api.ts       # Backend API client
 │       └── state.ts     # Svelte stores
 ├── backend/           # FastAPI server
 │   └── app/
-│       ├── routers/     # API endpoints (discovery, llm)
+│       ├── routers/     # API endpoints (discovery, llm, autocomplete)
 │       ├── services/    # Business logic (llm.py)
-│       ├── schemas.py   # Pydantic models
+│       ├── models.py    # SQLAlchemy models (Airport, Currency)
+│       ├── database.py  # DB connection + session
+│       ├── seed_data.py # Populate airports/currencies
 │       └── config.py    # Settings (loads .env)
 ├── mcp_servers/       # MCP tool implementations
-│   ├── jobs_server.py
-│   ├── travel_server.py
-│   ├── trends_server.py
-│   └── search_server.py
 ├── auth/              # NextAuth authentication
+├── docker-compose.yml # PostgreSQL + pgvector for local dev
 └── .env               # Environment variables (API keys)
 ```
 
 ## Development Commands
 
+### Start Database (Docker)
+```bash
+docker-compose up -d
+# PostgreSQL on localhost:5432
+```
+
+### Seed Database
+```bash
+cd backend
+python -m app.seed_data
+```
+
 ### Start Backend (Terminal 1)
 ```bash
-cd Crosswind-Console
 uvicorn backend.app.main:app --reload
 # Runs on http://localhost:8000
 ```
 
 ### Start Frontend (Terminal 2)
 ```bash
-cd Crosswind-Console/frontend
+cd frontend
 npm run dev
 # Runs on http://localhost:5173
 ```
 
-### Start Auth (Optional, Terminal 3)
-```bash
-cd Crosswind-Console/auth
-npm run dev -- --port 3001
-```
-
-## Environment Variables (.env in project root)
+## Environment Variables (.env)
 ```
 GEMINI_API_KEY=your_gemini_key
+DATABASE_URL=postgresql+asyncpg://crosswind:crosswind_dev@localhost:5432/crosswind
 RAPIDAPI_KEY=your_rapidapi_key
-GOOGLE_MAPS_API_KEY=your_maps_key
-GOOGLE_SEARCH_CX=your_search_cx
-X_BEARER_TOKEN=your_twitter_token
-TRIPADVISOR_API_KEY=your_tripadvisor_key
+# ... other keys
 ```
 
 ## Key Files
 
 ### Frontend
-- `frontend/src/App.svelte` - Main app, handles page routing
-- `frontend/src/lib/components/LandingPage.svelte` - Hero/category selection
-- `frontend/src/lib/components/AgentPage.svelte` - Chat interface for agents
-- `frontend/src/lib/api.ts` - `sendLLMPrompt()` function
+- `frontend/src/lib/components/Autocomplete.svelte` - Reusable autocomplete dropdown
+- `frontend/src/lib/api.ts` - `searchAirports()`, `searchCurrencies()`
+- `frontend/src/lib/components/AgentPage.svelte` - Travel form with autocomplete
 
 ### Backend
-- `backend/app/main.py` - FastAPI app, CORS setup
-- `backend/app/services/llm.py` - `GeminiClient` with MCP tool integration
-- `backend/app/config.py` - `Settings` class (pydantic-settings)
-- `backend/app/routers/llm.py` - `/api/llm/prompt` endpoint
+- `backend/app/database.py` - SQLAlchemy async engine
+- `backend/app/models.py` - Airport, Currency models
+- `backend/app/routers/autocomplete.py` - `/api/autocomplete/airports`, `/currencies`
+- `backend/app/seed_data.py` - Populates DB from open data sources
 
-### MCP Servers
-- `mcp_servers/jobs_server.py` - `search_jobs`, `get_active_jobs`
-- `mcp_servers/travel_server.py` - `search_flights`, `search_hotels`, `search_places`
-- `mcp_servers/trends_server.py` - `get_google_trends`, `search_tweets`
-- `mcp_servers/search_server.py` - `web_search`
+## Current Work: Autocomplete Feature
+**Status:** In Progress
+
+Implementing typeahead/autocomplete for travel form fields:
+- [x] Backend: PostgreSQL + SQLAlchemy models
+- [x] Backend: Airport/Currency seed script
+- [x] Backend: Search API endpoints
+- [x] Frontend: Autocomplete.svelte component
+- [ ] Frontend: Integrate into AgentPage.svelte
+- [ ] Docker: Start local PostgreSQL
+- [ ] Test end-to-end
+
+**Production DB:** Supabase (free tier with pgvector)
 
 ## Coding Guidelines
 
 ### Svelte 5 (Runes)
 - Use `$state()` for reactive state
 - Use `$derived()` for computed values
-- Use `$props()` for component props
-- `{@const}` must be direct child of `{#each}` or `{#if}` blocks
+- Use `$props()` with `$bindable()` for two-way binding
 
 ### FastAPI
-- Use `pydantic-settings` for configuration
-- Routers in `app/routers/`, services in `app/services/`
-- Async functions for I/O operations
+- Async SQLAlchemy for database operations
+- Dependency injection with `Depends(get_db)`
 
 ### MCP Tools
-- Decorated with `@mcp.tool()`
-- Must be async functions
-- Import in `llm.py` and add to `MCP_TOOLS` list
-- **Flight APIs**:
-    - `search_flights` (Kiwi): Date ranges, cabin class, direct only.
-    - `search_flights_sky` (Skyscanner): Whole month search, round trips.
-- **Accommodation**:
-    - `search_airbnb` (Apify): Airbnb scraper with date/guest/price filters.
-
-
-## Common Issues
-
-### "Gemini disabled" Error
-1. Check `.env` has `GEMINI_API_KEY`
-2. Restart backend: `uvicorn backend.app.main:app --reload`
-3. Verify `google-generativeai` is installed: `pip install google-generativeai`
-
-### Frontend Compilation Errors
-1. Ensure `{@const}` is direct child of block elements
-2. Verify all referenced variables are defined (e.g., `$derived()`)
-3. Restart dev server: `npm run dev`
-
-### Navigation Freezes
-- Usually caused by undefined components or variables in `AgentPage.svelte`
-- Check browser console for errors
+- `search_flights` (Kiwi): Date ranges, cabin class
+- `search_flights_sky` (Skyscanner): Whole month search
+- `search_airbnb` (Apify): Airbnb with date/guest/price filters
 
 ## Last Updated
-2025-12-05
+2025-12-28
 
-## Future Implementation: Chat Session Persistence
-**Status:** Planned (Deferred)
-**Goal:** Enable users to restore full chat history (user/model messages) per session.
-**Implementation Plan:**
-1.  **Schema Update (`auth/prisma/schema.prisma`)**:
-    -   Add `Conversation` model (id, userId, title, createdAt).
-    -   Add `Message` model (id, conversationId, role, content, createdAt).
-2.  **Backend Logic**:
-    -   Update `llm.py` to save new messages to DB.
-    -   Create endpoint to fetch history by `conversationId`.
-3.  **Frontend State**:
-    -   Update `auth.ts` to fetch conversation history on load.
-    -   Update `state.ts` to rehydrate `messages` array from DB.
