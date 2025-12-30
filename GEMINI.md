@@ -47,6 +47,20 @@ Crosswind-Console is a unified research dashboard that surfaces job opportunitie
     - **Features**: Supports location, dates (`check_in`, `check_out`), guests (`adults`, `children`), price range, and currency.
     - **Auth**: Requires `APIFY_API_TOKEN` in `.env`.
 
+## Development Workflow
+
+### Commit Policy
+- **Commit frequently** - even minor changes should be committed immediately
+- The more commits the better - small, atomic commits are preferred
+- Always write clear commit messages describing the change
+
+### Progress Tracking
+- **Before committing**, always update:
+  - `GEMINI.md` - Update "Current Progress" section with completed work
+  - `CLAUDE.md` - Update "Current Work" section with status
+- Include **next steps** or **suggested steps** in the progress update
+- This ensures continuity between sessions with different AI agents
+
 ## Common Commands
 
 ### Backend
@@ -72,18 +86,36 @@ npm run dev -- --port 3001
 ```bash
 ./mcp/run_firecrawl.sh
 ./mcp/run_playwright.sh
+```
+
+## Current Progress
+
+### Completed (2025-12-30)
+- ✅ Autocomplete feature fully implemented
+- ✅ SQLite fallback for local dev (no Docker required)
+- ✅ Database seeded with 6,726 airports and 52 currencies
+- ✅ Removed debug UI from App.svelte
+- ✅ "City (any)" option for airport search - groups airports by city
+
+### In Progress
+- 🔄 Testing and refinement
+
+### Next Steps
+- Test with Kiwi/Skyscanner APIs (they accept city codes)
+- Verify autocomplete works correctly in browser
+- Add more comprehensive error handling
 
 ## Future Implementation: Chat Session Persistence
 **Status:** Planned (Deferred)
 **Goal:** Enable users to restore full chat history (user/model messages) per session.
 **Implementation Plan:**
-1.  **Schema Update (`auth/prisma/schema.prisma`)**:
-    -   Add `Conversation` model (id, userId, title, createdAt).
-    -   Add `Message` model (id, conversationId, role, content, createdAt).
-2.  **Backend Logic**:
-    -   Update `llm.py` to save new messages to DB.
-    -   Create endpoint to fetch history by `conversationId`.
-3.  **Frontend State**:
-    -   Update `auth.ts` to fetch conversation history on load.
-    -   Update `state.ts` to rehydrate `messages` array from DB.
-```
+1. **Schema Update (`auth/prisma/schema.prisma`)**:
+    - Add `Conversation` model (id, userId, title, createdAt).
+    - Add `Message` model (id, conversationId, role, content, createdAt).
+2. **Backend Logic**:
+    - Update `llm.py` to save new messages to DB.
+    - Create endpoint to fetch history by `conversationId`.
+3. **Frontend State**:
+    - Update `auth.ts` to fetch conversation history on load.
+    - Update `state.ts` to rehydrate `messages` array from DB.
+

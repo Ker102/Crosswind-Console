@@ -80,19 +80,22 @@ RAPIDAPI_KEY=your_rapidapi_key
 - `backend/app/routers/autocomplete.py` - `/api/autocomplete/airports`, `/currencies`
 - `backend/app/seed_data.py` - Populates DB from open data sources
 
-## Current Work: Autocomplete Feature
-**Status:** In Progress
+## Current Work: City (Any) Airport Feature
+**Status:** Completed (2025-12-30)
 
-Implementing typeahead/autocomplete for travel form fields:
+### Completed
+- [x] Backend: SQLite fallback for local dev (no Docker required)
 - [x] Backend: PostgreSQL + SQLAlchemy models
-- [x] Backend: Airport/Currency seed script
+- [x] Backend: Airport/Currency seed script (6,726 airports, 52 currencies)
 - [x] Backend: Search API endpoints
+- [x] Backend: City grouping - returns "London (any - 6 airports)" for multi-airport cities
 - [x] Frontend: Autocomplete.svelte component
-- [ ] Frontend: Integrate into AgentPage.svelte
-- [ ] Docker: Start local PostgreSQL
-- [ ] Test end-to-end
+- [x] Frontend: Integrated into AgentPage.svelte
+- [x] Frontend: City options styled with 🌐 icon and green highlight
 
-**Production DB:** Supabase (free tier with pgvector)
+### Next Steps
+- Test autocomplete end-to-end in browser
+- Verify Kiwi/Skyscanner APIs accept city names
 
 ## Coding Guidelines
 

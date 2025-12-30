@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: intelligent-hub-backend
+Version: 0.1.0
+Summary: FastAPI backend for the cross-domain intelligent discovery platform
+Author: Codex
+Requires-Python: >=3.10
+Requires-Dist: fastapi<1,>=0.109
+Requires-Dist: uvicorn[standard]<1,>=0.22
+Requires-Dist: httpx<0.28,>=0.25
+Requires-Dist: pydantic<3,>=2.6
+Requires-Dist: pydantic-settings<3,>=2.0
+Requires-Dist: google-generativeai<0.7,>=0.6
+Requires-Dist: mcp[cli]<2,>=1.20
+Requires-Dist: sqlalchemy[asyncio]<3,>=2.0
+Requires-Dist: asyncpg<1,>=0.29
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23; extra == "dev"

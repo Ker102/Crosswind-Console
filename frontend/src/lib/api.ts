@@ -19,11 +19,23 @@ async function request<T>(path: string, payload: unknown): Promise<T> {
 }
 
 async function get<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`)
-  if (!response.ok) {
-    throw new Error('API request failed')
+  const url = `${API_BASE_URL}${path}`
+  console.log('[API] GET request:', url)
+  try {
+    const response = await fetch(url)
+    console.log('[API] Response status:', response.status)
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('[API] Error response:', text)
+      throw new Error('API request failed')
+    }
+    const data = await response.json()
+    console.log('[API] Response data:', data)
+    return data as T
+  } catch (e) {
+    console.error('[API] Fetch error:', e)
+    throw e
   }
-  return response.json() as Promise<T>
 }
 
 export function fetchDiscovery(payload: DiscoveryRequest) {

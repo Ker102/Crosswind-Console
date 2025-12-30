@@ -134,10 +134,14 @@
                     type="button"
                     class="dropdown-item"
                     class:selected={index === selectedIndex}
+                    class:city-item={item.type === "city"}
                     onclick={() => selectItem(item)}
                     onmouseenter={() => (selectedIndex = index)}
                 >
-                    {item.label}
+                    {#if item.type === "city"}
+                        <span class="city-icon">🌐</span>
+                    {/if}
+                    <span class="item-label">{item.label}</span>
                 </button>
             {/each}
         </div>
@@ -242,5 +246,25 @@
 
     .dropdown-item:last-child {
         border-radius: 0 0 5px 5px;
+    }
+
+    /* City group options */
+    .dropdown-item.city-item {
+        background: rgba(0, 230, 118, 0.08);
+        font-weight: 600;
+        border-left: 3px solid #00e676;
+    }
+
+    .dropdown-item.city-item:hover,
+    .dropdown-item.city-item.selected {
+        background: rgba(0, 230, 118, 0.2);
+    }
+
+    .city-icon {
+        margin-right: 0.5rem;
+    }
+
+    .item-label {
+        flex: 1;
     }
 </style>

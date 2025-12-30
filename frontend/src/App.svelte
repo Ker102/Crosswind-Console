@@ -7,22 +7,7 @@
     navigateToAgent,
     navigateToLanding,
   } from "./lib/state";
-
-  // Debug logging - this will fire whenever stores change
-  $: console.log(
-    "[APP] Store values - page:",
-    $currentPageStore,
-    "domain:",
-    $selectedDomain,
-  );
 </script>
-
-<!-- Debug: Show current state using direct store access -->
-<div
-  style="position: fixed; top: 0; left: 0; background: black; color: lime; padding: 4px; z-index: 9999; font-size: 12px;"
->
-  Page: {$currentPageStore} | Domain: {$selectedDomain}
-</div>
 
 {#if $currentPageStore === "landing"}
   <LandingPage onSelectCategory={(cat) => navigateToAgent(cat)} />

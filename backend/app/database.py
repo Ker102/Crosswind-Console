@@ -1,12 +1,18 @@
 """Database configuration and session management."""
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
+from pathlib import Path
 from .config import get_settings
 
 settings = get_settings()
 
-# Use DATABASE_URL from env, fallback to local Docker Postgres
-DATABASE_URL = settings.database_url or "postgresql+asyncpg://crosswind:crosswind_dev@localhost:5432/crosswind"
+# Use DATABASE_URL from env, fallback to SQLite for development
+if settings.database_url:
+    DATABASE_URL = settings.database_url
+else:
+    # Use SQLite for local development (no Docker needed)
+    db_path = Path(__file__).parent.parent / "crosswind.db"
+    DATABASE_URL = f"sqlite+aiosqlite:///{db_path}"
 
 engine = create_async_engine(DATABASE_URL, echo=False)
 async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)

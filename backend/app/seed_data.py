@@ -36,15 +36,20 @@ async def fetch_airports() -> list[dict]:
         resp.raise_for_status()
         data = resp.json()
     
-    # Filter to airports with IATA codes (major airports)
+    # Filter to airports with IATA codes (major airports) and valid country (iso)
     airports = []
     for a in data:
-        if a.get("iata") and len(a["iata"]) == 3:
+        iata = a.get("iata")
+        iso = a.get("iso")
+        name = a.get("name") or ""
+        city = a.get("city") or name or "Unknown"
+        
+        if iata and len(iata) == 3 and iso and city:
             airports.append({
-                "name": a.get("name", ""),
-                "city": a.get("city", a.get("name", "")),
-                "country": a.get("country", ""),
-                "iata": a["iata"],
+                "name": name,
+                "city": city,
+                "country": iso,
+                "iata": iata,
                 "icao": a.get("icao"),
             })
     return airports
