@@ -2,6 +2,13 @@
     import { fly } from "svelte/transition";
     import { Loader2 } from "lucide-svelte";
 
+    // Item type for autocomplete results
+    type AutocompleteItem = {
+        value: string;
+        label: string;
+        type?: "city" | "airport";
+    };
+
     // Props
     let {
         value = $bindable(""),
@@ -12,16 +19,14 @@
     }: {
         value?: string;
         placeholder?: string;
-        searchFn: (
-            query: string,
-        ) => Promise<Array<{ value: string; label: string }>>;
-        onSelect?: (item: { value: string; label: string }) => void;
+        searchFn: (query: string) => Promise<AutocompleteItem[]>;
+        onSelect?: (item: AutocompleteItem) => void;
         disabled?: boolean;
     } = $props();
 
     // State
     let inputValue = $state(value);
-    let results = $state<Array<{ value: string; label: string }>>([]);
+    let results = $state<AutocompleteItem[]>([]);
     let isOpen = $state(false);
     let isLoading = $state(false);
     let selectedIndex = $state(-1);
@@ -36,6 +41,7 @@
     });
 
     const search = async (query: string) => {
+        console.log("[Autocomplete] search called with:", query);
         if (query.length < 1) {
             results = [];
             isOpen = false;
@@ -44,8 +50,12 @@
 
         isLoading = true;
         try {
-            results = await searchFn(query);
+            const data = await searchFn(query);
+            console.log("[Autocomplete] searchFn returned:", data);
+            results = data;
+            console.log("[Autocomplete] results set, length:", results.length);
             isOpen = results.length > 0;
+            console.log("[Autocomplete] isOpen set to:", isOpen);
             selectedIndex = -1;
         } catch (e) {
             console.error("Autocomplete search failed:", e);
@@ -64,9 +74,12 @@
         debounceTimer = setTimeout(() => search(inputValue), 300);
     };
 
-    const selectItem = (item: { value: string; label: string }) => {
+    const selectItem = (item: AutocompleteItem) => {
+        console.log("[Autocomplete] selectItem called with:", item);
         inputValue = item.label;
         value = item.value;
+        console.log("[Autocomplete] inputValue set to:", inputValue);
+        console.log("[Autocomplete] value set to:", value);
         isOpen = false;
         results = [];
         onSelect?.(item);
@@ -135,7 +148,10 @@
                     class="dropdown-item"
                     class:selected={index === selectedIndex}
                     class:city-item={item.type === "city"}
-                    onclick={() => selectItem(item)}
+                    onmousedown={(e) => {
+                        e.preventDefault(); // Prevent blur from firing
+                        selectItem(item);
+                    }}
                     onmouseenter={() => (selectedIndex = index)}
                 >
                     {#if item.type === "city"}

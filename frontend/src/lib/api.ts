@@ -47,7 +47,12 @@ export function sendLLMPrompt(payload: LLMRequest) {
 }
 
 // Autocomplete API
-export type AutocompleteItem = { value: string; label: string }
+export type AutocompleteItem = {
+  value: string;
+  label: string;
+  type?: "city" | "airport";
+  airportCount?: number;
+}
 
 export function searchAirports(query: string): Promise<AutocompleteItem[]> {
   return get<AutocompleteItem[]>(`/autocomplete/airports?q=${encodeURIComponent(query)}`)

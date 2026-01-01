@@ -80,8 +80,8 @@ RAPIDAPI_KEY=your_rapidapi_key
 - `backend/app/routers/autocomplete.py` - `/api/autocomplete/airports`, `/currencies`
 - `backend/app/seed_data.py` - Populates DB from open data sources
 
-## Current Work: City (Any) Airport Feature
-**Status:** Completed (2025-12-30)
+## Current Work: Autocomplete & Config Fixes
+**Status:** Completed (2026-01-01)
 
 ### Completed
 - [x] Backend: SQLite fallback for local dev (no Docker required)
@@ -89,13 +89,18 @@ RAPIDAPI_KEY=your_rapidapi_key
 - [x] Backend: Airport/Currency seed script (6,726 airports, 52 currencies)
 - [x] Backend: Search API endpoints
 - [x] Backend: City grouping - returns "London (any - 6 airports)" for multi-airport cities
+- [x] Backend: Fixed config.py to find .env in project root
+- [x] Backend: Fixed database.py to ignore Prisma-format DATABASE_URL
 - [x] Frontend: Autocomplete.svelte component
 - [x] Frontend: Integrated into AgentPage.svelte
 - [x] Frontend: City options styled with 🌐 icon and green highlight
+- [x] Frontend: Fixed selection (onmousedown prevents blur race condition)
+- [x] Gemini API now loads correctly in Travel agent
 
 ### Next Steps
-- Test autocomplete end-to-end in browser
-- Verify Kiwi/Skyscanner APIs accept city names
+- Implement RAG ingestion for WikiVoyage (travel) and O*NET (jobs)
+- Set up automated data update pipeline (GitHub Actions)
+- Test with Kiwi/Skyscanner APIs (they accept city codes)
 
 ## Coding Guidelines
 

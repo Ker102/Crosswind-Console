@@ -90,20 +90,24 @@ npm run dev -- --port 3001
 
 ## Current Progress
 
-### Completed (2025-12-30)
+### Completed (2026-01-01)
 - ✅ Autocomplete feature fully implemented
 - ✅ SQLite fallback for local dev (no Docker required)
 - ✅ Database seeded with 6,726 airports and 52 currencies
 - ✅ Removed debug UI from App.svelte
 - ✅ "City (any)" option for airport search - groups airports by city
+- ✅ Fixed config.py to find .env in project root
+- ✅ Fixed database.py to ignore Prisma-format URLs
+- ✅ Fixed Autocomplete selection (onmousedown prevents blur race condition)
+- ✅ Fixed Gemini API loading - now works in Travel agent
 
 ### In Progress
-- 🔄 Testing and refinement
+- 🔄 RAG database population planning
 
 ### Next Steps
+- Implement RAG ingestion for WikiVoyage (travel) and O*NET (jobs)
+- Set up GitHub Actions workflow for automated data updates
 - Test with Kiwi/Skyscanner APIs (they accept city codes)
-- Verify autocomplete works correctly in browser
-- Add more comprehensive error handling
 
 ## Future Implementation: Chat Session Persistence
 **Status:** Planned (Deferred)
