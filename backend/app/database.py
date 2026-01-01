@@ -6,9 +6,11 @@ from .config import get_settings
 
 settings = get_settings()
 
-# Use DATABASE_URL from env, fallback to SQLite for development
-if settings.database_url:
-    DATABASE_URL = settings.database_url
+# Use DATABASE_URL from env if it's SQLAlchemy-compatible, else fallback to SQLite
+# Ignore Prisma-format URLs like "file:./prisma/dev.db"
+db_url = settings.database_url
+if db_url and not db_url.startswith("file:"):
+    DATABASE_URL = db_url
 else:
     # Use SQLite for local development (no Docker needed)
     db_path = Path(__file__).parent.parent / "crosswind.db"

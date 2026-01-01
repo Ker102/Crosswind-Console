@@ -1,5 +1,19 @@
 from functools import lru_cache
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# Find .env file - check backend folder first, then project root
+def find_env_file() -> str:
+    """Find .env file in backend or project root."""
+    backend_env = Path(__file__).parent.parent / ".env"
+    root_env = Path(__file__).parent.parent.parent / ".env"
+    
+    if backend_env.exists():
+        return str(backend_env)
+    elif root_env.exists():
+        return str(root_env)
+    return ".env"  # Fallback
 
 
 class Settings(BaseSettings):
@@ -27,9 +41,10 @@ class Settings(BaseSettings):
     tripadvisor_api_key: str | None = None
     apify_api_token: str | None = None
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=find_env_file(), env_file_encoding="utf-8")
 
 
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
+
