@@ -100,6 +100,7 @@ npm run dev -- --port 3001
 - ✅ Fixed database.py to ignore Prisma-format URLs
 - ✅ Fixed Autocomplete selection (onmousedown prevents blur race condition)
 - ✅ Fixed Gemini API loading - now works in Travel agent
+- ✅ Fixed Kiwi API parsing for new GraphQL-style response structure
 
 ### In Progress
 - 🔄 RAG database population planning

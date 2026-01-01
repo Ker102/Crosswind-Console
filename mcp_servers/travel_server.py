@@ -83,59 +83,108 @@ async def search_flights(
             response.raise_for_status()
             data = response.json()
             
-            # Wrapper response structure might differ. 
-            # Usually data['data'] contains list of flights or data itself is a list
-            # Let's handle generic 'data' key or direct list
-            flights = data.get("data", []) if isinstance(data, dict) else data
+            # Handle different response structures
+            # New wrapper: itineraries at top level
+            # Old wrapper: data.data or data
+            flights = []
+            if isinstance(data, dict):
+                if "itineraries" in data:
+                    flights = data["itineraries"]
+                elif "data" in data:
+                    inner = data["data"]
+                    if isinstance(inner, list):
+                        flights = inner
+                    elif isinstance(inner, dict) and "itineraries" in inner:
+                        flights = inner["itineraries"]
+            elif isinstance(data, list):
+                flights = data
             
             if not flights:
-                 # Try deeper 'data' nesting which some wrappers use
-                 if isinstance(data, dict) and "data" in data and isinstance(data["data"], dict) and "itineraries" in data["data"]:
-                     flights = data["data"]["itineraries"]
-                 else:
-                    return f"No flights found from {from_location} to {to_location}."
+                return f"No flights found from {from_location} to {to_location}."
 
             results = []
             for flight in flights[:10]:
-                price = flight.get("price", "N/A")
-                if isinstance(price, dict): # Sometimes price is an object
-                     price = price.get("amount", "N/A")
+                # Price handling - can be dict with various keys
+                price = flight.get("price", {})
+                if isinstance(price, dict):
+                    price = price.get("amount") or price.get("raw") or price.get("formatted", "N/A")
+                elif not price:
+                    price = "N/A"
                      
-                deep_link = flight.get("deep_link", "")
+                deep_link = flight.get("deep_link", "") or flight.get("shareLink", "")
                 
-                # Duration
+                # Duration - can be nested or direct
                 duration_formatted = "N/A"
-                if "duration" in flight:
-                    if isinstance(flight["duration"], dict):
-                        total_secs = flight["duration"].get("total", 0)
+                duration = flight.get("duration", {})
+                if isinstance(duration, dict):
+                    total_secs = duration.get("total", 0)
+                    if total_secs:
                         duration_formatted = f"{total_secs // 3600}h {(total_secs % 3600) // 60}m"
-                    else:
-                        duration_formatted = str(flight["duration"])
-
-                # Route info
+                elif duration:
+                    duration_formatted = str(duration)
+                
+                # Sector info (new structure uses 'sector' with 'sectorSegments' as list)
+                sector = flight.get("sector", {})
+                if sector and isinstance(sector, dict):
+                    seg_list = sector.get("sectorSegments", [])
+                    if isinstance(seg_list, list):
+                        # Get duration text if available
+                        duration_obj = sector.get("duration", {})
+                        if isinstance(duration_obj, dict):
+                            duration_formatted = duration_obj.get("text", duration_formatted)
+                
+                # Route/legs info
                 route_info = []
-                # Check for 'route' or 'legs'
                 legs = flight.get("route", []) or flight.get("legs", [])
-                for leg in legs:
-                    airline = leg.get("airline", "Unknown")
-                    flight_no = leg.get("flight_no", "")
-                    dep_city = leg.get("cityFrom", "Unknown")
-                    arr_city = leg.get("cityTo", "Unknown")
-                    
-                    # Local timestamps
-                    dep_time = leg.get("local_departure", "") or leg.get("departure", "")
-                    arr_time = leg.get("local_arrival", "") or leg.get("arrival", "")
-                    dep_time = dep_time[:16].replace("T", " ")
-                    arr_time = arr_time[:16].replace("T", " ")
-                    
-                    route_info.append(f"{airline} {flight_no}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
+                
+                # Handle sector.sectorSegments structure (each item has a nested 'segment' key)
+                if not legs and sector and isinstance(sector, dict):
+                    segments = sector.get("sectorSegments", [])
+                    if isinstance(segments, list):
+                        for seg_wrapper in segments:
+                            if isinstance(seg_wrapper, dict):
+                                # The actual segment data is nested under 'segment' key
+                                seg = seg_wrapper.get("segment", {}) or seg_wrapper
+                                if isinstance(seg, dict):
+                                    # Carrier is directly in segment
+                                    carrier = seg.get("carrier", {}) or {}
+                                    airline = carrier.get("name", "Unknown") if isinstance(carrier, dict) else "Unknown"
+                                    flight_code = seg.get("code", "")
+                                    
+                                    # source/destination instead of departure/arrival
+                                    source = seg.get("source", {}) or {}
+                                    dest = seg.get("destination", {}) or {}
+                                    
+                                    if isinstance(source, dict) and isinstance(dest, dict):
+                                        source_station = source.get("station", {}) or {}
+                                        dest_station = dest.get("station", {}) or {}
+                                        source_city = source_station.get("city", {}) if isinstance(source_station, dict) else {}
+                                        dest_city = dest_station.get("city", {}) if isinstance(dest_station, dict) else {}
+                                        source_name = source_city.get("name", source_station.get("name", "")) if isinstance(source_city, dict) else ""
+                                        dest_name = dest_city.get("name", dest_station.get("name", "")) if isinstance(dest_city, dict) else ""
+                                        dep_time = str(source.get("localTime", ""))[:16].replace("T", " ")
+                                        arr_time = str(dest.get("localTime", ""))[:16].replace("T", " ")
+                                        route_info.append(f"{airline} {flight_code}: {source_name} ({dep_time}) -> {dest_name} ({arr_time})")
+                        stops = len(segments) - 1 if segments else 0
+                else:
+                    # Old structure
+                    for leg in legs:
+                        airline = leg.get("airline", "Unknown")
+                        flight_no = leg.get("flight_no", "")
+                        dep_city = leg.get("cityFrom", "Unknown")
+                        arr_city = leg.get("cityTo", "Unknown")
+                        dep_time = leg.get("local_departure", "") or leg.get("departure", "")
+                        arr_time = leg.get("local_arrival", "") or leg.get("arrival", "")
+                        dep_time = dep_time[:16].replace("T", " ")
+                        arr_time = arr_time[:16].replace("T", " ")
+                        route_info.append(f"{airline} {flight_no}: {dep_city} ({dep_time}) -> {arr_city} ({arr_time})")
+                    stops = len(legs) - 1
 
-                stops = len(legs) - 1
-                stop_label = "Direct" if stops == 0 else f"{stops} Stop(s)"
+                stop_label = "Direct" if stops <= 0 else f"{stops} Stop(s)"
 
                 results.append(
                     f"✈️ {price} USD | {duration_formatted} | {stop_label}\n"
-                    f"Route: {' | '.join(route_info)}\n"
+                    f"Route: {' | '.join(route_info) if route_info else 'N/A'}\n"
                     f"Link: {deep_link}\n---"
                 )
 

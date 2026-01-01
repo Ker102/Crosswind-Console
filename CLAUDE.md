@@ -96,6 +96,7 @@ RAPIDAPI_KEY=your_rapidapi_key
 - [x] Frontend: City options styled with 🌐 icon and green highlight
 - [x] Frontend: Fixed selection (onmousedown prevents blur race condition)
 - [x] Gemini API now loads correctly in Travel agent
+- [x] Fixed Kiwi API parsing for new GraphQL-style response structure
 
 ### Next Steps
 - Implement RAG ingestion for WikiVoyage (travel) and O*NET (jobs)
