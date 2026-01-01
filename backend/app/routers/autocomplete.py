@@ -58,13 +58,26 @@ async def search_airports(
     # Add city-level options for countries with multiple airports matching query
     for country, country_airports in country_groups.items():
         if len(country_airports) >= 2:
-            # Use the query as the city hint (capitalize it)
-            city_hint = q.strip().title()
+            # Extract the actual city name from the airport name
+            # Airport names follow pattern: "Helsinki Vantaa Airport", "Helsinki Malmi Airport"
+            # We want to extract just "Helsinki"
+            first_airport = country_airports[0]
+            
+            # Split the airport name and find the word matching our query
+            name_parts = first_airport.name.split()
+            city_name = q.strip().title()  # Fallback to query
+            
+            # Find the word that matches our query prefix
+            for part in name_parts:
+                if part.lower().startswith(query_lower):
+                    city_name = part  # Use the actual word from the name
+                    break
+            
             results.append({
                 "type": "city",
-                "label": f"{city_hint} (any - {len(country_airports)} airports)",
-                "value": city_hint,  # Kiwi/Skyscanner accept city names
-                "city": city_hint,
+                "label": f"{city_name} (any - {len(country_airports)} airports)",
+                "value": city_name,  # Kiwi/Skyscanner accept city names
+                "city": city_name,
                 "country": country,
                 "airportCount": len(country_airports),
             })
