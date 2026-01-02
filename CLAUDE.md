@@ -81,19 +81,19 @@ RAPIDAPI_KEY=your_rapidapi_key
 - `backend/app/seed_data.py` - Populates DB from open data sources
 
 ### Current Work
-**Status:** In Progress (2026-01-02)
+**Status:** Completed (2026-01-02)
 
 ### Completed
 - [x] Scraped Travel APIs: Flights Sky, Kiwi, Booking.com, Airbnb
-- [x] Identified Google Maps MCP strategy (self-describing tools)
-- [x] Created RAG folder structure for scraped data
-- [x] Updated implementation plan for RAG parsing strategy
+- [x] Set up Supabase pgvector database for RAG
+- [x] Created RAG documents: flight_params, hotel_params, airbnb_params, google_maps_guidance
+- [x] Ingested 9 documents into vector database
+- [x] Verified RAG search functionality
 
 ### Next Steps
-- Parse scraped Markdown files to extract parameter schemas
-- Generate consolidated RAG documents (`flight_params.md`, `hotel_params.md`)
-- Ingest documents into Supabase
-- Connect MCP client
+- Integrate RAG into LLM service for sandbox mode
+- Connect MCP client to RapidAPI servers
+- Build frontend dynamic form generation
 
 ## Coding Guidelines
 
