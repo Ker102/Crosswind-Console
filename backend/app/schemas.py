@@ -56,3 +56,18 @@ class LLMResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: Literal["ok", "degraded"] = "ok"
     environment: str
+
+
+class SandboxRequest(BaseModel):
+    prompt: str
+    namespace: Literal["travel", "jobs", "trends"] = "travel"
+    history: list[ChatMessage] | None = None
+
+
+class SandboxResponse(BaseModel):
+    output: str
+    model: str
+    latency_ms: float
+    tools_used: list[str]
+    rag_context: list[dict[str, Any]]
+
