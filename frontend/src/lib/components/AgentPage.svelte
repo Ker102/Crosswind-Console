@@ -477,7 +477,7 @@
                                 searchFn={searchAirports}
                             />
                         </div>
-                        {#if tripType !== "whole-month"}
+                        {#if tripType !== "whole-month" && tripType !== "outbound-window"}
                             <div>
                                 <label>Depart</label>
                                 <input type="date" bind:value={departDate} />
