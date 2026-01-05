@@ -1,0 +1,13 @@
+2026-01-05 22:36:23,070 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B2040>, 'PRAGMA read_uncommitted', [])
+2026-01-05 22:36:23,070 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B2040>, 'PRAGMA read_uncommitted', []) completed
+2026-01-05 22:36:23,073 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("airports")', ())
+2026-01-05 22:36:23,073 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-05 22:36:23,075 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-05 22:36:23,075 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-05 22:43:39,089 [DEBUG] Initializing server 'search'
+2026-01-05 22:43:40,105 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA read_uncommitted', [])
+2026-01-05 22:43:40,105 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA read_uncommitted', []) completed
+2026-01-05 22:43:40,108 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("airports")', ())
+2026-01-05 22:43:40,108 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-05 22:43:40,111 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-05 22:43:40,111 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("currencies")', ()) completed

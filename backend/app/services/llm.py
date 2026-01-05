@@ -65,6 +65,15 @@ except ImportError:
 from ..config import Settings
 from ..schemas import Domain, Insight
 
+# Import RAG service for context retrieval
+try:
+    from .rag_service import RAGService
+    RAG_AVAILABLE = True
+except ImportError as e:
+    RAGService = None
+    RAG_AVAILABLE = False
+    logger.warning(f"RAGService not available: {e}")
+
 
 @dataclass
 class LLMResult:
@@ -104,6 +113,17 @@ class GeminiClient:
                     max_output_tokens=65536  # Maximum for gemini-2.5-pro
                 )
             )
+        
+        # Initialize RAG service for context retrieval
+        self.rag_service = None
+        self._rag_enabled = False
+        if RAG_AVAILABLE:
+            try:
+                self.rag_service = RAGService()
+                self._rag_enabled = True
+                logger.info("RAG service initialized successfully")
+            except Exception as e:
+                logger.warning(f"RAG service initialization failed: {e}")
 
     async def summarize(self, domain: Domain, insights: Iterable[Insight], prompt: str | None) -> LLMResult:
         context = "\n".join(
@@ -152,6 +172,28 @@ class GeminiClient:
                 model="mock-gemini",
                 trace="mock",
             )
+        
+        # Retrieve RAG context for API parameter guidance
+        rag_context = ""
+        if self._rag_enabled and mode in ["travel", "jobs", "trends"]:
+            try:
+                # Search RAG for relevant parameter docs
+                rag_docs = await self.rag_service.search(prompt, mode, top_k=3)
+                if rag_docs:
+                    rag_context = "\n\n## API PARAMETER GUIDANCE (from RAG database)\n"
+                    rag_context += "Use this information to format tool parameters correctly:\n\n"
+                    rag_context += "\n\n---\n\n".join([
+                        f"### {doc.get('title', 'Untitled')}\n{doc.get('content', '')[:1000]}"
+                        for doc in rag_docs
+                    ])
+                    logger.info(f"RAG: Retrieved {len(rag_docs)} docs for mode={mode}")
+            except Exception as e:
+                logger.warning(f"RAG search failed: {e}")
+                rag_context = ""
+        
+        # Prepend RAG context to the prompt if available
+        if rag_context:
+            combined_prompt = rag_context + "\n\n---\n\n" + combined_prompt
         
         start = time.perf_counter()
         
