@@ -1,82 +1,152 @@
-# Flights Scraper Sky API (Skyscanner)
+# Flights Sky API (Skyscanner) - Complete Parameter Reference
 
+**API Host**: `flights-sky.p.rapidapi.com`
 **Base URL**: `https://flights-sky.p.rapidapi.com`
 
-## Endpoints
+---
 
-### 1. Auto-Complete (Location Search)
-**Path**: `/web/flights/auto-complete`
-**Method**: `GET`
-**Params**:
-- `query` (string): City or airport name (e.g., "Tallinn")
+## 1. Auto-Complete (Get Entity IDs)
 
-**Response Parsing**:
-- Entity ID is located at: `data[0].presentation.id`
-- Fallback: `data[0].navigation.entityId`
+**Endpoint**: `GET /flights/auto-complete`
 
-### 2. One-Way Search
-**Path**: `/web/flights/search-one-way`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`: Origin ID (from auto-complete)
-- `toEntityId`: Destination ID (from auto-complete)
-- `departDate`: YYYY-MM-DD
-- `adults`: int
-- `cabinClass`: `economy`, `premium_economy`, `business`, `first`
+Get the entity IDs needed for flight searches.
 
-### 3. Round-Trip Search
-**Path**: `/web/flights/search-roundtrip`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`, `toEntityId`
-- `departDate`: YYYY-MM-DD
-- `returnDate`: YYYY-MM-DD
+### Parameters
 
-### 4. Incomplete Search (Handling Long-Running Queries)
-**Path**: `/web/flights/search-incomplete`
-**Method**: `GET`
-**Params**:
-- `sessionId`: The session ID from the initial search response (if `status` is `incomplete`)
-- OR use the original query parameters again, as some APIs treat it as a polling mechanism.
-- **Correct Usage**: Check `data.context.status`. If `incomplete`, use `itineraryId` or `token` from response to fetch details?
-- **User Instruction**: "In case the status is 'incomplete'(data->context->status=incomplete), you need to use the /flights/search-incomplete endpoint to get the full data until the status is 'complete'"
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `query` | string | ✅ | City or airport name (e.g., "New York", "Paris") |
 
-- Auto-complete is essential to get the `entityId` format (e.g., `eyJ...`).
+### Response Parsing
+- Entity ID: `data[0].presentation.id` or `data[0].navigation.entityId`
+- Example: `NYCA` for New York (Any), `PARI` for Paris (Any)
 
-## Google Flights Endpoints (Backup)
-Use these when standard Skyscanner search fails or for price comparison.
+---
 
-### 5. Google One-Way Search
-**Path**: `/google/flights/search-one-way`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`, `toEntityId`: (Search IDs)
-- `departDate`: YYYY-MM-DD
-- `adults`: int
-- `cabinClass`: `ECONOMY`, `BUSINESS` (same enum)
+## 2. One-Way Flight Search
 
-### 6. Google Round-Trip Search
-**Path**: `/google/flights/search-roundtrip`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`, `toEntityId`
-- `departDate`
-- `returnDate`
+**Endpoint**: `GET /flights/search-one-way`
 
-## Booking.com Flights Endpoints (Backup)
+Search for one-way flights.
 
-### 7. Booking.com One-Way
-**Path**: `/booking/flights/search-one-way`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`, `toEntityId`
-- `departDate`
-- `adults`, `cabinClass`
+### Required Parameters
 
-### 8. Booking.com Round-Trip
-**Path**: `/booking/flights/search-roundtrip`
-**Method**: `GET`
-**Params**:
-- `fromEntityId`, `toEntityId`
-- `departDate`
-- `returnDate`
+| Parameter | Type | Required | Description | Example |
+|-----------|------|----------|-------------|---------|
+| `fromEntityId` | string | ✅ | Origin location ID | `NYCA`, `TLL`, `PARI` |
+| `toEntityId` | string | ✅ | Destination location ID | `MSYA`, `HEL`, `CDG` |
+| `departDate` | string | ✅ | Departure date | `2025-01-20` |
+
+### Optional Parameters
+
+| Parameter | Type | Default | Description | Values |
+|-----------|------|---------|-------------|--------|
+| `adults` | int | 1 | Adult passengers (12+) | 1-9 |
+| `children` | int | 0 | Child passengers (2-12) | 0-8 |
+| `infants` | int | 0 | Infant passengers (<2) | 0-4 |
+| `cabinClass` | string | `economy` | Cabin class | `economy`, `premium_economy`, `business`, `first` |
+| `stops` | string | all | Filter by stops | `direct`, `1stop`, `direct,1stop` |
+| `market` | string | `US` | Market/country code | `US`, `UK`, `DE` |
+| `locale` | string | `en-US` | Language/locale | `en-US`, `en-GB`, `de-DE` |
+| `currency` | string | `USD` | Currency code | `USD`, `EUR`, `GBP` |
+| `wholeMonthDepart` | string | - | Search entire month | `2025-01` |
+
+---
+
+## 3. Round-Trip Flight Search
+
+**Endpoint**: `GET /flights/search-roundtrip`
+
+Search for round-trip flights.
+
+### Required Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `fromEntityId` | string | ✅ | Origin location ID |
+| `toEntityId` | string | ✅ | Destination location ID |
+| `departDate` | string | ✅ | Departure date (YYYY-MM-DD) |
+| `returnDate` | string | ✅ | Return date (YYYY-MM-DD) |
+
+### Optional Parameters
+Same as One-Way Search (adults, children, cabinClass, stops, etc.)
+
+---
+
+## 4. Incomplete Search (Polling)
+
+**Endpoint**: `GET /flights/search-incomplete`
+
+When initial search returns `status: incomplete`, poll this endpoint.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sessionId` | string | ✅ | Session ID from initial search response |
+
+### Usage
+1. Check `data.context.status` in response
+2. If `incomplete`, extract `sessionId` and call this endpoint
+3. Repeat until `status` is `complete`
+
+---
+
+## Response Structure
+
+### Itineraries Array
+```json
+{
+  "data": {
+    "itineraries": [
+      {
+        "id": "itinerary-id",
+        "price": {
+          "raw": 150.00,
+          "formatted": "$150"
+        },
+        "legs": [
+          {
+            "origin": { "name": "New York JFK" },
+            "destination": { "name": "Paris CDG" },
+            "durationInMinutes": 480,
+            "stopCount": 0,
+            "departure": "2025-01-20T10:00:00",
+            "arrival": "2025-01-20T22:00:00",
+            "carriers": { "marketing": [{ "name": "Delta" }] }
+          }
+        ]
+      }
+    ],
+    "context": {
+      "status": "complete",
+      "sessionId": "abc123"
+    }
+  }
+}
+```
+
+---
+
+## Common Entity ID Examples
+
+| Location | Entity ID |
+|----------|-----------|
+| New York (Any) | `NYCA` |
+| Paris (Any) | `PARI` |
+| London (Any) | `LOND` |
+| Los Angeles | `LAXA` |
+| Tokyo | `TYOA` |
+| Tallinn | `TLL` |
+| Helsinki | `HEL` |
+| Stockholm | `ARN` |
+
+**Note**: IATA codes (3-letter) often work as entity IDs directly.
+
+---
+
+## Error Handling
+
+- **Empty data**: API returned but no `data` field → Try different entity IDs
+- **Timeout**: API took too long → Retry or use Kiwi fallback
+- **Status incomplete**: Poll `/search-incomplete` with sessionId

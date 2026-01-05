@@ -1,0 +1,20 @@
+2026-01-05 23:00:32,984 [INFO] GEMINI_API_KEY loaded: True
+2026-01-05 23:00:32,985 [INFO] google-generativeai imported: True
+2026-01-05 23:00:32,985 [INFO] Gemini enabled: True
+2026-01-05 23:00:33,428 [INFO] RAG service initialized successfully
+2026-01-05 23:00:34,871 [INFO] HTTP Request: POST https://api.together.xyz/v1/embeddings "HTTP/1.1 200 OK"
+2026-01-05 23:00:35,636 [INFO] HTTP Request: POST https://kqciszpnqpbxetguecwj.supabase.co/rest/v1/rpc/search_rag "HTTP/2 200 OK"
+2026-01-05 23:00:35,638 [INFO] RAG: Retrieved 3 docs for mode=travel
+2026-01-05 23:00:35,638 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby
+2026-01-05 23:00:35,639 [INFO] Using agent mode: travel
+2026-01-05 23:00:46,665 [INFO] TOOL CALL: search_flights({'date_from': '2026-01-20', 'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'ECONOMY', 'to_location': 'HEL'})
+2026-01-05 23:00:48,291 [INFO] HTTP Request: GET https://kiwi-com-cheap-flights.p.rapidapi.com/one-way?source=TLL&destination=HEL&date=2026-01-20&currency=USD&sort=price&limit=10&adults=1.0&children=0&infants=0&cabinClass=ECONOMY&sortBy=PRICE "HTTP/1.1 200 OK"
+2026-01-05 23:00:48,295 [INFO] TOOL RESULT: search_flights - count=10, error=False, prices: ['6727 USD', '6727 USD', '6727 USD']
+2026-01-05 23:00:48,314 [INFO] TOOL CALL: search_flights_sky({'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'economy', 'to_location': 'HEL', 'date': '2026-01-20'})
+2026-01-05 23:00:51,309 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=TLL "HTTP/1.1 200 OK"
+2026-01-05 23:00:53,619 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=HEL "HTTP/1.1 200 OK"
+2026-01-05 23:00:53,897 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/search-one-way?fromEntityId=TLL&toEntityId=HEL&adults=1.0&currency=USD&market=US&locale=en-US&cabinClass=economy&departDate=2026-01-20 "HTTP/1.1 200 OK"
+2026-01-05 23:00:53,899 [INFO] TOOL RESULT: search_flights_sky - count=0, error=True
+2026-01-05 23:00:53,900 [INFO] TOOL CALL: get_directions({'destination': 'Helsinki, Finland', 'mode': 'transit', 'origin': 'Tallinn, Estonia'})
+2026-01-05 23:00:54,706 [INFO] HTTP Request: GET https://maps.googleapis.com/maps/api/directions/json?origin=Tallinn%2C%20Estonia&destination=Helsinki%2C%20Finland&mode=transit&key=AIzaSyBVVTUhVEOAlwWRXD3uafWZ0V2SeErRDso&alternatives=true "HTTP/1.1 200 OK"
+2026-01-05 23:00:54,717 [INFO] TOOL RESULT: get_directions - count=3, error=False

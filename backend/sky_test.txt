@@ -1,0 +1,3 @@
+Status: 200
+Keys: dict_keys(['data', 'errors', 'status', 'message'])
+data type: <class 'NoneType'>

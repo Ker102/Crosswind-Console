@@ -1,0 +1,50 @@
+2026-01-05 22:55:45,357 [DEBUG] Decoded (b'cf-ray', b'9b95e0d3a8c15426-TLL'), total consumed 23 bytes, indexed True
+2026-01-05 22:55:45,357 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-05 22:55:45,357 [DEBUG] Decoded 6, consumed 1 bytes
+2026-01-05 22:55:45,358 [DEBUG] Decoded (b'cf-cache-status', b'DYNAMIC'), total consumed 19 bytes, indexed True
+2026-01-05 22:55:45,358 [DEBUG] Decoded 26, consumed 1 bytes
+2026-01-05 22:55:45,358 [DEBUG] Decoded 3, consumed 1 bytes
+2026-01-05 22:55:45,358 [DEBUG] Decoded (b'content-encoding', b'gzip'), total consumed 5 bytes, indexed True
+2026-01-05 22:55:45,359 [DEBUG] Decoded 56, consumed 1 bytes
+2026-01-05 22:55:45,359 [DEBUG] Decoded 32, consumed 1 bytes
+2026-01-05 22:55:45,359 [DEBUG] Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 34 bytes, indexed True
+2026-01-05 22:55:45,360 [DEBUG] Decoded 59, consumed 1 bytes
+2026-01-05 22:55:45,360 [DEBUG] Decoded 11, consumed 1 bytes
+2026-01-05 22:55:45,360 [DEBUG] Decoded (b'vary', b'Accept-Encoding'), total consumed 13 bytes, indexed True
+2026-01-05 22:55:45,360 [DEBUG] Decoded 16, consumed 1 bytes
+2026-01-05 22:55:45,361 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-05 22:55:45,361 [DEBUG] Decoded (b'x-content-type-options', b'nosniff'), total consumed 24 bytes, indexed True
+2026-01-05 22:55:45,361 [DEBUG] Decoded 11, consumed 1 bytes
+2026-01-05 22:55:45,361 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-05 22:55:45,362 [DEBUG] Decoded (b'content-profile', b'public'), total consumed 19 bytes, indexed True
+2026-01-05 22:55:45,362 [DEBUG] Decoded 13, consumed 1 bytes
+2026-01-05 22:55:45,362 [DEBUG] Decoded 1, consumed 1 bytes
+2026-01-05 22:55:45,362 [DEBUG] Decoded (b'sb-gateway-version', <memory at 0x000001ED7E45EE00>), total consumed 17 bytes, indexed True
+2026-01-05 22:55:45,363 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-05 22:55:45,363 [DEBUG] Decoded 15, consumed 1 bytes
+2026-01-05 22:55:45,363 [DEBUG] Decoded (b'sb-project-ref', b'kqciszpnqpbxetguecwj'), total consumed 28 bytes, indexed True
+2026-01-05 22:55:45,363 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-05 22:55:45,364 [DEBUG] Decoded 26, consumed 1 bytes
+2026-01-05 22:55:45,364 [DEBUG] Decoded (b'sb-request-id', b'019b8ff1-c056-7a25-b8c4-94c72c5aadd8'), total consumed 39 bytes, indexed True
+2026-01-05 22:55:45,364 [DEBUG] Decoded 15, consumed 1 bytes
+2026-01-05 22:55:45,364 [DEBUG] Decoded 1, consumed 1 bytes
+2026-01-05 22:55:45,365 [DEBUG] Decoded (b'x-envoy-attempt-count', <memory at 0x000001ED7E45F1C0>), total consumed 19 bytes, indexed True
+2026-01-05 22:55:45,365 [DEBUG] Decoded 21, consumed 1 bytes
+2026-01-05 22:55:45,366 [DEBUG] Decoded 3, consumed 1 bytes
+2026-01-05 22:55:45,366 [DEBUG] Decoded (b'x-envoy-upstream-service-time', <memory at 0x000001ED7E45F280>), total consumed 27 bytes, indexed True
+2026-01-05 22:55:45,367 [DEBUG] Decoded 55, consumed 1 bytes
+2026-01-05 22:55:45,367 [DEBUG] Decoded 215, consumed 2 bytes
+2026-01-05 22:55:45,368 [DEBUG] Decoded (b'set-cookie', b'__cf_bm=Ddfatv4SUvxJ66Sr0wwakDJqymAK7G9Ffp6NVyPC9cw-1767646545-1.0.1.1-M5pYRyqzmyo65eP1FhFR__16RXTUGQ0FRezLwIrAiZVqit6PkVn27CoO6d8BSXODsLxGfQJBlo08irPh9lqYIBRWECDw3bMkmEf.sJN.mRI; path=/; expires=Mon, 05-Jan-26 21:25:45 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), total consumed 218 bytes, indexed True
+2026-01-05 22:55:45,368 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-05 22:55:45,368 [DEBUG] Decoded 16, consumed 1 bytes
+2026-01-05 22:55:45,369 [DEBUG] Decoded (b'alt-svc', b'h3=":443"; ma=86400'), total consumed 24 bytes, indexed True
+2026-01-05 22:55:45,369 [DEBUG] receive_response_headers.complete return_value=(200, [(b'date', b'Mon, 05 Jan 2026 20:55:45 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'server', b'cloudflare'), (b'content-range', b'0-2/*'), (b'cf-ray', b'9b95e0d3a8c15426-TLL'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'x-content-type-options', b'nosniff'),
+2026-01-05 22:55:45,370 [INFO] HTTP Request: POST https://kqciszpnqpbxetguecwj.supabase.co/rest/v1/rpc/search_rag "HTTP/2 200 OK"
+2026-01-05 22:55:45,371 [DEBUG] receive_response_body.started request=<Request [b'POST']> stream_id=1
+2026-01-05 22:55:45,371 [DEBUG] receive_response_body.complete
+2026-01-05 22:55:45,372 [DEBUG] response_closed.started stream_id=1
+2026-01-05 22:55:45,372 [DEBUG] response_closed.complete
+2026-01-05 22:55:45,374 [INFO] RAG: Retrieved 3 docs for mode=travel
+2026-01-05 22:55:45,374 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby', 'search_jobs', 'get_active_jobs', 'optimize_resume', 'analyze_job_match', 'web_search', 'scrape_webpage', 'crawl_website', 'get_youtube_trends', 'search_youtube', 'get_google_trends', 'search_tweet
+2026-01-05 22:55:45,374 [INFO] Using agent mode: travel
+

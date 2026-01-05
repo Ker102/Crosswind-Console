@@ -383,11 +383,11 @@ async def _execute_sky_search(
             if not to_entity:
                 return f"Could not find airport/city for: {to_location}"
             
-            # Step 3: Search
+            # Step 3: Search - API expects fromEntityId/toEntityId
             search_params = {
                 "fromEntityId": from_entity,
                 "toEntityId": to_entity,
-                "adults": str(adults),
+                "adults": str(int(adults)),  # Ensure integer
                 "currency": "USD",
                 "market": "US",
                 "locale": "en-US",
