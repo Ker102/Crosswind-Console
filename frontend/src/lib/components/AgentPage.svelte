@@ -35,6 +35,7 @@
     } from "lucide-svelte";
     import { sendLLMPrompt, searchAirports, searchCurrencies } from "../api";
     import Autocomplete from "./Autocomplete.svelte";
+    import SandboxMode from "./SandboxMode.svelte";
     import type { Domain } from "../types";
 
     // Configure marked for clean output
@@ -616,124 +617,134 @@
     {/if}
 
     <!-- Main Chat Area -->
-    <div class="chat-area">
-        {#if messages.length === 0}
-            <div class="empty-state" in:fade>
-                <div class="hero-section">
-                    <div class="icon-ring">
-                        <CurrentIcon size={48} color="var(--primary)" />
-                    </div>
-                    <h1 class="gradient-title">{currentTheme.description}</h1>
-
-                    <!-- Simplified Powered By -->
-                    <div class="powered-by-container">
-                        <div class="active-indicator"></div>
-                        <p class="powered-by-text">
-                            Powered by Crosswind AI & Gemini 3 Pro
-                        </p>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    {#each currentCapabilities.stats as stat}
-                        <div class="stat-card">
-                            <div class="stat-value">{stat.value}</div>
-                            <div class="stat-label">{stat.label}</div>
+    {#if category === "travel" && travelMode === "sandbox"}
+        <div class="chat-area sandbox-wrapper">
+            <SandboxMode {category} />
+        </div>
+    {:else}
+        <div class="chat-area">
+            {#if messages.length === 0}
+                <div class="empty-state" in:fade>
+                    <div class="hero-section">
+                        <div class="icon-ring">
+                            <CurrentIcon size={48} color="var(--primary)" />
                         </div>
-                    {/each}
-                </div>
+                        <h1 class="gradient-title">
+                            {currentTheme.description}
+                        </h1>
 
-                <div class="tools-list">
-                    <h3><Bot size={16} /> INTEGRATED TOOLS</h3>
-                    <div class="tags">
-                        {#each currentCapabilities.tools as tool}
-                            <span class="tool-tag">{tool}</span>
+                        <!-- Simplified Powered By -->
+                        <div class="powered-by-container">
+                            <div class="active-indicator"></div>
+                            <p class="powered-by-text">
+                                Powered by Crosswind AI & Gemini 3 Pro
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        {#each currentCapabilities.stats as stat}
+                            <div class="stat-card">
+                                <div class="stat-value">{stat.value}</div>
+                                <div class="stat-label">{stat.label}</div>
+                            </div>
                         {/each}
                     </div>
-                </div>
 
-                <div class="guidance">
-                    <p>{currentCapabilities.guidance}</p>
-                </div>
-            </div>
-        {:else}
-            <div class="messages">
-                <div class="message-spacer"></div>
-                {#each messages as msg}
-                    <div
-                        class="message {msg.role}"
-                        in:fly={{ y: 20, duration: 300 }}
-                    >
-                        {#if msg.role === "model" || msg.role === "assistant"}
-                            <div class="msg-content markdown-body">
-                                {@html parseMarkdown(msg.content)}
-                            </div>
-                        {:else}
-                            <div class="msg-content">{msg.content}</div>
-                        {/if}
-                    </div>
-                {/each}
-
-                {#if isThinking}
-                    <div class="thinking-indicator" in:slide>
-                        <div class="thinking-header">
-                            <Loader2 class="spin" size={16} />
-                            <span>Reasoning...</span>
-                        </div>
-                        <div class="steps">
-                            {#each thinkingSteps as step}
-                                <div
-                                    class="step {step.status}"
-                                    in:slide={{ axis: "y" }}
-                                >
-                                    {#if step.status === "pending"}
-                                        <div class="step-dot"></div>
-                                    {:else if step.status === "done"}
-                                        <div
-                                            class="step-dot"
-                                            style="background: var(--primary)"
-                                        ></div>
-                                    {/if}
-                                    <span>{step.text}</span>
-                                </div>
+                    <div class="tools-list">
+                        <h3><Bot size={16} /> INTEGRATED TOOLS</h3>
+                        <div class="tags">
+                            {#each currentCapabilities.tools as tool}
+                                <span class="tool-tag">{tool}</span>
                             {/each}
                         </div>
                     </div>
-                {/if}
-            </div>
-        {/if}
-    </div>
 
-    <!-- Input Area -->
-    <div class="input-area">
-        <div class="input-wrapper">
-            <input
-                type="text"
-                placeholder="Ask anything..."
-                bind:value={prompt}
-                onkeydown={(e) =>
-                    e.key === "Enter" && !isThinking && handleSubmit()}
-                readonly={category === "travel" &&
-                    travelMode === "detailed" &&
-                    messages.length === 0}
-            />
-            <button
-                class="send-btn"
-                onclick={() => handleSubmit()}
-                disabled={isThinking ||
-                    (category === "travel" &&
-                        travelMode === "detailed" &&
-                        messages.length === 0) ||
-                    !prompt.trim()}
-            >
-                {#if isThinking}
-                    <Loader2 class="spin" size={20} />
-                {:else}
-                    <Send size={20} />
-                {/if}
-            </button>
+                    <div class="guidance">
+                        <p>{currentCapabilities.guidance}</p>
+                    </div>
+                </div>
+            {:else}
+                <div class="messages">
+                    <div class="message-spacer"></div>
+                    {#each messages as msg}
+                        <div
+                            class="message {msg.role}"
+                            in:fly={{ y: 20, duration: 300 }}
+                        >
+                            {#if msg.role === "model" || msg.role === "assistant"}
+                                <div class="msg-content markdown-body">
+                                    {@html parseMarkdown(msg.content)}
+                                </div>
+                            {:else}
+                                <div class="msg-content">{msg.content}</div>
+                            {/if}
+                        </div>
+                    {/each}
+
+                    {#if isThinking}
+                        <div class="thinking-indicator" in:slide>
+                            <div class="thinking-header">
+                                <Loader2 class="spin" size={16} />
+                                <span>Reasoning...</span>
+                            </div>
+                            <div class="steps">
+                                {#each thinkingSteps as step}
+                                    <div
+                                        class="step {step.status}"
+                                        in:slide={{ axis: "y" }}
+                                    >
+                                        {#if step.status === "pending"}
+                                            <div class="step-dot"></div>
+                                        {:else if step.status === "done"}
+                                            <div
+                                                class="step-dot"
+                                                style="background: var(--primary)"
+                                            ></div>
+                                        {/if}
+                                        <span>{step.text}</span>
+                                    </div>
+                                {/each}
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+            {/if}
         </div>
-    </div>
+    {/if}
+
+    <!-- Input Area (only show for non-sandbox mode) -->
+    {#if !(category === "travel" && travelMode === "sandbox")}
+        <div class="input-area">
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    placeholder="Ask anything..."
+                    bind:value={prompt}
+                    onkeydown={(e) =>
+                        e.key === "Enter" && !isThinking && handleSubmit()}
+                    readonly={category === "travel" &&
+                        travelMode === "detailed" &&
+                        messages.length === 0}
+                />
+                <button
+                    class="send-btn"
+                    onclick={() => handleSubmit()}
+                    disabled={isThinking ||
+                        (category === "travel" &&
+                            travelMode === "detailed" &&
+                            messages.length === 0) ||
+                        !prompt.trim()}
+                >
+                    {#if isThinking}
+                        <Loader2 class="spin" size={20} />
+                    {:else}
+                        <Send size={20} />
+                    {/if}
+                </button>
+            </div>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -745,6 +756,14 @@
         background: var(--bg);
         color: var(--text);
         position: relative;
+        overflow: hidden;
+    }
+
+    /* Sandbox Mode Wrapper */
+    .sandbox-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
     }
 
