@@ -62,3 +62,59 @@ export function searchCurrencies(query: string): Promise<AutocompleteItem[]> {
   return get<AutocompleteItem[]>(`/autocomplete/currencies?q=${encodeURIComponent(query)}`)
 }
 
+// Sandbox API (RAG + MCP)
+export interface SandboxRequest {
+  prompt: string;
+  namespace: 'travel' | 'jobs' | 'trends';
+  history?: { role: 'user' | 'model'; content: string }[];
+}
+
+export interface SandboxResponse {
+  output: string;
+  model: string;
+  latency_ms: number;
+  tools_used: string[];
+  rag_context: { title: string; content: string }[];
+}
+
+export function sendSandboxPrompt(payload: SandboxRequest) {
+  return request<SandboxResponse>('/llm/sandbox', payload)
+}
+
+// MCP Tools API
+export interface MCPTool {
+  name: string;
+  description?: string;
+  server: string;
+  category: string;
+}
+
+export interface MCPToolForm {
+  toolName: string;
+  serverName: string;
+  description?: string;
+  fields: {
+    name: string;
+    type: string;
+    label: string;
+    required: boolean;
+    description?: string;
+    options?: string[];
+  }[];
+}
+
+export function getMCPServers() {
+  return get<{ servers: { name: string; category: string }[] }>('/mcp/servers')
+}
+
+export function getMCPTools(serverName: string) {
+  return get<{ server: string; tools: MCPTool[]; count: number }>(`/mcp/tools/${serverName}`)
+}
+
+export function getMCPToolForm(serverName: string, toolName: string) {
+  return get<MCPToolForm>(`/mcp/tools/${serverName}/${toolName}/form`)
+}
+
+export function executeMCPTool(serverName: string, toolName: string, args: Record<string, any>) {
+  return request<{ success: boolean; result: any[] }>(`/mcp/tools/${serverName}/${toolName}/execute`, args)
+}
