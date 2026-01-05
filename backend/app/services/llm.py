@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 import sys
 import textwrap
@@ -8,6 +9,17 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
+
+# Configure logging to file
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler(Path(__file__).parent.parent.parent / "llm_debug.log", mode='a'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 # Add project root to path to allow importing mcp modules
 sys.path.append(str(Path(__file__).parents[3]))
@@ -70,9 +82,9 @@ class GeminiClient:
         self._model = None
         
         # Debug logging
-        print(f"[DEBUG] GEMINI_API_KEY loaded: {bool(self._api_key)}")
-        print(f"[DEBUG] google-generativeai imported: {bool(genai)}")
-        print(f"[DEBUG] Gemini enabled: {self._enabled}")
+        logger.info(f"GEMINI_API_KEY loaded: {bool(self._api_key)}")
+        logger.info(f"google-generativeai imported: {bool(genai)}")
+        logger.info(f"Gemini enabled: {self._enabled}")
         
         # Propagate settings to os.environ for MCP tools
         if settings.rapidapi_key: os.environ["RAPIDAPI_KEY"] = settings.rapidapi_key
@@ -158,7 +170,7 @@ class GeminiClient:
         
         # Build tool name -> function mapping
         tool_map = {func.__name__: func for func in MCP_TOOLS}
-        print(f"[DEBUG] Available tools: {list(tool_map.keys())}")
+        logger.info(f"Available tools: {list(tool_map.keys())}")
         
         # Agent-specific system prompts
         SYSTEM_PROMPTS = {
@@ -373,7 +385,7 @@ End every response with:
         
         # Select system prompt based on mode
         system_prompt = SYSTEM_PROMPTS.get(mode, SYSTEM_PROMPTS["general"])
-        print(f"[DEBUG] Using agent mode: {mode}")
+        logger.info(f"Using agent mode: {mode}")
         
         trace_log = []
         response = await asyncio.get_running_loop().run_in_executor(
@@ -406,18 +418,18 @@ End every response with:
                 func_name = fc.name
                 func_args = dict(fc.args) if fc.args else {}
                 
-                print(f"[TOOL CALL] {func_name}({func_args})")
+                logger.info(f"TOOL CALL: {func_name}({func_args})")
                 trace_log.append(f"Called: {func_name}({func_args})")
                 
                 if func_name in tool_map:
                     try:
                         # Call the async function
                         result = await tool_map[func_name](**func_args)
-                        print(f"[TOOL RESULT] {func_name}: {str(result)[:200]}...")
+                        logger.info(f"TOOL RESULT: {func_name}: {str(result)[:500]}...")
                         trace_log.append(f"Result: {str(result)[:100]}...")
                     except Exception as e:
                         result = f"Error calling {func_name}: {str(e)}"
-                        print(f"[TOOL ERROR] {func_name}: {e}")
+                        logger.error(f"TOOL ERROR: {func_name}: {e}")
                         trace_log.append(f"Error: {str(e)}")
                 else:
                     result = f"Unknown function: {func_name}"
@@ -441,7 +453,7 @@ End every response with:
         latency_ms = (time.perf_counter() - start) * 1000
         text = response.text if hasattr(response, "text") else str(response)
         trace = " | ".join(trace_log) if trace_log else None
-        print(f"[DEBUG] Final response (latency: {latency_ms:.0f}ms): {text[:200]}...")
+        logger.info(f"Final response (latency: {latency_ms:.0f}ms): {text[:200]}...")
         return LLMResult(text=text, latency_ms=latency_ms, model=self.model_id, trace=trace)
 
     def _build_fallback_summary(

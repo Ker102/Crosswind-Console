@@ -1,0 +1,136 @@
+2026-01-05 21:54:04,012 [DEBUG] Initializing server 'jobs'
+2026-01-05 21:54:04,013 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 21:54:04,014 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 21:54:04,014 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 21:54:04,015 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 21:54:04,015 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 21:54:04,015 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 21:54:04,016 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 21:54:04,049 [DEBUG] Initializing server 'search'
+2026-01-05 21:54:04,049 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 21:54:04,050 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 21:54:04,050 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 21:54:04,051 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 21:54:04,051 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 21:54:04,052 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 21:54:04,052 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 21:54:04,067 [DEBUG] Initializing server 'travel'
+2026-01-05 21:54:04,067 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 21:54:04,068 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 21:54:04,068 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 21:54:04,069 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 21:54:04,069 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 21:54:04,069 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 21:54:04,070 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 21:54:04,129 [DEBUG] Initializing server 'trends'
+2026-01-05 21:54:04,129 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 21:54:04,130 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 21:54:04,130 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 21:54:04,130 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 21:54:04,131 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 21:54:04,131 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 21:54:04,131 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 21:54:06,259 [DEBUG] executing <function connect.<locals>.connector at 0x00000219D4229D00>
+2026-01-05 21:54:06,260 [DEBUG] operation <function connect.<locals>.connector at 0x00000219D4229D00> completed
+2026-01-05 21:54:06,261 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x00000219DAF17060>, deterministic=True)
+2026-01-05 21:54:06,262 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x00000219DAF17060>, deterministic=True) completed
+2026-01-05 21:54:06,262 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-05 21:54:06,263 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-05 21:54:06,263 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,264 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:06,265 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA read_uncommitted', [])
+2026-01-05 21:54:06,265 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA read_uncommitted', []) completed
+2026-01-05 21:54:06,266 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,267 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,267 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,268 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,268 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,269 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:06,271 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,271 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:06,272 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("airports")', ())
+2026-01-05 21:54:06,273 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-05 21:54:06,274 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,274 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,274 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,275 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,276 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,276 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:06,277 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-05 21:54:06,277 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-05 21:54:06,278 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,278 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,279 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
+2026-01-05 21:54:06,279 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
+2026-01-05 21:54:06,280 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,280 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:06,281 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>)
+2026-01-05 21:54:06,282 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
+2026-01-05 21:54:52,743 [INFO] GEMINI_API_KEY loaded: True
+2026-01-05 21:54:52,743 [INFO] google-generativeai imported: True
+2026-01-05 21:54:52,744 [INFO] Gemini enabled: True
+2026-01-05 21:54:52,781 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby', 'search_jobs', 'get_active_jobs', 'optimize_resume', 'analyze_job_match', 'web_search', 'scrape_webpage', 'crawl_website', 'get_youtube_trends', 'search_youtube', 'get_google_trends', 'search_tweets', 'get_tiktok_trends', 'search_tiktok', 'search_instagram', 'get_instagram_posts', 'search_facebook']
+2026-01-05 21:54:52,781 [INFO] Using agent mode: travel
+2026-01-05 21:54:58,907 [INFO] TOOL CALL: search_flights({'date_from': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
+2026-01-05 21:54:58,907 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-05 21:54:58,910 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-05 21:54:59,296 [DEBUG] connect_tcp.started host='kiwi-com-cheap-flights.p.rapidapi.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-01-05 21:54:59,305 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DB055550>
+2026-01-05 21:54:59,305 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x00000219DAF4A600> server_hostname='kiwi-com-cheap-flights.p.rapidapi.com' timeout=5.0
+2026-01-05 21:54:59,439 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DAFC2850>
+2026-01-05 21:54:59,440 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-05 21:54:59,440 [DEBUG] send_request_headers.complete
+2026-01-05 21:54:59,440 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-05 21:54:59,441 [DEBUG] send_request_body.complete
+2026-01-05 21:54:59,441 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:00,450 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:00 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'public, max-age=0, must-revalidate'), (b'Content-Encoding', b'gzip'), (b'Vary', b'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Url'), (b'X-Vercel-Cache', b'MISS'), (b'X-Vercel-Id', b'dub1::iad1::5r7v4-1767642899449-7a49c1ed6b42'), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains; preload'), (b'Age', b'0'), (b'X-Matched-Path', b'/api/kiwi/one-way'), (b'X-RateLimit-Requests-Limit', b'300'), (b'X-RateLimit-Requests-Remaining', b'274'), (b'X-RateLimit-Requests-Reset', b'898'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499983'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'898'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'c1a14222e26013f5d66f4d2ab573258727dfa0461265c7aea5a6ed7708371647')])
+2026-01-05 21:55:00,451 [INFO] HTTP Request: GET https://kiwi-com-cheap-flights.p.rapidapi.com/one-way?source=TLL&destination=HEL&date=2025-01-15&currency=USD&sort=price&limit=10&adults=1&children=0&infants=0&cabinClass=ECONOMY&sortBy=PRICE "HTTP/1.1 200 OK"
+2026-01-05 21:55:00,451 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-05 21:55:00,452 [DEBUG] receive_response_body.complete
+2026-01-05 21:55:00,453 [DEBUG] response_closed.started
+2026-01-05 21:55:00,453 [DEBUG] response_closed.complete
+2026-01-05 21:55:00,454 [DEBUG] close.started
+2026-01-05 21:55:00,454 [DEBUG] close.complete
+2026-01-05 21:55:00,692 [INFO] TOOL CALL: search_flights_sky({'date': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
+2026-01-05 21:55:00,692 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-05 21:55:00,693 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-05 21:55:01,072 [DEBUG] connect_tcp.started host='flights-sky.p.rapidapi.com' port=443 local_address=None timeout=30.0 socket_options=None
+2026-01-05 21:55:01,109 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DB058550>
+2026-01-05 21:55:01,110 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x00000219DB0256D0> server_hostname='flights-sky.p.rapidapi.com' timeout=30.0
+2026-01-05 21:55:01,224 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DAF7B5C0>
+2026-01-05 21:55:01,224 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:01,225 [DEBUG] send_request_headers.complete
+2026-01-05 21:55:01,225 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-05 21:55:01,225 [DEBUG] send_request_body.complete
+2026-01-05 21:55:01,226 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:04,043 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:03 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'80'), (b'X-RateLimit-Requests-Reset', b'1526673'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499980'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526673'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'd84f0557bede2cef734f56a29d8b484718c55e88a974931ba1ec990409072baf')])
+2026-01-05 21:55:04,044 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=TLL "HTTP/1.1 200 OK"
+2026-01-05 21:55:04,044 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-05 21:55:04,044 [DEBUG] receive_response_body.complete
+2026-01-05 21:55:04,045 [DEBUG] response_closed.started
+2026-01-05 21:55:04,045 [DEBUG] response_closed.complete
+2026-01-05 21:55:04,046 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:04,046 [DEBUG] send_request_headers.complete
+2026-01-05 21:55:04,046 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-05 21:55:04,047 [DEBUG] send_request_body.complete
+2026-01-05 21:55:04,047 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:07,100 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:07 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'79'), (b'X-RateLimit-Requests-Reset', b'1526669'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499979'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526669'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'9f85bb12f29b3a3f0cb9b9765cd764d91e4da4eddf15a238629cc2f0dc3de609')])
+2026-01-05 21:55:07,100 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=HEL "HTTP/1.1 200 OK"
+2026-01-05 21:55:07,100 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-05 21:55:07,101 [DEBUG] receive_response_body.complete
+2026-01-05 21:55:07,101 [DEBUG] response_closed.started
+2026-01-05 21:55:07,101 [DEBUG] response_closed.complete
+2026-01-05 21:55:07,102 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:07,102 [DEBUG] send_request_headers.complete
+2026-01-05 21:55:07,102 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-05 21:55:07,102 [DEBUG] send_request_body.complete
+2026-01-05 21:55:07,103 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-05 21:55:07,351 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:07 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'78'), (b'X-RateLimit-Requests-Reset', b'1526669'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499978'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526669'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'710970a3f1745ce0c82b146a7df8cbaa37ddf657c0c413c2182c60a67d010e45')])
+2026-01-05 21:55:07,351 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/search-one-way?fromEntityId=TLL&toEntityId=HEL&adults=1&currency=USD&market=US&locale=en-US&cabinClass=economy&departDate=2025-01-15 "HTTP/1.1 200 OK"
+2026-01-05 21:55:07,352 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-05 21:55:07,352 [DEBUG] receive_response_body.complete
+2026-01-05 21:55:07,352 [DEBUG] response_closed.started
+2026-01-05 21:55:07,352 [DEBUG] response_closed.complete
+2026-01-05 21:55:07,353 [DEBUG] close.started
+2026-01-05 21:55:07,353 [DEBUG] close.complete
+2026-01-05 21:55:07,353 [INFO] TOOL RESULT: search_flights_sky: Error executing flight search: 'NoneType' object has no attribute 'get'...
