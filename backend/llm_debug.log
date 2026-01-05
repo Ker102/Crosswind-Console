@@ -1,541 +1,68 @@
-2026-01-05 21:54:04,012 [DEBUG] Initializing server 'jobs'
-2026-01-05 21:54:04,013 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 21:54:04,014 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 21:54:04,014 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 21:54:04,015 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 21:54:04,015 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 21:54:04,015 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 21:54:04,016 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 21:54:04,049 [DEBUG] Initializing server 'search'
-2026-01-05 21:54:04,049 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 21:54:04,050 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 21:54:04,050 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 21:54:04,051 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 21:54:04,051 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 21:54:04,052 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 21:54:04,052 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 21:54:04,067 [DEBUG] Initializing server 'travel'
-2026-01-05 21:54:04,067 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 21:54:04,068 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 21:54:04,068 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 21:54:04,069 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 21:54:04,069 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 21:54:04,069 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 21:54:04,070 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 21:54:04,129 [DEBUG] Initializing server 'trends'
-2026-01-05 21:54:04,129 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 21:54:04,130 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 21:54:04,130 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 21:54:04,130 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 21:54:04,131 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 21:54:04,131 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 21:54:04,131 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 21:54:06,259 [DEBUG] executing <function connect.<locals>.connector at 0x00000219D4229D00>
-2026-01-05 21:54:06,260 [DEBUG] operation <function connect.<locals>.connector at 0x00000219D4229D00> completed
-2026-01-05 21:54:06,261 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x00000219DAF17060>, deterministic=True)
-2026-01-05 21:54:06,262 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x00000219DAF17060>, deterministic=True) completed
-2026-01-05 21:54:06,262 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'floor', 1, <built-in function floor>, deterministic=True)
-2026-01-05 21:54:06,263 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x00000219DAF2AA70>, 'floor', 1, <built-in function floor>, deterministic=True) completed
-2026-01-05 21:54:06,263 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,264 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:06,265 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA read_uncommitted', [])
-2026-01-05 21:54:06,265 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA read_uncommitted', []) completed
-2026-01-05 21:54:06,266 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,267 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,267 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,268 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,268 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,269 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:06,271 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,271 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:06,272 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("airports")', ())
-2026-01-05 21:54:06,273 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("airports")', ()) completed
-2026-01-05 21:54:06,274 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,274 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,274 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,275 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,276 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,276 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:06,277 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("currencies")', ())
-2026-01-05 21:54:06,277 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000219DAF6E140>, 'PRAGMA main.table_info("currencies")', ()) completed
-2026-01-05 21:54:06,278 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,278 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,279 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>)
-2026-01-05 21:54:06,279 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000219DAF6E140>) completed
-2026-01-05 21:54:06,280 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,280 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:06,281 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>)
-2026-01-05 21:54:06,282 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x00000219DAF2AA70>) completed
-2026-01-05 21:54:52,743 [INFO] GEMINI_API_KEY loaded: True
-2026-01-05 21:54:52,743 [INFO] google-generativeai imported: True
-2026-01-05 21:54:52,744 [INFO] Gemini enabled: True
-2026-01-05 21:54:52,781 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby', 'search_jobs', 'get_active_jobs', 'optimize_resume', 'analyze_job_match', 'web_search', 'scrape_webpage', 'crawl_website', 'get_youtube_trends', 'search_youtube', 'get_google_trends', 'search_tweets', 'get_tiktok_trends', 'search_tiktok', 'search_instagram', 'get_instagram_posts', 'search_facebook']
-2026-01-05 21:54:52,781 [INFO] Using agent mode: travel
-2026-01-05 21:54:58,907 [INFO] TOOL CALL: search_flights({'date_from': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
-2026-01-05 21:54:58,907 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 21:54:58,910 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 21:54:59,296 [DEBUG] connect_tcp.started host='kiwi-com-cheap-flights.p.rapidapi.com' port=443 local_address=None timeout=5.0 socket_options=None
-2026-01-05 21:54:59,305 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DB055550>
-2026-01-05 21:54:59,305 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x00000219DAF4A600> server_hostname='kiwi-com-cheap-flights.p.rapidapi.com' timeout=5.0
-2026-01-05 21:54:59,439 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DAFC2850>
-2026-01-05 21:54:59,440 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 21:54:59,440 [DEBUG] send_request_headers.complete
-2026-01-05 21:54:59,440 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 21:54:59,441 [DEBUG] send_request_body.complete
-2026-01-05 21:54:59,441 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:00,450 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:00 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'public, max-age=0, must-revalidate'), (b'Content-Encoding', b'gzip'), (b'Vary', b'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Url'), (b'X-Vercel-Cache', b'MISS'), (b'X-Vercel-Id', b'dub1::iad1::5r7v4-1767642899449-7a49c1ed6b42'), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains; preload'), (b'Age', b'0'), (b'X-Matched-Path', b'/api/kiwi/one-way'), (b'X-RateLimit-Requests-Limit', b'300'), (b'X-RateLimit-Requests-Remaining', b'274'), (b'X-RateLimit-Requests-Reset', b'898'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499983'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'898'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'c1a14222e26013f5d66f4d2ab573258727dfa0461265c7aea5a6ed7708371647')])
-2026-01-05 21:55:00,451 [INFO] HTTP Request: GET https://kiwi-com-cheap-flights.p.rapidapi.com/one-way?source=TLL&destination=HEL&date=2025-01-15&currency=USD&sort=price&limit=10&adults=1&children=0&infants=0&cabinClass=ECONOMY&sortBy=PRICE "HTTP/1.1 200 OK"
-2026-01-05 21:55:00,451 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 21:55:00,452 [DEBUG] receive_response_body.complete
-2026-01-05 21:55:00,453 [DEBUG] response_closed.started
-2026-01-05 21:55:00,453 [DEBUG] response_closed.complete
-2026-01-05 21:55:00,454 [DEBUG] close.started
-2026-01-05 21:55:00,454 [DEBUG] close.complete
-2026-01-05 21:55:00,692 [INFO] TOOL CALL: search_flights_sky({'date': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
-2026-01-05 21:55:00,692 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 21:55:00,693 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 21:55:01,072 [DEBUG] connect_tcp.started host='flights-sky.p.rapidapi.com' port=443 local_address=None timeout=30.0 socket_options=None
-2026-01-05 21:55:01,109 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DB058550>
-2026-01-05 21:55:01,110 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x00000219DB0256D0> server_hostname='flights-sky.p.rapidapi.com' timeout=30.0
-2026-01-05 21:55:01,224 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x00000219DAF7B5C0>
-2026-01-05 21:55:01,224 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:01,225 [DEBUG] send_request_headers.complete
-2026-01-05 21:55:01,225 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 21:55:01,225 [DEBUG] send_request_body.complete
-2026-01-05 21:55:01,226 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:04,043 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:03 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'80'), (b'X-RateLimit-Requests-Reset', b'1526673'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499980'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526673'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'd84f0557bede2cef734f56a29d8b484718c55e88a974931ba1ec990409072baf')])
-2026-01-05 21:55:04,044 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=TLL "HTTP/1.1 200 OK"
-2026-01-05 21:55:04,044 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 21:55:04,044 [DEBUG] receive_response_body.complete
-2026-01-05 21:55:04,045 [DEBUG] response_closed.started
-2026-01-05 21:55:04,045 [DEBUG] response_closed.complete
-2026-01-05 21:55:04,046 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:04,046 [DEBUG] send_request_headers.complete
-2026-01-05 21:55:04,046 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 21:55:04,047 [DEBUG] send_request_body.complete
-2026-01-05 21:55:04,047 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:07,100 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:07 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'79'), (b'X-RateLimit-Requests-Reset', b'1526669'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499979'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526669'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'9f85bb12f29b3a3f0cb9b9765cd764d91e4da4eddf15a238629cc2f0dc3de609')])
-2026-01-05 21:55:07,100 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=HEL "HTTP/1.1 200 OK"
-2026-01-05 21:55:07,100 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 21:55:07,101 [DEBUG] receive_response_body.complete
-2026-01-05 21:55:07,101 [DEBUG] response_closed.started
-2026-01-05 21:55:07,101 [DEBUG] response_closed.complete
-2026-01-05 21:55:07,102 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:07,102 [DEBUG] send_request_headers.complete
-2026-01-05 21:55:07,102 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 21:55:07,102 [DEBUG] send_request_body.complete
-2026-01-05 21:55:07,103 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 21:55:07,351 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 19:55:07 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'78'), (b'X-RateLimit-Requests-Reset', b'1526669'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499978'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1526669'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'710970a3f1745ce0c82b146a7df8cbaa37ddf657c0c413c2182c60a67d010e45')])
-2026-01-05 21:55:07,351 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/search-one-way?fromEntityId=TLL&toEntityId=HEL&adults=1&currency=USD&market=US&locale=en-US&cabinClass=economy&departDate=2025-01-15 "HTTP/1.1 200 OK"
-2026-01-05 21:55:07,352 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 21:55:07,352 [DEBUG] receive_response_body.complete
-2026-01-05 21:55:07,352 [DEBUG] response_closed.started
-2026-01-05 21:55:07,352 [DEBUG] response_closed.complete
-2026-01-05 21:55:07,353 [DEBUG] close.started
-2026-01-05 21:55:07,353 [DEBUG] close.complete
-2026-01-05 21:55:07,353 [INFO] TOOL RESULT: search_flights_sky: Error executing flight search: 'NoneType' object has no attribute 'get'...
-2026-01-05 22:25:47,966 [DEBUG] Initializing server 'jobs'
-2026-01-05 22:25:47,967 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:25:47,967 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:25:47,967 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:25:47,968 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:25:47,968 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:25:47,968 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:25:47,968 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:25:47,988 [DEBUG] Initializing server 'search'
-2026-01-05 22:25:47,988 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:25:47,988 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:25:47,988 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:25:47,989 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:25:47,989 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:25:47,989 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:25:47,989 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:25:48,014 [DEBUG] Initializing server 'travel'
-2026-01-05 22:25:48,014 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:25:48,014 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:25:48,015 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:25:48,015 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:25:48,015 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:25:48,015 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:25:48,016 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:25:48,049 [DEBUG] Initializing server 'trends'
-2026-01-05 22:25:48,050 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:25:48,050 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:25:48,050 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:25:48,050 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:25:48,051 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:25:48,051 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:25:48,051 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:25:49,295 [DEBUG] executing <function connect.<locals>.connector at 0x000001BD04089D00>
-2026-01-05 22:25:49,296 [DEBUG] operation <function connect.<locals>.connector at 0x000001BD04089D00> completed
-2026-01-05 22:25:49,297 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001BD0AD8AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001BD0AD76E80>, deterministic=True)
-2026-01-05 22:25:49,297 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001BD0AD8AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001BD0AD76E80>, deterministic=True) completed
-2026-01-05 22:25:49,297 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001BD0AD8AA70>, 'floor', 1, <built-in function floor>, deterministic=True)
-2026-01-05 22:25:49,298 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001BD0AD8AA70>, 'floor', 1, <built-in function floor>, deterministic=True) completed
-2026-01-05 22:25:49,298 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,298 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:25:49,299 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA read_uncommitted', [])
-2026-01-05 22:25:49,299 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA read_uncommitted', []) completed
-2026-01-05 22:25:49,299 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,300 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,300 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,300 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,301 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,301 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:25:49,302 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,302 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:25:49,302 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA main.table_info("airports")', ())
-2026-01-05 22:25:49,303 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA main.table_info("airports")', ()) completed
-2026-01-05 22:25:49,304 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,304 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,305 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,305 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,305 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,306 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:25:49,306 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA main.table_info("currencies")', ())
-2026-01-05 22:25:49,307 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0ADCA140>, 'PRAGMA main.table_info("currencies")', ()) completed
-2026-01-05 22:25:49,307 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,307 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,308 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>)
-2026-01-05 22:25:49,308 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0ADCA140>) completed
-2026-01-05 22:25:49,309 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,309 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:25:49,309 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:25:49,310 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:26:37,824 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:26:37,824 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:26:37,825 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE41240>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0))
-2026-01-05 22:26:37,848 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE41240>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0)) completed
-2026-01-05 22:26:37,848 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE41240>)
-2026-01-05 22:26:37,864 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE41240>) completed
-2026-01-05 22:26:37,864 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE41240>)
-2026-01-05 22:26:37,865 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE41240>) completed
-2026-01-05 22:26:37,867 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:26:37,867 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:26:37,868 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:26:37,868 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:01,030 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:01,031 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:01,031 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE59140>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tal%', '%tal%', '%tal%', '%tal%', 45, 0))
-2026-01-05 22:27:01,032 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE59140>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tal%', '%tal%', '%tal%', '%tal%', 45, 0)) completed
-2026-01-05 22:27:01,032 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE59140>)
-2026-01-05 22:27:01,046 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE59140>) completed
-2026-01-05 22:27:01,046 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE59140>)
-2026-01-05 22:27:01,047 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE59140>) completed
-2026-01-05 22:27:01,049 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:01,050 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:01,050 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:01,050 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:02,562 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:02,562 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:02,563 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE581C0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0))
-2026-01-05 22:27:02,567 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE581C0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0)) completed
-2026-01-05 22:27:02,568 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE581C0>)
-2026-01-05 22:27:02,577 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE581C0>) completed
-2026-01-05 22:27:02,578 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE581C0>)
-2026-01-05 22:27:02,578 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE581C0>) completed
-2026-01-05 22:27:02,580 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:02,580 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:02,581 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:02,581 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:04,931 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:04,932 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:04,932 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE59340>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%hel%', '%hel%', '%hel%', '%hel%', 45, 0))
-2026-01-05 22:27:04,933 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001BD0AE59340>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%hel%', '%hel%', '%hel%', '%hel%', 45, 0)) completed
-2026-01-05 22:27:04,933 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE59340>)
-2026-01-05 22:27:04,939 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001BD0AE59340>) completed
-2026-01-05 22:27:04,939 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE59340>)
-2026-01-05 22:27:04,940 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001BD0AE59340>) completed
-2026-01-05 22:27:04,942 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:04,942 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:04,942 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>)
-2026-01-05 22:27:04,943 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001BD0AD8AA70>) completed
-2026-01-05 22:27:12,809 [INFO] GEMINI_API_KEY loaded: True
-2026-01-05 22:27:12,809 [INFO] google-generativeai imported: True
-2026-01-05 22:27:12,810 [INFO] Gemini enabled: True
-2026-01-05 22:27:12,851 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby', 'search_jobs', 'get_active_jobs', 'optimize_resume', 'analyze_job_match', 'web_search', 'scrape_webpage', 'crawl_website', 'get_youtube_trends', 'search_youtube', 'get_google_trends', 'search_tweets', 'get_tiktok_trends', 'search_tiktok', 'search_instagram', 'get_instagram_posts', 'search_facebook']
-2026-01-05 22:27:12,851 [INFO] Using agent mode: travel
-2026-01-05 22:27:23,097 [INFO] TOOL CALL: search_flights({'date_from': '2026-01-20', 'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'ECONOMY', 'to_location': 'HEL'})
-2026-01-05 22:27:23,098 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 22:27:23,103 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 22:27:23,561 [DEBUG] connect_tcp.started host='kiwi-com-cheap-flights.p.rapidapi.com' port=443 local_address=None timeout=5.0 socket_options=None
-2026-01-05 22:27:23,590 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AEC9FD0>
-2026-01-05 22:27:23,591 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000001BD0ADABDA0> server_hostname='kiwi-com-cheap-flights.p.rapidapi.com' timeout=5.0
-2026-01-05 22:27:23,710 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AE22AD0>
-2026-01-05 22:27:23,711 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:23,711 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:23,711 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:23,712 [DEBUG] send_request_body.complete
-2026-01-05 22:27:23,712 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:25,130 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 20:27:25 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'public, max-age=0, must-revalidate'), (b'Content-Encoding', b'gzip'), (b'Vary', b'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Url'), (b'X-Vercel-Cache', b'MISS'), (b'X-Vercel-Id', b'dub1::iad1::24qmd-1767644844201-42541f351c95'), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains; preload'), (b'Age', b'0'), (b'X-Matched-Path', b'/api/kiwi/one-way'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499999'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'2677353'), (b'X-RateLimit-Requests-Limit', b'300'), (b'X-RateLimit-Requests-Remaining', b'299'), (b'X-RateLimit-Requests-Reset', b'2677353'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'ef8b4ffcca296bf98a8b6410d954d97114ef7736203cf4855fc04a50c3888ec4')])
-2026-01-05 22:27:25,131 [INFO] HTTP Request: GET https://kiwi-com-cheap-flights.p.rapidapi.com/one-way?source=TLL&destination=HEL&date=2026-01-20&currency=USD&sort=price&limit=10&adults=1.0&children=0&infants=0&cabinClass=ECONOMY&sortBy=PRICE "HTTP/1.1 200 OK"
-2026-01-05 22:27:25,131 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:25,132 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:25,133 [DEBUG] response_closed.started
-2026-01-05 22:27:25,133 [DEBUG] response_closed.complete
-2026-01-05 22:27:25,136 [DEBUG] close.started
-2026-01-05 22:27:25,136 [DEBUG] close.complete
-2026-01-05 22:27:25,138 [INFO] TOOL RESULT: search_flights - count=10, error=False, prices: ['6727 USD', '6727 USD', '6727 USD']
-2026-01-05 22:27:25,165 [INFO] TOOL CALL: search_flights_sky({'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'economy', 'to_location': 'HEL', 'date': '2026-01-20'})
-2026-01-05 22:27:25,166 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 22:27:25,167 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 22:27:25,598 [DEBUG] connect_tcp.started host='flights-sky.p.rapidapi.com' port=443 local_address=None timeout=30.0 socket_options=None
-2026-01-05 22:27:25,608 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0B1347D0>
-2026-01-05 22:27:25,609 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000001BD0AE722A0> server_hostname='flights-sky.p.rapidapi.com' timeout=30.0
-2026-01-05 22:27:25,742 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AEC4510>
-2026-01-05 22:27:25,743 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:25,743 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:25,743 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:25,744 [DEBUG] send_request_body.complete
-2026-01-05 22:27:25,744 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:28,557 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 20:27:28 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'77'), (b'X-RateLimit-Requests-Reset', b'1524728'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499977'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1524728'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'b1ad067662e7c243d1d2a415b18122c92d5fba6af4f470e78561bebb8aad480b')])
-2026-01-05 22:27:28,557 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=TLL "HTTP/1.1 200 OK"
-2026-01-05 22:27:28,558 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:28,558 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:28,558 [DEBUG] response_closed.started
-2026-01-05 22:27:28,559 [DEBUG] response_closed.complete
-2026-01-05 22:27:28,560 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:28,560 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:28,560 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:28,560 [DEBUG] send_request_body.complete
-2026-01-05 22:27:28,561 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:30,687 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 20:27:30 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'76'), (b'X-RateLimit-Requests-Reset', b'1524726'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499976'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1524726'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'6b84e04116bc0b37ab439992da1a19c476d0a4f993fb3cd753f59c6de7a890fd')])
-2026-01-05 22:27:30,687 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/auto-complete?query=HEL "HTTP/1.1 200 OK"
-2026-01-05 22:27:30,688 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:30,688 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:30,689 [DEBUG] response_closed.started
-2026-01-05 22:27:30,689 [DEBUG] response_closed.complete
-2026-01-05 22:27:30,690 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:30,690 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:30,691 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:30,691 [DEBUG] send_request_body.complete
-2026-01-05 22:27:30,691 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:30,933 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Mon, 05 Jan 2026 20:27:30 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'X-RateLimit-Requests-Limit', b'100'), (b'X-RateLimit-Requests-Remaining', b'75'), (b'X-RateLimit-Requests-Reset', b'1524726'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499975'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'1524726'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-west-1'), (b'X-RapidAPI-Request-Id', b'b4b85af519a84b6fcae18c2b7fb39f38ef3ca9380838ae9ed5ca08ed971375c9')])
-2026-01-05 22:27:30,934 [INFO] HTTP Request: GET https://flights-sky.p.rapidapi.com/web/flights/search-one-way?fromEntityId=TLL&toEntityId=HEL&adults=1.0&currency=USD&market=US&locale=en-US&cabinClass=economy&departDate=2026-01-20 "HTTP/1.1 200 OK"
-2026-01-05 22:27:30,934 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:30,935 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:30,935 [DEBUG] response_closed.started
-2026-01-05 22:27:30,935 [DEBUG] response_closed.complete
-2026-01-05 22:27:30,936 [DEBUG] close.started
-2026-01-05 22:27:30,936 [DEBUG] close.complete
-2026-01-05 22:27:30,936 [INFO] TOOL RESULT: search_flights_sky - count=0, error=True
-2026-01-05 22:27:30,936 [DEBUG] TOOL RESULT FULL: search_flights_sky: Error executing flight search: 'NoneType' object has no attribute 'get'...
-2026-01-05 22:27:30,937 [INFO] TOOL CALL: get_directions({'destination': 'Helsinki', 'origin': 'Tallinn', 'mode': 'transit'})
-2026-01-05 22:27:30,937 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 22:27:30,938 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 22:27:31,346 [DEBUG] connect_tcp.started host='maps.googleapis.com' port=443 local_address=None timeout=5.0 socket_options=None
-2026-01-05 22:27:31,355 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AEC6520>
-2026-01-05 22:27:31,356 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000001BD0B0D9130> server_hostname='maps.googleapis.com' timeout=5.0
-2026-01-05 22:27:31,373 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AED05F0>
-2026-01-05 22:27:31,373 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:31,374 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:31,374 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:31,374 [DEBUG] send_request_body.complete
-2026-01-05 22:27:31,374 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:31,753 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Date', b'Mon, 05 Jan 2026 20:27:31 GMT'), (b'Pragma', b'no-cache'), (b'Expires', b'Fri, 01 Jan 1990 00:00:00 GMT'), (b'Cache-Control', b'no-cache, must-revalidate'), (b'Vary', b'Accept-Language'), (b'X-Goog-Maps-Metro-Area', b'Tallinn'), (b'Content-Security-Policy-Report-Only', b"script-src 'none'; form-action 'none'; frame-src 'none'; report-uri https://csp.withgoogle.com/csp/scaffolding/msaifddsmnwc:170:0"), (b'Cross-Origin-Opener-Policy-Report-Only', b'same-origin; report-to=msaifddsmnwc:170:0'), (b'Report-To', b'{"group":"msaifddsmnwc:170:0","max_age":2592000,"endpoints":[{"url":"https://csp.withgoogle.com/csp/report-to/scaffolding/msaifddsmnwc:170:0"}],}'), (b'Server', b'mafe'), (b'Content-Length', b'82988'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Server-Timing', b'gfet4t7; dur=374'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000')])
-2026-01-05 22:27:31,754 [INFO] HTTP Request: GET https://maps.googleapis.com/maps/api/directions/json?origin=Tallinn&destination=Helsinki&mode=transit&key=AIzaSyBVVTUhVEOAlwWRXD3uafWZ0V2SeErRDso&alternatives=true "HTTP/1.1 200 OK"
-2026-01-05 22:27:31,754 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:31,767 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:31,767 [DEBUG] response_closed.started
-2026-01-05 22:27:31,768 [DEBUG] response_closed.complete
-2026-01-05 22:27:31,769 [DEBUG] close.started
-2026-01-05 22:27:31,770 [DEBUG] close.complete
-2026-01-05 22:27:31,770 [INFO] TOOL RESULT: get_directions - count=3, error=False
-2026-01-05 22:27:31,770 [DEBUG] TOOL RESULT FULL: get_directions: Route 1: 
-From: Tallinn, Estonia
-To: Helsinki, Finland
-Distance: 81.1 km | Duration: 2 hours 0 mins (transit)
-Directions:
-  • Ferry towards Helsinki (81.1 km)
----
-Route 2: 
-From: Tallinn, Estonia
-To: Helsinki, Finland
-Distance: 81.1 km | Duration: 2 hours 0 mins (transit)
-Directions:
-  • Ferry towards Helsinki (81.1 km)
----
-Route 3: 
-From: Tallinn, Estonia
-To: Helsinki, Finland
-Distance: 85.0 km | Duration: 2 hours 30 mins (transit)
-Directions:
-  • Ferry towards Helsinki (85.0 km)
----...
-2026-01-05 22:27:31,770 [INFO] TOOL CALL: search_ground_transport({'from_location': 'Tallinn', 'date': 'January 20, 2026', 'to_location': 'Helsinki'})
-2026-01-05 22:27:31,771 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
-2026-01-05 22:27:31,771 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
-2026-01-05 22:27:32,178 [DEBUG] connect_tcp.started host='www.googleapis.com' port=443 local_address=None timeout=5.0 socket_options=None
-2026-01-05 22:27:32,210 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AE52690>
-2026-01-05 22:27:32,210 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000001BD0B0D96D0> server_hostname='www.googleapis.com' timeout=5.0
-2026-01-05 22:27:32,221 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001BD0AE52470>
-2026-01-05 22:27:32,222 [DEBUG] send_request_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:32,222 [DEBUG] send_request_headers.complete
-2026-01-05 22:27:32,222 [DEBUG] send_request_body.started request=<Request [b'GET']>
-2026-01-05 22:27:32,223 [DEBUG] send_request_body.complete
-2026-01-05 22:27:32,223 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
-2026-01-05 22:27:32,657 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Mon, 05 Jan 2026 20:27:32 GMT'), (b'Server', b'ESF'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
-2026-01-05 22:27:32,658 [INFO] HTTP Request: GET https://www.googleapis.com/customsearch/v1?key=AIzaSyBVVTUhVEOAlwWRXD3uafWZ0V2SeErRDso&cx=52136de91c9e341bc&q=bus%20or%20train%20from%20Tallinn%20to%20Helsinki%20on%20January%2020%2C%202026%20site%3Arome2rio.com%20OR%20site%3Aomio.com%20OR%20site%3Abusbud.com&num=5 "HTTP/1.1 200 OK"
-2026-01-05 22:27:32,658 [DEBUG] receive_response_body.started request=<Request [b'GET']>
-2026-01-05 22:27:32,659 [DEBUG] receive_response_body.complete
-2026-01-05 22:27:32,659 [DEBUG] response_closed.started
-2026-01-05 22:27:32,660 [DEBUG] response_closed.complete
-2026-01-05 22:27:32,660 [DEBUG] close.started
-2026-01-05 22:27:32,660 [DEBUG] close.complete
-2026-01-05 22:27:32,661 [INFO] TOOL RESULT: search_ground_transport - count=5, error=False, prices: ['$37', '$20', '$31']
-2026-01-05 22:27:32,661 [DEBUG] TOOL RESULT FULL: search_ground_transport: Found these routes. Use 'firecrawl' to scrape the links for details:
-
-Title: ZURICH to ROME train from $37 (€30) with Trenitalia - Omio
-Snippet: The ticket price range depends on the travel mode: a bus costs an average of €30, and a flight costs an average of €88. Distance: 424 miles (683 km) ...
-Link: https://www.omio.com/trains/zurich/rome
----
-Title: Bus Vaasa to Helsinki from $20 | Refundable Tickets | Busbud
-Snippet: Flixbus is a European bus operator that offers intercity and bus travel in over 38 countries. Known for their easy-to-spot lime green buses and for offering ...
-Link: https://www.busbud.com/en/bus-vaasa-helsinki/r/u7pqfs-ud9wr9
----
-Title: PARIS to MILAN train from $31 (€25) with Trenitalia - Omio
-Snippet: Travel Information. Compare train, bus, and flight for Paris to Milan. Omio recommends booking the train as it is the most popular option from Paris to ...
-Link: https://www.omio.com/trains/paris/milan
----
-Title: BARCELONA to PARIS train from $34 (€27) with TGV INOUI ...
-2026-01-05 22:27:41,160 [INFO] Final response (latency: 28309ms): Here are the best options for your trip from Tallinn to Helsinki on January 20, 2026:
-
-**Summary of Travel Options**
-
-It appears there are no direct flights available on your requested date. The prima...
-2026-01-05 22:36:21,968 [DEBUG] Initializing server 'jobs'
-2026-01-05 22:36:21,969 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:36:21,969 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:36:21,969 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:36:21,969 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:36:21,970 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:36:21,970 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:36:21,970 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:36:21,986 [DEBUG] Initializing server 'search'
-2026-01-05 22:36:21,987 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:36:21,987 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:36:21,987 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:36:21,988 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:36:21,988 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:36:21,988 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:36:21,988 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:36:22,009 [DEBUG] Initializing server 'travel'
-2026-01-05 22:36:22,009 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:36:22,010 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:36:22,010 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:36:22,010 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:36:22,011 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:36:22,011 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:36:22,011 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:36:22,044 [DEBUG] Initializing server 'trends'
-2026-01-05 22:36:22,044 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:36:22,045 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:36:22,045 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:36:22,045 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:36:22,046 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:36:22,046 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:36:22,046 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:36:23,067 [DEBUG] executing <function connect.<locals>.connector at 0x0000029189859D00>
-2026-01-05 22:36:23,068 [DEBUG] operation <function connect.<locals>.connector at 0x0000029189859D00> completed
-2026-01-05 22:36:23,068 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002919056AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000029190556E80>, deterministic=True)
-2026-01-05 22:36:23,069 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002919056AA70>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000029190556E80>, deterministic=True) completed
-2026-01-05 22:36:23,069 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002919056AA70>, 'floor', 1, <built-in function floor>, deterministic=True)
-2026-01-05 22:36:23,069 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002919056AA70>, 'floor', 1, <built-in function floor>, deterministic=True) completed
-2026-01-05 22:36:23,069 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,070 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:36:23,070 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B2040>, 'PRAGMA read_uncommitted', [])
-2026-01-05 22:36:23,070 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B2040>, 'PRAGMA read_uncommitted', []) completed
-2026-01-05 22:36:23,070 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B2040>)
-2026-01-05 22:36:23,071 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B2040>) completed
-2026-01-05 22:36:23,071 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B2040>)
-2026-01-05 22:36:23,071 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B2040>) completed
-2026-01-05 22:36:23,071 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,072 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:36:23,072 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,072 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:36:23,073 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("airports")', ())
-2026-01-05 22:36:23,073 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("airports")', ()) completed
-2026-01-05 22:36:23,074 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B20C0>)
-2026-01-05 22:36:23,074 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B20C0>) completed
-2026-01-05 22:36:23,074 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B20C0>)
-2026-01-05 22:36:23,074 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B20C0>) completed
-2026-01-05 22:36:23,075 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,075 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:36:23,075 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("currencies")', ())
-2026-01-05 22:36:23,075 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x00000291905B20C0>, 'PRAGMA main.table_info("currencies")', ()) completed
-2026-01-05 22:36:23,076 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B20C0>)
-2026-01-05 22:36:23,076 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x00000291905B20C0>) completed
-2026-01-05 22:36:23,076 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B20C0>)
-2026-01-05 22:36:23,076 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x00000291905B20C0>) completed
-2026-01-05 22:36:23,077 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,077 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:36:23,078 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002919056AA70>)
-2026-01-05 22:36:23,078 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002919056AA70>) completed
-2026-01-05 22:43:39,071 [DEBUG] Initializing server 'jobs'
-2026-01-05 22:43:39,072 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:43:39,072 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:43:39,072 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:43:39,073 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:43:39,073 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:43:39,073 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:43:39,073 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:43:39,089 [DEBUG] Initializing server 'search'
-2026-01-05 22:43:39,089 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:43:39,089 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:43:39,090 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:43:39,090 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:43:39,090 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:43:39,090 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:43:39,091 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:43:39,098 [DEBUG] Initializing server 'travel'
-2026-01-05 22:43:39,098 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:43:39,099 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:43:39,099 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:43:39,099 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:43:39,099 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:43:39,099 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:43:39,100 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:43:39,130 [DEBUG] Initializing server 'trends'
-2026-01-05 22:43:39,130 [DEBUG] Registering handler for ListToolsRequest
-2026-01-05 22:43:39,131 [DEBUG] Registering handler for CallToolRequest
-2026-01-05 22:43:39,131 [DEBUG] Registering handler for ListResourcesRequest
-2026-01-05 22:43:39,131 [DEBUG] Registering handler for ReadResourceRequest
-2026-01-05 22:43:39,131 [DEBUG] Registering handler for PromptListRequest
-2026-01-05 22:43:39,132 [DEBUG] Registering handler for GetPromptRequest
-2026-01-05 22:43:39,132 [DEBUG] Registering handler for ListResourceTemplatesRequest
-2026-01-05 22:43:40,102 [DEBUG] executing <function connect.<locals>.connector at 0x000001A975299D00>
-2026-01-05 22:43:40,102 [DEBUG] operation <function connect.<locals>.connector at 0x000001A975299D00> completed
-2026-01-05 22:43:40,103 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001A97BF5E890>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001A97BF4AE80>, deterministic=True)
-2026-01-05 22:43:40,103 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001A97BF5E890>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001A97BF4AE80>, deterministic=True) completed
-2026-01-05 22:43:40,103 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001A97BF5E890>, 'floor', 1, <built-in function floor>, deterministic=True)
-2026-01-05 22:43:40,104 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001A97BF5E890>, 'floor', 1, <built-in function floor>, deterministic=True) completed
-2026-01-05 22:43:40,104 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,104 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>) completed
-2026-01-05 22:43:40,105 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA read_uncommitted', [])
-2026-01-05 22:43:40,105 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA read_uncommitted', []) completed
-2026-01-05 22:43:40,105 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,106 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,106 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,106 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,106 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,107 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001A97BF5E890>) completed
-2026-01-05 22:43:40,107 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,107 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>) completed
-2026-01-05 22:43:40,108 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("airports")', ())
-2026-01-05 22:43:40,108 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("airports")', ()) completed
-2026-01-05 22:43:40,109 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,109 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,109 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,110 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,110 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,111 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001A97BF5E890>) completed
-2026-01-05 22:43:40,111 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("currencies")', ())
-2026-01-05 22:43:40,111 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001A97BF9DDC0>, 'PRAGMA main.table_info("currencies")', ()) completed
-2026-01-05 22:43:40,112 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,112 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,112 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>)
-2026-01-05 22:43:40,113 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001A97BF9DDC0>) completed
-2026-01-05 22:43:40,113 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,113 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001A97BF5E890>) completed
-2026-01-05 22:43:40,114 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001A97BF5E890>)
-2026-01-05 22:43:40,114 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001A97BF5E890>) completed
+2026-01-05 22:52:08,323 [DEBUG] Initializing server 'jobs'
+2026-01-05 22:52:08,323 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 22:52:08,324 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 22:52:08,324 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 22:52:08,324 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 22:52:08,324 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 22:52:08,325 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 22:52:08,325 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 22:52:08,342 [DEBUG] Initializing server 'search'
+2026-01-05 22:52:08,343 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 22:52:08,343 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 22:52:08,343 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 22:52:08,344 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 22:52:08,344 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 22:52:08,344 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 22:52:08,344 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 22:52:08,353 [DEBUG] Initializing server 'travel'
+2026-01-05 22:52:08,353 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 22:52:08,353 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 22:52:08,353 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 22:52:08,354 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 22:52:08,354 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 22:52:08,354 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 22:52:08,354 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 22:52:08,385 [DEBUG] Initializing server 'trends'
+2026-01-05 22:52:08,385 [DEBUG] Registering handler for ListToolsRequest
+2026-01-05 22:52:08,386 [DEBUG] Registering handler for CallToolRequest
+2026-01-05 22:52:08,386 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-05 22:52:08,386 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-05 22:52:08,387 [DEBUG] Registering handler for PromptListRequest
+2026-01-05 22:52:08,387 [DEBUG] Registering handler for GetPromptRequest
+2026-01-05 22:52:08,387 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-05 22:52:09,367 [DEBUG] executing <function connect.<locals>.connector at 0x000001ED77799D00>
+2026-01-05 22:52:09,368 [DEBUG] operation <function connect.<locals>.connector at 0x000001ED77799D00> completed
+2026-01-05 22:52:09,369 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ED7E4FE890>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001ED7E4E6FC0>, deterministic=True)
+2026-01-05 22:52:09,369 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ED7E4FE890>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001ED7E4E6FC0>, deterministic=True) completed
+2026-01-05 22:52:09,369 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ED7E4FE890>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-05 22:52:09,370 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ED7E4FE890>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-05 22:52:09,370 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,370 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>) completed
+2026-01-05 22:52:09,371 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA read_uncommitted', [])
+2026-01-05 22:52:09,371 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA read_uncommitted', []) completed
+2026-01-05 22:52:09,371 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,372 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,372 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,372 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,372 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,373 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ED7E4FE890>) completed
+2026-01-05 22:52:09,373 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,374 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>) completed
+2026-01-05 22:52:09,374 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA main.table_info("airports")', ())
+2026-01-05 22:52:09,374 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-05 22:52:09,375 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,375 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,375 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,375 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,376 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,376 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ED7E4FE890>) completed
+2026-01-05 22:52:09,376 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-05 22:52:09,377 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ED7E53DE40>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-05 22:52:09,377 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,377 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,378 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>)
+2026-01-05 22:52:09,378 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ED7E53DE40>) completed
+2026-01-05 22:52:09,378 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,379 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001ED7E4FE890>) completed
+2026-01-05 22:52:09,379 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ED7E4FE890>)
+2026-01-05 22:52:09,379 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ED7E4FE890>) completed

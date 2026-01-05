@@ -102,6 +102,11 @@ class GeminiClient:
         if settings.x_bearer_token: os.environ["X_BEARER_TOKEN"] = settings.x_bearer_token
         if settings.tripadvisor_api_key: os.environ["TRIPADVISOR_API_KEY"] = settings.tripadvisor_api_key
         if settings.apify_api_token: os.environ["APIFY_API_TOKEN"] = settings.apify_api_token
+        
+        # Propagate Supabase and Together AI for RAG service
+        if settings.supabase_url: os.environ["SUPABASE_URL"] = settings.supabase_url
+        if settings.supabase_key: os.environ["SUPABASE_KEY"] = settings.supabase_key
+        if settings.together_api_key: os.environ["TOGETHER_API_KEY"] = settings.together_api_key
 
         if self._enabled:
             genai.configure(api_key=self._api_key)
