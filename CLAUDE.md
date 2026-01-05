@@ -140,19 +140,38 @@ APIFY_API_TOKEN=your_key
 
 ---
 
-## Current Status (2026-01-05)
+## Current Status (2026-01-06)
 
 ### ✅ Completed
 - [x] Supabase pgvector RAG setup
-- [x] RAG document ingestion (11 docs)
+- [x] RAG document ingestion (12 docs)
 - [x] Remote MCP client integration (~120 tools)
 - [x] Dynamic form generator (MCP schema → forms)
 - [x] Sandbox LLM service (RAG + remote MCP)
 - [x] Frontend SandboxMode integration
 - [x] API endpoint `/api/llm/sandbox`
+- [x] **Fixed Flights Sky API parameters** (`fromEntityId`/`toEntityId`)
+- [x] Updated RAG docs with correct API param formats
+- [x] Re-ingested RAG database with corrected documentation
 
-### 🔜 Next Steps
-- Test end-to-end sandbox flow with live APIs
+### 🚧 In Progress - Flight Search Improvements
+See `implementation_plan.md` for detailed plan:
+
+1. **Tool Output Metadata** - Add summary stats to flight results
+   - Direct/connecting flight counts and price ranges
+   - Fix booking links (prepend `https://www.kiwi.com`)
+
+2. **Stops Dropdown UI** - Replace "Direct only" checkbox
+   - Options: Any, Direct only, Up to 1 stop, Up to 2 stops
+   - Like Kiwi.com's interface
+
+3. **LLM System Prompt** - Improve flight analysis
+   - LLM should analyze ALL flights, not just cheapest
+   - Mention direct flight availability even when not cheapest
+
+4. **Error Handling** - Graceful API failure handling
+
+### 🔜 Future Steps
 - Add Jobs/Trends API documentation
 - Implement chat session persistence
 - Polish tool execution feedback UI
@@ -182,4 +201,4 @@ async def endpoint(db: AsyncSession = Depends(get_db)):
 ---
 
 ## Last Updated
-2026-01-05
+2026-01-06
