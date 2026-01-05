@@ -425,8 +425,20 @@ End every response with:
                     try:
                         # Call the async function
                         result = await tool_map[func_name](**func_args)
-                        logger.info(f"TOOL RESULT: {func_name}: {str(result)[:500]}...")
-                        trace_log.append(f"Result: {str(result)[:100]}...")
+                        result_str = str(result)
+                        
+                        # Parse result for structured logging
+                        is_error = result_str.startswith("Error") or result_str.startswith("No ")
+                        line_count = result_str.count("\n---") if "---" in result_str else 0
+                        
+                        # Extract any price mentions
+                        import re
+                        prices = re.findall(r'\$[\d,]+(?:\.\d{2})?|\d+\s*(?:USD|EUR|GBP)', result_str)
+                        price_summary = f", prices: {prices[:3]}" if prices else ""
+                        
+                        logger.info(f"TOOL RESULT: {func_name} - count={line_count}, error={is_error}{price_summary}")
+                        logger.debug(f"TOOL RESULT FULL: {func_name}: {result_str[:1000]}...")
+                        trace_log.append(f"Result: {line_count} items{price_summary}")
                     except Exception as e:
                         result = f"Error calling {func_name}: {str(e)}"
                         logger.error(f"TOOL ERROR: {func_name}: {e}")

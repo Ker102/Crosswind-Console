@@ -1,0 +1,16 @@
+2026-01-05 21:54:52,781 [INFO] Using agent mode: travel
+2026-01-05 21:54:58,907 [INFO] TOOL CALL: search_flights({'date_from': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
+2026-01-05 21:55:00,692 [INFO] TOOL CALL: search_flights_sky({'date': '2025-01-15', 'from_location': 'TLL', 'to_location': 'HEL'})
+2026-01-05 21:55:07,353 [INFO] TOOL RESULT: search_flights_sky: Error executing flight search: 'NoneType' object has no attribute 'get'...
+2026-01-05 22:27:12,851 [INFO] Using agent mode: travel
+2026-01-05 22:27:23,097 [INFO] TOOL CALL: search_flights({'date_from': '2026-01-20', 'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'ECONOMY', 'to_location': 'HEL'})
+2026-01-05 22:27:25,138 [INFO] TOOL RESULT: search_flights - count=10, error=False, prices: ['6727 USD', '6727 USD', '6727 USD']
+2026-01-05 22:27:25,165 [INFO] TOOL CALL: search_flights_sky({'adults': 1.0, 'from_location': 'TLL', 'cabin_class': 'economy', 'to_location': 'HEL', 'date': '2026-01-20'})
+2026-01-05 22:27:30,936 [INFO] TOOL RESULT: search_flights_sky - count=0, error=True
+2026-01-05 22:27:30,936 [DEBUG] TOOL RESULT FULL: search_flights_sky: Error executing flight search: 'NoneType' object has no attribute 'get'...
+2026-01-05 22:27:30,937 [INFO] TOOL CALL: get_directions({'destination': 'Helsinki', 'origin': 'Tallinn', 'mode': 'transit'})
+2026-01-05 22:27:31,770 [INFO] TOOL RESULT: get_directions - count=3, error=False
+2026-01-05 22:27:31,770 [DEBUG] TOOL RESULT FULL: get_directions: Route 1: 
+2026-01-05 22:27:31,770 [INFO] TOOL CALL: search_ground_transport({'from_location': 'Tallinn', 'date': 'January 20, 2026', 'to_location': 'Helsinki'})
+2026-01-05 22:27:32,661 [INFO] TOOL RESULT: search_ground_transport - count=5, error=False, prices: ['$37', '$20', '$31']
+2026-01-05 22:27:32,661 [DEBUG] TOOL RESULT FULL: search_ground_transport: Found these routes. Use 'firecrawl' to scrape the links for details:

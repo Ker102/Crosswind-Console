@@ -340,17 +340,19 @@ async def _execute_sky_search(
             from_response.raise_for_status()
             from_data = from_response.json()
             
-            # Extract entity ID 
+            # Extract entity ID - null-safe extraction
             from_entity = None
             if from_data.get("data") and len(from_data["data"]) > 0:
                 item = from_data["data"][0]
                 # RapidAPI payload may use different fields (PlaceId/IataCode/GeoId/etc.)
+                presentation = item.get("presentation") or {}
+                navigation = item.get("navigation") or {}
                 from_entity = (
                     item.get("PlaceId")
                     or item.get("IataCode")
                     or item.get("GeoId")
-                    or item.get("presentation", {}).get("id")
-                    or item.get("navigation", {}).get("entityId")
+                    or (presentation.get("id") if isinstance(presentation, dict) else None)
+                    or (navigation.get("entityId") if isinstance(navigation, dict) else None)
                     or item.get("entityId")
                     or item.get("id")
                 )
@@ -366,12 +368,14 @@ async def _execute_sky_search(
             to_entity = None
             if to_data.get("data") and len(to_data["data"]) > 0:
                 item = to_data["data"][0]
+                presentation = item.get("presentation") or {}
+                navigation = item.get("navigation") or {}
                 to_entity = (
                     item.get("PlaceId")
                     or item.get("IataCode")
                     or item.get("GeoId")
-                    or item.get("presentation", {}).get("id")
-                    or item.get("navigation", {}).get("entityId")
+                    or (presentation.get("id") if isinstance(presentation, dict) else None)
+                    or (navigation.get("entityId") if isinstance(navigation, dict) else None)
                     or item.get("entityId")
                     or item.get("id")
                 )
@@ -442,19 +446,30 @@ async def _execute_sky_search(
             
             results = []
             for itin in itineraries[:8]:
-                price = itin.get("price", {}).get("formatted", "N/A")
-                legs = itin.get("legs", [])
-                leg_summaries = []
-                for leg in legs:
-                    origin_name = leg.get("origin", {}).get("name", "")
-                    dest_name = leg.get("destination", {}).get("name", "")
-                    carrier_list = leg.get("carriers", {}).get("marketing", [])
-                    airline = carrier_list[0].get("name", "Unknown") if carrier_list else "Unknown"
-                    timestamp = leg.get("departure", "")[:16].replace("T", " ")
-                    leg_summaries.append(f"{origin_name}->{dest_name} ({airline}) {timestamp}")
-                results.append(f"✈️ {price} | {' | '.join(leg_summaries)}\n---")
+                try:
+                    price_obj = itin.get("price") or {}
+                    price = price_obj.get("formatted", "N/A") if isinstance(price_obj, dict) else "N/A"
+                    legs = itin.get("legs") or []
+                    leg_summaries = []
+                    for leg in legs:
+                        if not isinstance(leg, dict):
+                            continue
+                        origin = leg.get("origin") or {}
+                        dest = leg.get("destination") or {}
+                        origin_name = origin.get("name", "") if isinstance(origin, dict) else ""
+                        dest_name = dest.get("name", "") if isinstance(dest, dict) else ""
+                        carriers = leg.get("carriers") or {}
+                        carrier_list = carriers.get("marketing", []) if isinstance(carriers, dict) else []
+                        airline = carrier_list[0].get("name", "Unknown") if carrier_list and isinstance(carrier_list[0], dict) else "Unknown"
+                        departure = leg.get("departure", "") or ""
+                        timestamp = departure[:16].replace("T", " ") if departure else ""
+                        leg_summaries.append(f"{origin_name}->{dest_name} ({airline}) {timestamp}")
+                    results.append(f"✈️ {price} | {' | '.join(leg_summaries)}\n---")
+                except Exception as parse_err:
+                    # Skip malformed itineraries
+                    continue
             
-            return "\n".join(results)
+            return "\n".join(results) if results else "No valid flight data parsed."
 
         except Exception as e:
             return f"Error executing flight search: {str(e)}"
