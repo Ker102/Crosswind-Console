@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     x_bearer_token: str | None = None
     tripadvisor_api_key: str | None = None
     apify_api_token: str | None = None
+    
+    # Supabase (RAG Vector Database)
+    supabase_url: str | None = None
+    supabase_key: str | None = None
+    
+    # Together AI
+    together_api_key: str | None = None
 
     model_config = SettingsConfigDict(env_file=find_env_file(), env_file_encoding="utf-8")
 

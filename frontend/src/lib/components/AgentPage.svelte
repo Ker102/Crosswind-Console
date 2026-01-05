@@ -78,6 +78,8 @@
     let returnDate = $state("");
     let windowStart = $state("");
     let windowEnd = $state("");
+    let returnWindowStart = $state("");
+    let returnWindowEnd = $state("");
     let wholeMonth = $state("");
     let cabinClass = $state<
         "ECONOMY" | "ECONOMY_PREMIUM" | "BUSINESS" | "FIRST_CLASS"
@@ -206,6 +208,8 @@
             returnDate: returnDate || undefined,
             windowStart: windowStart || undefined,
             windowEnd: windowEnd || undefined,
+            returnWindowStart: returnWindowStart || undefined,
+            returnWindowEnd: returnWindowEnd || undefined,
             wholeMonth: wholeMonth || undefined,
             cabinClass,
             directOnly,
@@ -494,6 +498,20 @@
                                 <label>Window end</label>
                                 <input type="date" bind:value={windowEnd} />
                             </div>
+                            <div>
+                                <label>Return start</label>
+                                <input
+                                    type="date"
+                                    bind:value={returnWindowStart}
+                                />
+                            </div>
+                            <div>
+                                <label>Return end</label>
+                                <input
+                                    type="date"
+                                    bind:value={returnWindowEnd}
+                                />
+                            </div>
                         {/if}
                         {#if tripType === "whole-month"}
                             <div>
@@ -598,7 +616,7 @@
                     </div>
                     <p class="hint">
                         AI will use these details to format params for Kiwi
-                        (windows/round trips) and Skyscanner (single dates or
+                        (depart/return windows) and Skyscanner (single dates or
                         whole-month), search accommodations if enabled, and
                         remember them for follow-ups.
                     </p>
