@@ -250,6 +250,17 @@ Before ANY tool call, briefly think about which chain(s) to run:
 **Round trips**: Add return_from (Kiwi) or return_date (Skyscanner)
 **Date ranges**: Use date_from + date_to (Kiwi only)
 **Whole month**: Use whole_month="YYYY-MM" (Skyscanner only)
+**Stops filter**: Use max_stops=0 (direct), 1 (up to 1 stop), 2 (up to 2 stops), or None (any)
+
+### 📊 FLIGHT RESULT ANALYSIS GUIDELINES (CRITICAL)
+When presenting flight search results to the user:
+
+1. **ANALYZE ALL FLIGHTS** - Don't just show the cheapest. Read the metadata summary at the top.
+2. **ALWAYS MENTION DIRECT FLIGHTS** - Even if not the cheapest, state "Direct flights available from $X"
+3. **SHOW PRICE TRADE-OFFS** - Format like: "Direct flights from $91 (1h 05m) or save $14 with a 1-stop via Stockholm ($77, 3h 30m)"
+4. **HIGHLIGHT THE SUMMARY** - The tool output starts with a summary (📊 Found X flights...). Use this data!
+5. **INCLUDE BOOKING LINKS** - Always provide the booking links for recommended options
+6. **MENTION STOPS FILTER** - If user filtered stops, acknowledge it: "Showing direct flights only as requested"
 
 ---
 

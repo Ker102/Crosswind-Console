@@ -22,3 +22,9 @@ Thumbs.db
 # Personal Documentation
 PERSONAL_ARCH_GUIDE.md
 backend/crosswind.db
+
+# Log files (may contain API keys)
+*.log
+backend/llm_debug.log
+backend/*.log
+backend/*.txt

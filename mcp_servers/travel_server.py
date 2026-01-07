@@ -17,7 +17,7 @@ async def search_flights(
     return_from: str = None,
     return_to: str = None,
     cabin_class: str = "ECONOMY",
-    direct_only: bool = False,
+    max_stops: int = None,
     adults: int = 1,
     children: int = 0,
     infants: int = 0
@@ -34,7 +34,7 @@ async def search_flights(
         return_from: Return date for round trips. Format: YYYY-MM-DD
         return_to: End of return window (optional).
         cabin_class: ECONOMY, ECONOMY_PREMIUM, BUSINESS, or FIRST_CLASS
-        direct_only: True = exclude connecting flights
+        max_stops: Maximum number of stops. None=any, 0=direct only, 1=up to 1 stop, 2=up to 2 stops
         adults: Adult passengers (12+ years). Default: 1
         children: Child passengers (2-11 years). Default: 0
         infants: Infant passengers (<2 years). Default: 0
@@ -69,8 +69,9 @@ async def search_flights(
     if return_from:
         querystring["returnDate"] = return_from
         
-    if direct_only:
-        querystring["maxStopsCount"] = "0"
+    # Apply max_stops filter if specified
+    if max_stops is not None:
+        querystring["maxStopsCount"] = str(max_stops)
 
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
@@ -102,7 +103,76 @@ async def search_flights(
             if not flights:
                 return f"No flights found from {from_location} to {to_location}."
 
-            results = []
+            # === PHASE 1: Collect metadata for summary ===
+            all_prices = []
+            direct_prices = []
+            connecting_prices = []
+            direct_count = 0
+            connecting_count = 0
+            durations = []
+            
+            for flight in flights:
+                # Extract price
+                price_val = flight.get("price", {})
+                if isinstance(price_val, dict):
+                    price_num = price_val.get("amount") or price_val.get("raw") or 0
+                else:
+                    price_num = price_val or 0
+                if price_num:
+                    try:
+                        price_num = float(price_num)
+                        all_prices.append(price_num)
+                    except (ValueError, TypeError):
+                        pass
+                
+                # Determine stops count
+                sector = flight.get("sector", {})
+                stops = 0
+                if sector and isinstance(sector, dict):
+                    segments = sector.get("sectorSegments", [])
+                    stops = max(0, len(segments) - 1) if segments else 0
+                else:
+                    legs = flight.get("route", []) or flight.get("legs", [])
+                    stops = max(0, len(legs) - 1) if legs else 0
+                
+                if stops == 0:
+                    direct_count += 1
+                    if price_num:
+                        direct_prices.append(price_num)
+                else:
+                    connecting_count += 1
+                    if price_num:
+                        connecting_prices.append(price_num)
+                
+                # Duration
+                duration = flight.get("duration", {})
+                if isinstance(duration, dict):
+                    total_secs = duration.get("total", 0)
+                    if total_secs:
+                        durations.append(total_secs)
+            
+            # Build summary header
+            total_flights = len(flights)
+            summary_lines = [f"📊 Found {total_flights} flights ({direct_count} direct, {connecting_count} with stops)"]
+            
+            # Price summary
+            price_parts = []
+            if direct_prices:
+                price_parts.append(f"Direct: from ${min(direct_prices):.0f}")
+            if connecting_prices:
+                price_parts.append(f"Cheapest ({1 if connecting_count > 0 else 0}+ stop): ${min(connecting_prices):.0f}")
+            if price_parts:
+                summary_lines.append(f"💰 {' | '.join(price_parts)}")
+            
+            # Duration summary
+            if durations:
+                fastest = min(durations)
+                summary_lines.append(f"⏱️ Fastest: {fastest // 3600}h {(fastest % 3600) // 60}m")
+            
+            summary_lines.append("-" * 40)
+            
+            results = ["\n".join(summary_lines)]
+            
             for flight in flights[:10]:
                 # Price handling - can be dict with various keys
                 price = flight.get("price", {})
@@ -112,6 +182,9 @@ async def search_flights(
                     price = "N/A"
                      
                 deep_link = flight.get("deep_link", "") or flight.get("shareLink", "")
+                # Fix Kiwi booking links - ensure full URL
+                if deep_link and not deep_link.startswith("http"):
+                    deep_link = f"https://www.kiwi.com{deep_link}"
                 
                 # Duration - can be nested or direct
                 duration_formatted = "N/A"
@@ -318,155 +391,108 @@ async def _execute_sky_search(
     whole_month: str = None,
     return_date: str = None,
     cabin_class: str = "economy",
-    adults: int = 1
+    adults: int = 1,
+    max_stops: int = None
 ) -> str:
-    """Helper to execute flight search on various Sky implementations (web, google, booking)."""
+    """Helper to execute flight search via Google Flights2 RapidAPI."""
     RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
     if not RAPIDAPI_KEY:
         return "Error: RAPIDAPI_KEY is not set."
 
     headers = {
         "x-rapidapi-key": RAPIDAPI_KEY,
-        "x-rapidapi-host": "flights-sky.p.rapidapi.com"
+        "x-rapidapi-host": "google-flights2.p.rapidapi.com"
     }
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            # Step 1: Auto-complete to get entity IDs for origin
-            # Note: Auto-complete is always under /web/flights/auto-complete in this API wrapper
-            auto_url = "https://flights-sky.p.rapidapi.com/web/flights/auto-complete"
-            
-            from_response = await client.get(auto_url, headers=headers, params={"query": from_location})
-            from_response.raise_for_status()
-            from_data = from_response.json()
-            
-            # Extract entity ID - null-safe extraction
-            from_entity = None
-            if from_data.get("data") and len(from_data["data"]) > 0:
-                item = from_data["data"][0]
-                # RapidAPI payload may use different fields (PlaceId/IataCode/GeoId/etc.)
-                presentation = item.get("presentation") or {}
-                navigation = item.get("navigation") or {}
-                from_entity = (
-                    item.get("PlaceId")
-                    or item.get("IataCode")
-                    or item.get("GeoId")
-                    or (presentation.get("id") if isinstance(presentation, dict) else None)
-                    or (navigation.get("entityId") if isinstance(navigation, dict) else None)
-                    or item.get("entityId")
-                    or item.get("id")
-                )
-            
-            if not from_entity:
-                return f"Could not find airport/city for: {from_location}"
-            
-            # Step 2: Auto-complete for destination
-            to_response = await client.get(auto_url, headers=headers, params={"query": to_location})
-            to_response.raise_for_status()
-            to_data = to_response.json()
-            
-            to_entity = None
-            if to_data.get("data") and len(to_data["data"]) > 0:
-                item = to_data["data"][0]
-                presentation = item.get("presentation") or {}
-                navigation = item.get("navigation") or {}
-                to_entity = (
-                    item.get("PlaceId")
-                    or item.get("IataCode")
-                    or item.get("GeoId")
-                    or (presentation.get("id") if isinstance(presentation, dict) else None)
-                    or (navigation.get("entityId") if isinstance(navigation, dict) else None)
-                    or item.get("entityId")
-                    or item.get("id")
-                )
-            
-            if not to_entity:
-                return f"Could not find airport/city for: {to_location}"
-            
-            # Step 3: Search - API expects fromEntityId/toEntityId
-            search_params = {
-                "fromEntityId": from_entity,
-                "toEntityId": to_entity,
-                "adults": str(int(adults)),  # Ensure integer
-                "currency": "USD",
-                "market": "US",
-                "locale": "en-US",
-                "cabinClass": cabin_class
-            }
 
-            base_search_url = f"https://flights-sky.p.rapidapi.com{endpoint_prefix}"
+            # Google Flights2 API uses simpler params - direct IATA codes, no entity IDs needed
+            base_search_url = "https://google-flights2.p.rapidapi.com/api/v1/searchFlights"
+            
+            # Map cabin class
+            cabin_map = {
+                "economy": "ECONOMY",
+                "premium_economy": "PREMIUM_ECONOMY",
+                "business": "BUSINESS",
+                "first": "FIRST"
+            }
+            mapped_cabin = cabin_map.get(cabin_class.lower(), "ECONOMY")
+            
+            # Safe handling of adults param
+            try:
+                adults_val = int(adults) if adults is not None else 1
+            except (ValueError, TypeError):
+                adults_val = 1
+
+            search_params = {
+                "departure_id": from_location,
+                "arrival_id": to_location,
+                "currency": "USD",
+                "hl": "en",
+                "adults": str(adults_val),
+                "travel_class": mapped_cabin
+            }
+            
+            # Apply stops filter if specified
+            if max_stops is not None:
+                search_params["stops"] = str(max_stops)
             
             if whole_month:
-                if endpoint_prefix != "/web/flights":
-                     return "Error: whole_month is only supported for standard Skyscanner search."
-                search_params["wholeMonthDepart"] = whole_month
-                search_url = f"{base_search_url}/search-one-way"
+                return "Error: whole_month search not supported by Google Flights provider. Use specific date."
             elif date:
-                search_params["departDate"] = date
+                search_params["outbound_date"] = date
                 if return_date:
-                    search_params["returnDate"] = return_date
-                    search_url = f"{base_search_url}/search-roundtrip"
+                    search_params["return_date"] = return_date
+                    search_params["type"] = "roundTrip"
                 else:
-                    search_url = f"{base_search_url}/search-one-way"
+                    search_params["type"] = "oneWay"
             else:
-                return "Error: Must provide either 'date' or 'whole_month'."
+                return "Error: Must provide 'date' for flight search."
 
-            search_response = await client.get(search_url, headers=headers, params=search_params)
+            search_response = await client.get(base_search_url, headers=headers, params=search_params)
             search_response.raise_for_status()
             data = search_response.json()
             
-            # handle incomplete, etc. same logic
-            context = data.get("context", {})
-            status = context.get("status", "complete")
-            session_id = context.get("sessionId")
+            # Parse nested structure
+            raw_data = data.get("data")
+            flights = []
             
-            if status == "incomplete" and session_id:
-                # Use standard incomplete endpoint for all (shared usually)
-                incomplete_url = "https://flights-sky.p.rapidapi.com/web/flights/search-incomplete"
-                retries = 0
-                max_retries = 3
-                while status == "incomplete" and retries < max_retries:
-                    await asyncio.sleep(1.5)
-                    poll_response = await client.get(incomplete_url, headers=headers, params={"sessionId": session_id})
-                    if poll_response.status_code == 200:
-                        data = poll_response.json()
-                        status = data.get("context", {}).get("status", "complete")
-                    else:
-                        break
-                    retries += 1
+            if isinstance(raw_data, list):
+                flights = raw_data
+            elif isinstance(raw_data, dict):
+                itineraries = raw_data.get("itineraries")
+                if isinstance(itineraries, list):
+                    flights = itineraries
+                elif isinstance(itineraries, dict):
+                    flights = itineraries.get("topFlights", [])
             
-            # Parse
-            itineraries = data.get("data", {}).get("itineraries", [])
-            if not itineraries:
-                 if isinstance(data.get("data"), list):
-                     itineraries = data.get("data")
-
-            if not itineraries:
+            if not flights:
                 return "No flights found."
             
             results = []
-            for itin in itineraries[:8]:
+            for flight in flights[:15]:
                 try:
-                    price_obj = itin.get("price") or {}
-                    price = price_obj.get("formatted", "N/A") if isinstance(price_obj, dict) else "N/A"
-                    legs = itin.get("legs") or []
-                    leg_summaries = []
-                    for leg in legs:
-                        if not isinstance(leg, dict):
-                            continue
-                        origin = leg.get("origin") or {}
-                        dest = leg.get("destination") or {}
-                        origin_name = origin.get("name", "") if isinstance(origin, dict) else ""
-                        dest_name = dest.get("name", "") if isinstance(dest, dict) else ""
-                        carriers = leg.get("carriers") or {}
-                        carrier_list = carriers.get("marketing", []) if isinstance(carriers, dict) else []
-                        airline = carrier_list[0].get("name", "Unknown") if carrier_list and isinstance(carrier_list[0], dict) else "Unknown"
-                        departure = leg.get("departure", "") or ""
-                        timestamp = departure[:16].replace("T", " ") if departure else ""
-                        leg_summaries.append(f"{origin_name}->{dest_name} ({airline}) {timestamp}")
-                    results.append(f"✈️ {price} | {' | '.join(leg_summaries)}\n---")
-                except Exception as parse_err:
-                    # Skip malformed itineraries
+                    price = flight.get("price", "N/A")
+                    duration_obj = flight.get("duration") or {}
+                    duration = duration_obj.get("text") if isinstance(duration_obj, dict) else str(duration_obj)
+                    
+                    stops = flight.get("stops", 0)
+                    
+                    dep_time = flight.get("departure_time", "")
+                    arr_time = flight.get("arrival_time", "")
+                    
+                    if not dep_time:
+                         dep_airport = flight.get("departure_airport") or {}
+                         dep_time = dep_airport.get("time", "")
+
+                    if not arr_time:
+                         arr_airport = flight.get("arrival_airport") or {}
+                         arr_time = arr_airport.get("time", "")
+                    
+                    summary = f"✈️ ${price} | {dep_time} -> {arr_time} | {duration} | {stops} stops"
+                    results.append(summary)
+                except Exception:
                     continue
             
             return "\n".join(results) if results else "No valid flight data parsed."
@@ -482,7 +508,8 @@ async def search_flights_sky(
     whole_month: str = None,
     return_date: str = None,
     cabin_class: str = "economy",
-    adults: int = 1
+    adults: int = 1,
+    max_stops: int = None
 ) -> str:
     """Search flights via Skyscanner API. Use IATA codes.
     
@@ -496,8 +523,9 @@ async def search_flights_sky(
         return_date: Return date for round trips. Format: YYYY-MM-DD
         cabin_class: economy, premium_economy, business, first
         adults: Number of adult passengers. Default: 1
+        max_stops: Maximum stops. None=any, 0=direct, 1=up to 1 stop, 2=up to 2 stops
     """
-    return await _execute_sky_search("/web/flights", from_location, to_location, date, whole_month, return_date, cabin_class, adults)
+    return await _execute_sky_search("/web/flights", from_location, to_location, date, whole_month, return_date, cabin_class, adults, max_stops)
 
 @mcp.tool()
 async def search_google_flights(

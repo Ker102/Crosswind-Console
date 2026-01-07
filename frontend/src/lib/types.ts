@@ -35,7 +35,7 @@ export interface TravelIntent {
   windowEnd?: string
   wholeMonth?: string
   cabinClass?: 'ECONOMY' | 'ECONOMY_PREMIUM' | 'BUSINESS' | 'FIRST_CLASS'
-  directOnly?: boolean
+  maxStops?: number | null  // null = Any, 0 = Direct, 1 = Up to 1, 2 = Up to 2
   adults?: number
   children?: number
   infants?: number

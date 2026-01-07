@@ -84,7 +84,7 @@
     let cabinClass = $state<
         "ECONOMY" | "ECONOMY_PREMIUM" | "BUSINESS" | "FIRST_CLASS"
     >("ECONOMY");
-    let directOnly = $state(false);
+    let maxStops = $state<number | null>(null); // null = Any, 0 = Direct, 1 = Up to 1, 2 = Up to 2
     let adults = $state(1);
     let children = $state(0);
     let infants = $state(0);
@@ -212,7 +212,7 @@
             returnWindowEnd: returnWindowEnd || undefined,
             wholeMonth: wholeMonth || undefined,
             cabinClass,
-            directOnly,
+            maxStops,
             adults: Number(adults) || 1,
             children: Number(children) || 0,
             infants: Number(infants) || 0,
@@ -449,15 +449,17 @@
                             />
                         </div>
                         <div class="inline">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    bind:checked={directOnly}
-                                    disabled={transportMode !== "all" &&
-                                        transportMode !== "flights"}
-                                />
-                                Direct only (flights)
-                            </label>
+                            <label>Stops (flights)</label>
+                            <select
+                                bind:value={maxStops}
+                                disabled={transportMode !== "all" &&
+                                    transportMode !== "flights"}
+                            >
+                                <option value={null}>Any</option>
+                                <option value={0}>Direct only</option>
+                                <option value={1}>Up to 1 stop</option>
+                                <option value={2}>Up to 2 stops</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-grid">
