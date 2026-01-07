@@ -71,6 +71,18 @@
         "x-api-key: ${RAPIDAPI_KEY}"
       ]
     },
+    "rapidapi-google-flights2": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.rapidapi.com",
+        "--header",
+        "x-api-host: google-flights2.p.rapidapi.com",
+        "--header",
+        "x-api-key: ${RAPIDAPI_KEY}"
+      ]
+    },
     "rapidapi-kiwi": {
       "command": "npx",
       "args": [

@@ -8,32 +8,46 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+from ..config import get_settings
 
 router = APIRouter(prefix="/api/mcp", tags=["mcp"])
 
-# MCP Server configurations (matching servers.config.json)
-MCP_SERVERS = {
-    "rapidapi-sky": {
-        "command": "npx",
-        "args": ["-y", "mcp-remote", "https://mcp.rapidapi.com",
-                 "--header", "x-api-host: flights-sky.p.rapidapi.com",
-                 "--header", f"x-api-key: {os.getenv('RAPIDAPI_KEY', '')}"],
-        "category": "travel"
-    },
-    "rapidapi-booking": {
-        "command": "npx",
-        "args": ["-y", "mcp-remote", "https://mcp.rapidapi.com",
-                 "--header", "x-api-host: booking-com.p.rapidapi.com",
-                 "--header", f"x-api-key: {os.getenv('RAPIDAPI_KEY', '')}"],
-        "category": "travel"
-    },
-    "google-maps": {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-google-maps"],
-        "env": {"GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY", "")},
-        "category": "travel"
+
+def get_mcp_servers():
+    """Get MCP server configurations with properly loaded API keys."""
+    settings = get_settings()
+    rapidapi_key = settings.rapidapi_key or ""
+    google_maps_key = settings.google_maps_api_key or ""
+    
+    return {
+        "rapidapi-sky": {
+            "command": "npx",
+            "args": ["-y", "mcp-remote", "https://mcp.rapidapi.com",
+                     "--header", "x-api-host: flights-sky.p.rapidapi.com",
+                     "--header", f"x-api-key: {rapidapi_key}"],
+            "category": "travel"
+        },
+        "rapidapi-google-flights2": {
+            "command": "npx",
+            "args": ["-y", "mcp-remote", "https://mcp.rapidapi.com",
+                     "--header", "x-api-host: google-flights2.p.rapidapi.com",
+                     "--header", f"x-api-key: {rapidapi_key}"],
+            "category": "travel"
+        },
+        "rapidapi-booking": {
+            "command": "npx",
+            "args": ["-y", "mcp-remote", "https://mcp.rapidapi.com",
+                     "--header", "x-api-host: booking-com.p.rapidapi.com",
+                     "--header", f"x-api-key: {rapidapi_key}"],
+            "category": "travel"
+        },
+        "google-maps": {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-google-maps"],
+            "env": {"GOOGLE_MAPS_API_KEY": google_maps_key},
+            "category": "travel"
+        }
     }
-}
 
 class ToolSchema(BaseModel):
     name: str
@@ -144,26 +158,26 @@ async def list_servers():
     return {
         "servers": [
             {"name": name, "category": config.get("category", "other")}
-            for name, config in MCP_SERVERS.items()
+            for name, config in get_mcp_servers().items()
         ]
     }
 
 @router.get("/tools/{server_name}")
 async def get_tools(server_name: str):
     """Get all tools from a specific MCP server"""
-    if server_name not in MCP_SERVERS:
+    if server_name not in get_mcp_servers():
         raise HTTPException(status_code=404, detail=f"Server '{server_name}' not found")
     
-    tools = await fetch_tools_from_server(server_name, MCP_SERVERS[server_name])
+    tools = await fetch_tools_from_server(server_name, get_mcp_servers()[server_name])
     return {"server": server_name, "tools": tools, "count": len(tools)}
 
 @router.get("/tools/{server_name}/{tool_name}/form")
 async def get_tool_form(server_name: str, tool_name: str):
     """Get dynamic form schema for a specific tool"""
-    if server_name not in MCP_SERVERS:
+    if server_name not in get_mcp_servers():
         raise HTTPException(status_code=404, detail=f"Server '{server_name}' not found")
     
-    tools = await fetch_tools_from_server(server_name, MCP_SERVERS[server_name])
+    tools = await fetch_tools_from_server(server_name, get_mcp_servers()[server_name])
     
     tool = next((t for t in tools if t.name == tool_name), None)
     if not tool:
@@ -187,10 +201,10 @@ async def get_tool_form(server_name: str, tool_name: str):
 @router.post("/tools/{server_name}/{tool_name}/execute")
 async def execute_tool(server_name: str, tool_name: str, arguments: Dict[str, Any]):
     """Execute an MCP tool with provided arguments"""
-    if server_name not in MCP_SERVERS:
+    if server_name not in get_mcp_servers():
         raise HTTPException(status_code=404, detail=f"Server '{server_name}' not found")
     
-    config = MCP_SERVERS[server_name]
+    config = get_mcp_servers()[server_name]
     env = {**os.environ}
     if "env" in config:
         env.update(config["env"])
