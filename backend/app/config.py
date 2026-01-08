@@ -47,6 +47,10 @@ class Settings(BaseSettings):
     
     # Together AI
     together_api_key: str | None = None
+    
+    # Amadeus (Official Flight API)
+    amadeus_client_id: str | None = None
+    amadeus_client_secret: str | None = None
 
     model_config = SettingsConfigDict(env_file=find_env_file(), env_file_encoding="utf-8")
 

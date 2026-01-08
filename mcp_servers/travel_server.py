@@ -557,6 +557,202 @@ async def search_booking_flights(
     """
     return await _execute_sky_search("/booking/flights", from_location, to_location, date, None, return_date, cabin_class, adults)
 
+
+# ============================================================================
+# AMADEUS OFFICIAL API INTEGRATION
+# ============================================================================
+
+# Token cache for Amadeus OAuth2
+_amadeus_token_cache = {
+    "token": None,
+    "expires_at": 0
+}
+
+async def _get_amadeus_token() -> str:
+    """
+    Get a valid Amadeus access token using OAuth2 client credentials flow.
+    Caches the token until it expires.
+    """
+    import time
+    
+    # Check if cached token is still valid (with 60s buffer)
+    if _amadeus_token_cache["token"] and _amadeus_token_cache["expires_at"] > time.time() + 60:
+        return _amadeus_token_cache["token"]
+    
+    client_id = os.getenv("AMADEUS_CLIENT_ID", "")
+    client_secret = os.getenv("AMADEUS_CLIENT_SECRET", "")
+    
+    if not client_id or not client_secret:
+        raise ValueError("AMADEUS_CLIENT_ID and AMADEUS_CLIENT_SECRET must be set in environment")
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.post(
+            "https://test.api.amadeus.com/v1/security/oauth2/token",
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            data={
+                "grant_type": "client_credentials",
+                "client_id": client_id,
+                "client_secret": client_secret
+            }
+        )
+        response.raise_for_status()
+        data = response.json()
+        
+        # Cache the token
+        _amadeus_token_cache["token"] = data["access_token"]
+        _amadeus_token_cache["expires_at"] = time.time() + data.get("expires_in", 1799)
+        
+        return data["access_token"]
+
+
+@mcp.tool()
+async def search_amadeus_flights(
+    from_location: str,
+    to_location: str,
+    date: str,
+    return_date: str = None,
+    adults: int = 1,
+    cabin_class: str = "ECONOMY",
+    max_results: int = 10,
+    non_stop: bool = False
+) -> str:
+    """
+    Search flights using the official Amadeus Flight Offers API.
+    
+    CHAIN: FLIGHT_SEARCH_CHAIN - Use for comparison with Kiwi and Google Flights.
+    
+    This is the official Amadeus API with high quality data. Uses IATA codes.
+    
+    Args:
+        from_location: Origin IATA code. Examples: LHR, JFK, TLL, CDG
+        to_location: Destination IATA code. Examples: JFK, NRT, HEL
+        date: Departure date in YYYY-MM-DD format. Example: 2026-04-20
+        return_date: Return date for round-trip (optional). Format: YYYY-MM-DD
+        adults: Number of adult passengers (default: 1)
+        cabin_class: Cabin class. Options: ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST
+        max_results: Maximum number of results to return (default: 10, max: 250)
+        non_stop: If true, only return direct flights (default: false)
+    
+    Returns:
+        Formatted flight results with prices, times, airlines, and durations.
+    """
+    try:
+        token = await _get_amadeus_token()
+        
+        # Build query parameters
+        params = {
+            "originLocationCode": from_location.upper(),
+            "destinationLocationCode": to_location.upper(),
+            "departureDate": date,
+            "adults": adults,
+            "max": min(max_results, 250),
+            "currencyCode": "USD"
+        }
+        
+        if return_date:
+            params["returnDate"] = return_date
+        
+        if non_stop:
+            params["nonStop"] = "true"
+        
+        # Map cabin class
+        cabin_map = {
+            "economy": "ECONOMY",
+            "premium_economy": "PREMIUM_ECONOMY",
+            "business": "BUSINESS",
+            "first": "FIRST"
+        }
+        travel_class = cabin_map.get(cabin_class.lower(), cabin_class.upper())
+        params["travelClass"] = travel_class
+        
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.get(
+                "https://test.api.amadeus.com/v2/shopping/flight-offers",
+                headers={"Authorization": f"Bearer {token}"},
+                params=params
+            )
+            
+            if response.status_code == 401:
+                # Token expired, clear cache and retry once
+                _amadeus_token_cache["token"] = None
+                token = await _get_amadeus_token()
+                response = await client.get(
+                    "https://test.api.amadeus.com/v2/shopping/flight-offers",
+                    headers={"Authorization": f"Bearer {token}"},
+                    params=params
+                )
+            
+            response.raise_for_status()
+            data = response.json()
+        
+        # Parse the response
+        offers = data.get("data", [])
+        dictionaries = data.get("dictionaries", {})
+        carriers = dictionaries.get("carriers", {})
+        
+        if not offers:
+            return f"No flights found from {from_location} to {to_location} on {date}"
+        
+        results = []
+        for i, offer in enumerate(offers[:10]):  # Limit display to 10
+            price = offer.get("price", {})
+            total_price = price.get("grandTotal", price.get("total", "N/A"))
+            currency = price.get("currency", "USD")
+            
+            # Get first itinerary (outbound)
+            itineraries = offer.get("itineraries", [])
+            if not itineraries:
+                continue
+            
+            outbound = itineraries[0]
+            segments = outbound.get("segments", [])
+            
+            if not segments:
+                continue
+            
+            # First and last segment for origin/destination
+            first_seg = segments[0]
+            last_seg = segments[-1]
+            
+            dep_time = first_seg.get("departure", {}).get("at", "")[:16].replace("T", " ")
+            arr_time = last_seg.get("arrival", {}).get("at", "")[:16].replace("T", " ")
+            
+            # Calculate duration
+            duration = outbound.get("duration", "")
+            if duration.startswith("PT"):
+                duration = duration[2:].lower().replace("h", "h ").replace("m", "m")
+            
+            # Get carrier info
+            carrier_code = first_seg.get("carrierCode", "")
+            carrier_name = carriers.get(carrier_code, carrier_code)
+            
+            # Number of stops
+            stops = len(segments) - 1
+            stops_str = "Direct" if stops == 0 else f"{stops} stop{'s' if stops > 1 else ''}"
+            
+            flight_info = f"✈️ {currency} {total_price} | {carrier_name} | {dep_time} → {arr_time} | {duration} | {stops_str}"
+            results.append(flight_info)
+        
+        header = f"🛫 Amadeus Flights: {from_location} → {to_location} on {date}\n"
+        header += f"{'Round-trip return: ' + return_date if return_date else 'One-way'}\n"
+        header += "-" * 60 + "\n"
+        
+        return header + "\n".join(results)
+    
+    except httpx.HTTPStatusError as e:
+        error_detail = ""
+        try:
+            error_data = e.response.json()
+            errors = error_data.get("errors", [])
+            if errors:
+                error_detail = errors[0].get("detail", str(e))
+        except:
+            error_detail = str(e)
+        return f"Amadeus API error: {error_detail}"
+    except Exception as e:
+        return f"Error searching Amadeus flights: {str(e)}"
+
+
 # Google API keys are read at call time in each function
 
 @mcp.tool()
