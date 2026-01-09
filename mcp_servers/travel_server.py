@@ -753,6 +753,177 @@ async def search_amadeus_flights(
         return f"Error searching Amadeus flights: {str(e)}"
 
 
+@mcp.tool()
+async def search_amadeus_hotels(
+    city_code: str,
+    check_in_date: str,
+    check_out_date: str,
+    adults: int = 1,
+    rooms: int = 1,
+    ratings: str = None,
+    amenities: str = None,
+    max_results: int = 10
+) -> str:
+    """
+    Search hotels using the official Amadeus Hotel APIs.
+    
+    CHAIN: ACCOMMODATION_CHAIN - Use for comparison with Booking.com.
+    
+    This uses the Amadeus Hotel List + Hotel Search v3 APIs for official hotel data.
+    
+    Args:
+        city_code: IATA city code. Examples: PAR (Paris), LON (London), NYC (New York)
+        check_in_date: Check-in date in YYYY-MM-DD format. Example: 2026-04-20
+        check_out_date: Check-out date in YYYY-MM-DD format. Example: 2026-04-25
+        adults: Number of adult guests (default: 1)
+        rooms: Number of rooms (default: 1)
+        ratings: Optional, comma-separated star ratings. Example: "4,5" for 4-5 star hotels
+        amenities: Optional, comma-separated amenities. Options: SPA, FITNESS_CENTER, PARKING, RESTAURANT, WIFI, POOL
+        max_results: Maximum number of hotels to return (default: 10, max: 50)
+    
+    Returns:
+        Formatted hotel results with prices, ratings, and amenities.
+    """
+    try:
+        token = await _get_amadeus_token()
+        
+        # Step 1: Get hotel IDs by city using Hotel List API
+        list_params = {
+            "cityCode": city_code.upper(),
+        }
+        
+        if ratings:
+            list_params["ratings"] = ratings
+        
+        if amenities:
+            # Map common amenities to Amadeus format
+            amenity_map = {
+                "spa": "SPA",
+                "gym": "FITNESS_CENTER",
+                "fitness": "FITNESS_CENTER",
+                "parking": "PARKING",
+                "restaurant": "RESTAURANT",
+                "wifi": "WIFI",
+                "pool": "SWIMMING_POOL"
+            }
+            mapped = [amenity_map.get(a.lower().strip(), a.upper()) for a in amenities.split(",")]
+            list_params["amenities"] = ",".join(mapped)
+        
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            # Get hotel list
+            list_response = await client.get(
+                "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city",
+                headers={"Authorization": f"Bearer {token}"},
+                params=list_params
+            )
+            
+            if list_response.status_code == 401:
+                _amadeus_token_cache["token"] = None
+                token = await _get_amadeus_token()
+                list_response = await client.get(
+                    "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city",
+                    headers={"Authorization": f"Bearer {token}"},
+                    params=list_params
+                )
+            
+            list_response.raise_for_status()
+            hotels_data = list_response.json()
+        
+        hotels = hotels_data.get("data", [])
+        
+        if not hotels:
+            return f"No hotels found in {city_code}"
+        
+        # Limit to max_results for the price lookup
+        hotel_ids = [h.get("hotelId") for h in hotels[:min(max_results, 50)] if h.get("hotelId")]
+        
+        if not hotel_ids:
+            return f"No valid hotel IDs found in {city_code}"
+        
+        # Step 2: Get prices using Hotel Search v3 API
+        search_params = {
+            "hotelIds": ",".join(hotel_ids[:20]),  # API limit
+            "adults": adults,
+            "checkInDate": check_in_date,
+            "checkOutDate": check_out_date,
+            "roomQuantity": rooms,
+            "currency": "USD"
+        }
+        
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            search_response = await client.get(
+                "https://test.api.amadeus.com/v3/shopping/hotel-offers",
+                headers={"Authorization": f"Bearer {token}"},
+                params=search_params
+            )
+            
+            if search_response.status_code == 401:
+                _amadeus_token_cache["token"] = None
+                token = await _get_amadeus_token()
+                search_response = await client.get(
+                    "https://test.api.amadeus.com/v3/shopping/hotel-offers",
+                    headers={"Authorization": f"Bearer {token}"},
+                    params=search_params
+                )
+            
+            search_response.raise_for_status()
+            offers_data = search_response.json()
+        
+        offers = offers_data.get("data", [])
+        
+        if not offers:
+            return f"No available rooms found in {city_code} for {check_in_date} to {check_out_date}"
+        
+        # Build hotel ID to name mapping from original list
+        hotel_names = {h.get("hotelId"): h.get("name", "Unknown Hotel") for h in hotels}
+        
+        results = []
+        for offer in offers[:max_results]:
+            hotel = offer.get("hotel", {})
+            hotel_id = hotel.get("hotelId", "")
+            hotel_name = hotel_names.get(hotel_id, hotel.get("name", "Unknown Hotel"))
+            
+            # Get first (cheapest) offer
+            room_offers = offer.get("offers", [])
+            if not room_offers:
+                continue
+            
+            first_offer = room_offers[0]
+            price_info = first_offer.get("price", {})
+            total_price = price_info.get("total", "N/A")
+            currency = price_info.get("currency", "USD")
+            
+            room = first_offer.get("room", {})
+            room_type = room.get("typeEstimated", {}).get("category", "Standard Room")
+            
+            # Star rating if available
+            rating = hotel.get("rating", "")
+            rating_str = f"{'⭐' * int(rating)}" if rating else ""
+            
+            hotel_info = f"🏨 {currency} {total_price} | {hotel_name} {rating_str} | {room_type}"
+            results.append(hotel_info)
+        
+        header = f"🏨 Amadeus Hotels: {city_code}\n"
+        header += f"Check-in: {check_in_date} | Check-out: {check_out_date}\n"
+        header += f"Guests: {adults} | Rooms: {rooms}\n"
+        header += "-" * 60 + "\n"
+        
+        return header + "\n".join(results) if results else f"No available offers found in {city_code}"
+    
+    except httpx.HTTPStatusError as e:
+        error_detail = ""
+        try:
+            error_data = e.response.json()
+            errors = error_data.get("errors", [])
+            if errors:
+                error_detail = errors[0].get("detail", str(e))
+        except:
+            error_detail = str(e)
+        return f"Amadeus Hotel API error: {error_detail}"
+    except Exception as e:
+        return f"Error searching Amadeus hotels: {str(e)}"
+
+
 # Google API keys are read at call time in each function
 
 @mcp.tool()

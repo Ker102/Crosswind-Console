@@ -77,6 +77,7 @@ async def main():
         (travel_rag_dir / "tool_guidance.md", "travel", "tool_guidance", "tool_guidance.md"),
         (travel_rag_dir / "flights_sky_config.md", "travel", "config", "flights_sky_config.md"),
         (travel_rag_dir / "google_flights2_params.md", "travel", "api_reference", "Google Flights2 API Reference"),
+        (travel_rag_dir / "amadeus_params.md", "travel", "api_reference", "Amadeus Flight Offers API Reference"),
     ]
     
     ingested = 0
