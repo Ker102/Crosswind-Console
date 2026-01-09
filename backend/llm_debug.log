@@ -652,3 +652,309 @@ Given that flights for your requested date in 2026 are not yet available,...
 2026-01-07 21:29:49,494 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002A259EDE6B0>) completed
 2026-01-07 21:29:49,495 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002A259EDE6B0>)
 2026-01-07 21:29:49,495 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002A259EDE6B0>) completed
+2026-01-09 04:12:25,445 [DEBUG] Initializing server 'jobs'
+2026-01-09 04:12:25,446 [DEBUG] Registering handler for ListToolsRequest
+2026-01-09 04:12:25,446 [DEBUG] Registering handler for CallToolRequest
+2026-01-09 04:12:25,446 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-09 04:12:25,446 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-09 04:12:25,446 [DEBUG] Registering handler for PromptListRequest
+2026-01-09 04:12:25,447 [DEBUG] Registering handler for GetPromptRequest
+2026-01-09 04:12:25,447 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-09 04:12:25,465 [DEBUG] Initializing server 'search'
+2026-01-09 04:12:25,465 [DEBUG] Registering handler for ListToolsRequest
+2026-01-09 04:12:25,465 [DEBUG] Registering handler for CallToolRequest
+2026-01-09 04:12:25,466 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-09 04:12:25,466 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-09 04:12:25,466 [DEBUG] Registering handler for PromptListRequest
+2026-01-09 04:12:25,466 [DEBUG] Registering handler for GetPromptRequest
+2026-01-09 04:12:25,467 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-09 04:12:25,474 [DEBUG] Initializing server 'travel'
+2026-01-09 04:12:25,474 [DEBUG] Registering handler for ListToolsRequest
+2026-01-09 04:12:25,475 [DEBUG] Registering handler for CallToolRequest
+2026-01-09 04:12:25,475 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-09 04:12:25,475 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-09 04:12:25,475 [DEBUG] Registering handler for PromptListRequest
+2026-01-09 04:12:25,476 [DEBUG] Registering handler for GetPromptRequest
+2026-01-09 04:12:25,476 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-09 04:12:25,518 [DEBUG] Initializing server 'trends'
+2026-01-09 04:12:25,518 [DEBUG] Registering handler for ListToolsRequest
+2026-01-09 04:12:25,519 [DEBUG] Registering handler for CallToolRequest
+2026-01-09 04:12:25,519 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-09 04:12:25,520 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-09 04:12:25,520 [DEBUG] Registering handler for PromptListRequest
+2026-01-09 04:12:25,520 [DEBUG] Registering handler for GetPromptRequest
+2026-01-09 04:12:25,520 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-09 04:12:27,109 [DEBUG] executing <function connect.<locals>.connector at 0x000002C95BB69E40>
+2026-01-09 04:12:27,115 [DEBUG] operation <function connect.<locals>.connector at 0x000002C95BB69E40> completed
+2026-01-09 04:12:27,115 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002C96292A980>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002C9628FF920>, deterministic=True)
+2026-01-09 04:12:27,116 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002C96292A980>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002C9628FF920>, deterministic=True) completed
+2026-01-09 04:12:27,116 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002C96292A980>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-09 04:12:27,117 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002C96292A980>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-09 04:12:27,117 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,118 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:12:27,118 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA read_uncommitted', [])
+2026-01-09 04:12:27,120 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA read_uncommitted', []) completed
+2026-01-09 04:12:27,121 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,121 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,121 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,122 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,122 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,123 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:12:27,123 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,124 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:12:27,124 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA main.table_info("airports")', ())
+2026-01-09 04:12:27,128 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-09 04:12:27,128 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,129 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,129 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,129 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,130 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,130 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:12:27,130 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-09 04:12:27,131 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C962970C40>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-09 04:12:27,131 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,131 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,132 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>)
+2026-01-09 04:12:27,132 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C962970C40>) completed
+2026-01-09 04:12:27,132 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,133 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:12:27,133 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:12:27,133 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:57,882 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:57,883 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:57,883 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629E3CC0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tal%', '%tal%', '%tal%', '%tal%', 45, 0))
+2026-01-09 04:13:57,892 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629E3CC0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tal%', '%tal%', '%tal%', '%tal%', 45, 0)) completed
+2026-01-09 04:13:57,892 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629E3CC0>)
+2026-01-09 04:13:57,932 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629E3CC0>) completed
+2026-01-09 04:13:57,932 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629E3CC0>)
+2026-01-09 04:13:57,933 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629E3CC0>) completed
+2026-01-09 04:13:57,937 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:57,938 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:57,938 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:57,939 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,489 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,489 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,490 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629EBBC0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0))
+2026-01-09 04:13:59,494 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629EBBC0>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tall%', '%tall%', '%tall%', '%tall%', 45, 0)) completed
+2026-01-09 04:13:59,495 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629EBBC0>)
+2026-01-09 04:13:59,506 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629EBBC0>) completed
+2026-01-09 04:13:59,507 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629EBBC0>)
+2026-01-09 04:13:59,507 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629EBBC0>) completed
+2026-01-09 04:13:59,509 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,509 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,509 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,510 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,903 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,903 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,904 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629E8340>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tallin%', '%tallin%', '%tallin%', '%tallin%', 45, 0))
+2026-01-09 04:13:59,916 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629E8340>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%tallin%', '%tallin%', '%tallin%', '%tallin%', 45, 0)) completed
+2026-01-09 04:13:59,917 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629E8340>)
+2026-01-09 04:13:59,920 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629E8340>) completed
+2026-01-09 04:13:59,920 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629E8340>)
+2026-01-09 04:13:59,921 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629E8340>) completed
+2026-01-09 04:13:59,922 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,923 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:13:59,923 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:13:59,923 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:14:02,503 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:14:02,503 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:14:02,504 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629EBE40>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%hel%', '%hel%', '%hel%', '%hel%', 45, 0))
+2026-01-09 04:14:02,504 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002C9629EBE40>, 'SELECT airports.id, airports.name, airports.city, airports.country, airports.iata, airports.icao \nFROM airports \nWHERE lower(airports.city) LIKE lower(?) OR lower(airports.name) LIKE lower(?) OR lower(airports.iata) LIKE lower(?) OR lower(airports.country) LIKE lower(?) ORDER BY airports.city\n LIMIT ? OFFSET ?', ('%hel%', '%hel%', '%hel%', '%hel%', 45, 0)) completed
+2026-01-09 04:14:02,505 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629EBE40>)
+2026-01-09 04:14:02,512 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002C9629EBE40>) completed
+2026-01-09 04:14:02,512 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629EBE40>)
+2026-01-09 04:14:02,513 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002C9629EBE40>) completed
+2026-01-09 04:14:02,516 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:14:02,516 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:14:02,517 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>)
+2026-01-09 04:14:02,517 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002C96292A980>) completed
+2026-01-09 04:14:09,459 [INFO] GEMINI_API_KEY loaded: True
+2026-01-09 04:14:09,459 [INFO] google-generativeai imported: True
+2026-01-09 04:14:09,459 [INFO] Gemini enabled: True
+2026-01-09 04:14:09,522 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-09 04:14:09,544 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-09 04:14:10,028 [INFO] RAG service initialized successfully
+2026-01-09 04:14:10,029 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-09 04:14:10,031 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-09 04:14:10,473 [DEBUG] connect_tcp.started host='api.together.xyz' port=443 local_address=None timeout=5.0 socket_options=None
+2026-01-09 04:14:10,534 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C962A517F0>
+2026-01-09 04:14:10,534 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000002C9629FC3B0> server_hostname='api.together.xyz' timeout=5.0
+2026-01-09 04:14:10,714 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C9629B9BD0>
+2026-01-09 04:14:10,714 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-01-09 04:14:10,715 [DEBUG] send_request_headers.complete
+2026-01-09 04:14:10,715 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-01-09 04:14:10,715 [DEBUG] send_request_body.complete
+2026-01-09 04:14:10,716 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-01-09 04:14:11,795 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 09 Jan 2026 02:14:11 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Content-Encoding', b'gzip'), (b'CF-Ray', b'9bb06b6bdb67542f-TLL'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'2'), (b'Access-Control-Allow-Origin', b'*'), (b'ETag', b'W/"405d-0fiCPVSTl0VOqsb3aSELY8CjlNg"'), (b'Strict-Transport-Security', b'max-age=15552000; includeSubDomains'), (b'x-amzn-trace-id', b'40c3d3a3-3f86-4728-a2a4-3bcce51a10cb-noamzn'), (b'x-api-call-end', b'2026-01-09T02:14:11.556Z'), (b'x-api-call-start', b'2026-01-09T02:14:11.286Z'), (b'x-api-received', b'2026-01-09T02:14:11.280Z'), (b'x-embeddings-version', b'v2'), (b'x-ratelimit', b'false'), (b'x-ratelimit-limit', b'50'), (b'x-ratelimit-limit-tokens', b'0'), (b'x-ratelimit-remaining', b'99'), (b'x-ratelimit-remaining-tokens', b'0'), (b'x-ratelimit-reset', b'2'), (b'x-request-id', b'oSYTyi6-57nCBj-9bb06b6bdb67542f'), (b'Vary', b'Accept-Encoding'), (b'Server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-01-09 04:14:11,797 [INFO] HTTP Request: POST https://api.together.xyz/v1/embeddings "HTTP/1.1 200 OK"
+2026-01-09 04:14:11,798 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-01-09 04:14:11,800 [DEBUG] receive_response_body.complete
+2026-01-09 04:14:11,801 [DEBUG] response_closed.started
+2026-01-09 04:14:11,801 [DEBUG] response_closed.complete
+2026-01-09 04:14:11,802 [DEBUG] close.started
+2026-01-09 04:14:11,803 [DEBUG] close.complete
+2026-01-09 04:14:11,804 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-09 04:14:11,806 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-09 04:14:12,239 [DEBUG] connect_tcp.started host='kqciszpnqpbxetguecwj.supabase.co' port=443 local_address=None timeout=120 socket_options=None
+2026-01-09 04:14:12,249 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000002C962A52A50>
+2026-01-09 04:14:12,250 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000002C9629FC200> server_hostname='kqciszpnqpbxetguecwj.supabase.co' timeout=120
+2026-01-09 04:14:12,361 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000002C9629BA710>
+2026-01-09 04:14:12,362 [DEBUG] send_connection_init.started request=<Request [b'POST']>
+2026-01-09 04:14:12,364 [DEBUG] send_connection_init.complete
+2026-01-09 04:14:12,365 [DEBUG] send_request_headers.started request=<Request [b'POST']> stream_id=1
+2026-01-09 04:14:12,366 [DEBUG] Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,367 [DEBUG] Encoding 3 with 7 bits
+2026-01-09 04:14:12,367 [DEBUG] Adding (b':authority', b'kqciszpnqpbxetguecwj.supabase.co') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,368 [DEBUG] Encoding 1 with 6 bits
+2026-01-09 04:14:12,368 [DEBUG] Encoding 24 with 7 bits
+2026-01-09 04:14:12,369 [DEBUG] Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,369 [DEBUG] Encoding 7 with 7 bits
+2026-01-09 04:14:12,369 [DEBUG] Adding (b':path', b'/rest/v1/rpc/search_rag') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,370 [DEBUG] Encoding 4 with 6 bits
+2026-01-09 04:14:12,370 [DEBUG] Encoding 17 with 7 bits
+2026-01-09 04:14:12,370 [DEBUG] Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,370 [DEBUG] Encoding 19 with 6 bits
+2026-01-09 04:14:12,371 [DEBUG] Encoding 3 with 7 bits
+2026-01-09 04:14:12,371 [DEBUG] Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,371 [DEBUG] Encoding 16 with 7 bits
+2026-01-09 04:14:12,372 [DEBUG] Adding (b'user-agent', b'python-httpx/0.27.2') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,372 [DEBUG] Encoding 58 with 6 bits
+2026-01-09 04:14:12,372 [DEBUG] Encoding 14 with 7 bits
+2026-01-09 04:14:12,373 [DEBUG] Adding (b'x-client-info', b'supabase-py/2.27.0') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,373 [DEBUG] Encoding 10 with 7 bits
+2026-01-09 04:14:12,374 [DEBUG] Encoding 13 with 7 bits
+2026-01-09 04:14:12,374 [DEBUG] Adding (b'apikey', b'sb_secret_MHGyRx3G4FK0N8DM9zTkLQ_fgiLQhyM') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,374 [DEBUG] Encoding 5 with 7 bits
+2026-01-09 04:14:12,375 [DEBUG] Encoding 33 with 7 bits
+2026-01-09 04:14:12,375 [DEBUG] Adding (b'authorization', b'Bearer sb_secret_MHGyRx3G4FK0N8DM9zTkLQ_fgiLQhyM') to the header table, sensitive:True, huffman:True
+2026-01-09 04:14:12,375 [DEBUG] Encoding 23 with 4 bits
+2026-01-09 04:14:12,375 [DEBUG] Encoding 38 with 7 bits
+2026-01-09 04:14:12,376 [DEBUG] Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,376 [DEBUG] Encoding 10 with 7 bits
+2026-01-09 04:14:12,376 [DEBUG] Encoding 5 with 7 bits
+2026-01-09 04:14:12,377 [DEBUG] Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,377 [DEBUG] Encoding 11 with 7 bits
+2026-01-09 04:14:12,377 [DEBUG] Encoding 5 with 7 bits
+2026-01-09 04:14:12,378 [DEBUG] Adding (b'content-length', b'10218') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,378 [DEBUG] Encoding 28 with 6 bits
+2026-01-09 04:14:12,378 [DEBUG] Encoding 4 with 7 bits
+2026-01-09 04:14:12,379 [DEBUG] Adding (b'content-type', b'application/json') to the header table, sensitive:False, huffman:True
+2026-01-09 04:14:12,379 [DEBUG] Encoding 31 with 6 bits
+2026-01-09 04:14:12,379 [DEBUG] Encoding 11 with 7 bits
+2026-01-09 04:14:12,379 [DEBUG] Encoded header block to b'\x83A\x98\xeb\xd8\x86G\xba\xea\xed\\~J\x99\xad)<t]\x16\xd68\xc6\x82\xaeC\xff\x87D\x91b\xc2\xa1,w\x0b\x16VF\x10Q\xd8I\xe2\xb0s\x7fS\x83\xf9c\xe7\x90z\x8e\xaf\xd2g=KN\x94\xd7\xe5\x80.\'W\x17@\x8a\xf2\xb1(1jJ\xc6\xaaS\xff\x8dE\xb5\x8e1\xa0\xabW\xe9\x81.\'W\x07@\x85\x1df\xea__\xa1Dq \xa4\xb0\xa9\x8bF<^\xb6\xf9g\x13Xs\x03K\xd7\xf4?\xef\x7f\\\xfb"\x96cg\xd9?\xad\x1f\x1f\x08\xa6\xbaQ\xd8[\x14Dq \xa4\xb0\xa9\x8bF<^\xb6\xf9g\x13Xs\x03K\xd7\xf4?\xef\x7f\\\xfb"\x96cg\xd9?\xad\x1f@\x8a\x19\x08Z\xd2\xb5v\x1eSP_\x85\xae\xd8\xe81?@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?\\\x84\x08\x04\x17\xbf_\x8b\x1du\xd0b\r&=LtA\xea'
+2026-01-09 04:14:12,380 [DEBUG] send_request_headers.complete
+2026-01-09 04:14:12,381 [DEBUG] send_request_body.started request=<Request [b'POST']> stream_id=1
+2026-01-09 04:14:12,382 [DEBUG] send_request_body.complete
+2026-01-09 04:14:12,382 [DEBUG] receive_response_headers.started request=<Request [b'POST']> stream_id=1
+2026-01-09 04:14:12,383 [DEBUG] receive_remote_settings.started
+2026-01-09 04:14:12,383 [DEBUG] receive_remote_settings.complete return_value=<RemoteSettingsChanged changed_settings:{ChangedSetting(setting=3, original_value=None, new_value=100), ChangedSetting(setting=4, original_value=65535, new_value=65536), ChangedSetting(setting=5, original_value=16384, new_value=16777215)}>
+2026-01-09 04:14:13,807 [DEBUG] Decoding b'?\xe1\x1f\x88a\x96\xc3a\xbe\x94\x03\xeae\x1dJ\x08\x02q@\n\xe0Z\xb8\x16T\xc5\xa3\x7f_\x96\x1du\xd0b\r&=LtA\xea\xfbP\x93\x8e\xc4\x150Z\x99V{v\x87%\x07\xb6Ih\x1d\x85^\x84\x02\xc2c\xe7@\x85$\xabX?_\x8f~8\xc0\xe4n\xb8\xd0\xdb\x95\xb6\x99\x1a\xdb\xf3\xe7@\x8a$\xab\x10d\x9c\xab!#M\xa8\x86\xbf\xcfL:2^Z\x83\x9b\xd9\xabx\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93{\x8b\x84\x84-i[\x05D<\x86\xaao@\x90\xf2\xb1\x0fRKRVO\xaa\xca\xb1\xebI\x8fR?\x85\xa8\xe8\xa8\xd2\xcb@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?@\x8dDkL4\x97\xc0\xfd-\xdc\xb6 \xc7\xab\x011@\x8aDkWa\xfa\x14\x89Z\xc2\xcb\x8f\xeb\xd8\x86G\xba\xea\xed\\~J\x99\xad)<t@\x8aDkX^\xd6\x95\tX\xd2\x7f\x9a\x00_\x8c`y\xe5\x9cnP\xac\xeb\xad\x81g\x83$\x8b\x029\x1f\x91\xa6DV\xa5w@\x8f\xf2\xb1j\xee\x7fK\r)-5\xa5b\x1e\xda\x93\x011@\x95\xf2\xb1j\xee\x7fK[Z\x13aGJ\xc8-\x9d\xccB\xac\x93R_\x03872w\xffW\x8a"K\x14t\xc1G&\xbc\xc7\xe9\xf4\xe4O/P\xc5\xa5\xf0\xe9\xbd\xad\xfe\xd8\xe4g\x7f{\xcf\x94\x83\xee\xbf\xbc\x1f\xad\xb7\xc7\xa6\x87\x96\x0b\xae:\xf8\x9ay\xb6V\n\xe0\\+\x85k{\xef\xcf\x9f\xdf]\xb93c^\xfb\xcf\xfa\xc9\xd33\xbeb\xf3\x8c\x96\x11-\xf16n\x1c\xdd\xfd\xf4\x83p\\\xdb}\xbb\x87\x86K\xbb\x17\xbf(d=\x91\xf4\xd1\xe6\x87\xb4I\x95\xa6\xfc\xe8\x9e\x8c\xd1=[\x81N\xf3#H\x0f\xe2\xfb\xfd\xb5\x1a\xffN\x9a\xea\xe2\xff\x8a\x05\xfbY{M\xb3\xedJ\xc6\x99\xe0c\xedB\xf9\xac\xd6\x15\x10a\xb0\xdfJ\x01\xf5\xb2\x8e\xa5\x84\xe2\x80\x15\xc6\x9a\xb8\x16T\xc5\xa3\x7f\xda\x92\x1e\x91\x9a\xa8\x17E\xb5\x8e1\xa0\xab\x90\xffjcJk\xd5U\x1e\xbe\xd4\xdcR[a~\xd4\xdc:K\xb8\xc9,\x1aOQ\x7f@\x85\x1d\tY\x1d\xc9\x90\x9d\x98?\x9b\x8d4\xcf\xf3\xf6\xa5#\x81\xe7\x1a\x00?'
+2026-01-09 04:14:13,807 [DEBUG] Decoded 4096, consumed 3 bytes
+2026-01-09 04:14:13,807 [DEBUG] Resizing header table to 4096 from 4096
+2026-01-09 04:14:13,808 [DEBUG] Decoded 8, consumed 1 bytes
+2026-01-09 04:14:13,808 [DEBUG] Decoded (b':status', b'200'), consumed 1
+2026-01-09 04:14:13,808 [DEBUG] Decoded 33, consumed 1 bytes
+2026-01-09 04:14:13,808 [DEBUG] Decoded 22, consumed 1 bytes
+2026-01-09 04:14:13,809 [DEBUG] Decoded (b'date', b'Fri, 09 Jan 2026 02:14:13 GMT'), total consumed 24 bytes, indexed True
+2026-01-09 04:14:13,809 [DEBUG] Decoded 31, consumed 1 bytes
+2026-01-09 04:14:13,809 [DEBUG] Decoded 22, consumed 1 bytes
+2026-01-09 04:14:13,809 [DEBUG] Decoded (b'content-type', b'application/json; charset=utf-8'), total consumed 24 bytes, indexed True
+2026-01-09 04:14:13,809 [DEBUG] Decoded 54, consumed 1 bytes
+2026-01-09 04:14:13,810 [DEBUG] Decoded 7, consumed 1 bytes
+2026-01-09 04:14:13,810 [DEBUG] Decoded (b'server', b'cloudflare'), total consumed 9 bytes, indexed True
+2026-01-09 04:14:13,810 [DEBUG] Decoded 30, consumed 1 bytes
+2026-01-09 04:14:13,810 [DEBUG] Decoded 4, consumed 1 bytes
+2026-01-09 04:14:13,810 [DEBUG] Decoded (b'content-range', b'0-2/*'), total consumed 6 bytes, indexed True
+2026-01-09 04:14:13,810 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-09 04:14:13,811 [DEBUG] Decoded 15, consumed 1 bytes
+2026-01-09 04:14:13,811 [DEBUG] Decoded (b'cf-ray', b'9bb06b764a5f543a-TLL'), total consumed 23 bytes, indexed True
+2026-01-09 04:14:13,811 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-09 04:14:13,811 [DEBUG] Decoded 6, consumed 1 bytes
+2026-01-09 04:14:13,811 [DEBUG] Decoded (b'cf-cache-status', b'DYNAMIC'), total consumed 19 bytes, indexed True
+2026-01-09 04:14:13,811 [DEBUG] Decoded 26, consumed 1 bytes
+2026-01-09 04:14:13,812 [DEBUG] Decoded 3, consumed 1 bytes
+2026-01-09 04:14:13,812 [DEBUG] Decoded (b'content-encoding', b'gzip'), total consumed 5 bytes, indexed True
+2026-01-09 04:14:13,812 [DEBUG] Decoded 56, consumed 1 bytes
+2026-01-09 04:14:13,812 [DEBUG] Decoded 32, consumed 1 bytes
+2026-01-09 04:14:13,813 [DEBUG] Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 34 bytes, indexed True
+2026-01-09 04:14:13,813 [DEBUG] Decoded 59, consumed 1 bytes
+2026-01-09 04:14:13,813 [DEBUG] Decoded 11, consumed 1 bytes
+2026-01-09 04:14:13,813 [DEBUG] Decoded (b'vary', b'Accept-Encoding'), total consumed 13 bytes, indexed True
+2026-01-09 04:14:13,813 [DEBUG] Decoded 16, consumed 1 bytes
+2026-01-09 04:14:13,814 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-09 04:14:13,814 [DEBUG] Decoded (b'x-content-type-options', b'nosniff'), total consumed 24 bytes, indexed True
+2026-01-09 04:14:13,814 [DEBUG] Decoded 11, consumed 1 bytes
+2026-01-09 04:14:13,814 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-09 04:14:13,814 [DEBUG] Decoded (b'content-profile', b'public'), total consumed 19 bytes, indexed True
+2026-01-09 04:14:13,815 [DEBUG] Decoded 13, consumed 1 bytes
+2026-01-09 04:14:13,815 [DEBUG] Decoded 1, consumed 1 bytes
+2026-01-09 04:14:13,815 [DEBUG] Decoded (b'sb-gateway-version', <memory at 0x000002C962892140>), total consumed 17 bytes, indexed True
+2026-01-09 04:14:13,815 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-09 04:14:13,816 [DEBUG] Decoded 15, consumed 1 bytes
+2026-01-09 04:14:13,816 [DEBUG] Decoded (b'sb-project-ref', b'kqciszpnqpbxetguecwj'), total consumed 28 bytes, indexed True
+2026-01-09 04:14:13,816 [DEBUG] Decoded 10, consumed 1 bytes
+2026-01-09 04:14:13,816 [DEBUG] Decoded 26, consumed 1 bytes
+2026-01-09 04:14:13,816 [DEBUG] Decoded (b'sb-request-id', b'019ba088-65f1-7750-81dd-0bd9d432e4f7'), total consumed 39 bytes, indexed True
+2026-01-09 04:14:13,817 [DEBUG] Decoded 15, consumed 1 bytes
+2026-01-09 04:14:13,817 [DEBUG] Decoded 1, consumed 1 bytes
+2026-01-09 04:14:13,817 [DEBUG] Decoded (b'x-envoy-attempt-count', <memory at 0x000002C962893100>), total consumed 19 bytes, indexed True
+2026-01-09 04:14:13,817 [DEBUG] Decoded 21, consumed 1 bytes
+2026-01-09 04:14:13,818 [DEBUG] Decoded 3, consumed 1 bytes
+2026-01-09 04:14:13,818 [DEBUG] Decoded (b'x-envoy-upstream-service-time', <memory at 0x000002C9628931C0>), total consumed 27 bytes, indexed True
+2026-01-09 04:14:13,818 [DEBUG] Decoded 55, consumed 1 bytes
+2026-01-09 04:14:13,818 [DEBUG] Decoded 214, consumed 2 bytes
+2026-01-09 04:14:13,819 [DEBUG] Decoded (b'set-cookie', b'__cf_bm=lW4xby9tItWyA_N91NCP9qHd3TvC9ecav.zEZ55VjM8-1767924853-1.0.1.1-uvTLLzkRIKH.D89yIjK7x_xHcrct5ViKUY7ZysiU.iRz7FUIBQ.Df1dorbjMxl8MdJ45xMhlK_8p61tTisN0owD9qOiDjjPnV9wl2ZpeqgQ; path=/; expires=Fri, 09-Jan-26 02:44:13 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), total consumed 217 bytes, indexed True
+2026-01-09 04:14:13,819 [DEBUG] Decoded 5, consumed 1 bytes
+2026-01-09 04:14:13,819 [DEBUG] Decoded 16, consumed 1 bytes
+2026-01-09 04:14:13,819 [DEBUG] Decoded (b'alt-svc', b'h3=":443"; ma=86400'), total consumed 24 bytes, indexed True
+2026-01-09 04:14:13,820 [DEBUG] receive_response_headers.complete return_value=(200, [(b'date', b'Fri, 09 Jan 2026 02:14:13 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'server', b'cloudflare'), (b'content-range', b'0-2/*'), (b'cf-ray', b'9bb06b764a5f543a-TLL'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'x-content-type-options', b'nosniff'), (b'content-profile', b'public'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'kqciszpnqpbxetguecwj'), (b'sb-request-id', b'019ba088-65f1-7750-81dd-0bd9d432e4f7'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'872'), (b'set-cookie', b'__cf_bm=lW4xby9tItWyA_N91NCP9qHd3TvC9ecav.zEZ55VjM8-1767924853-1.0.1.1-uvTLLzkRIKH.D89yIjK7x_xHcrct5ViKUY7ZysiU.iRz7FUIBQ.Df1dorbjMxl8MdJ45xMhlK_8p61tTisN0owD9qOiDjjPnV9wl2ZpeqgQ; path=/; expires=Fri, 09-Jan-26 02:44:13 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-01-09 04:14:13,821 [INFO] HTTP Request: POST https://kqciszpnqpbxetguecwj.supabase.co/rest/v1/rpc/search_rag "HTTP/2 200 OK"
+2026-01-09 04:14:13,821 [DEBUG] receive_response_body.started request=<Request [b'POST']> stream_id=1
+2026-01-09 04:14:13,823 [DEBUG] receive_response_body.complete
+2026-01-09 04:14:13,823 [DEBUG] response_closed.started stream_id=1
+2026-01-09 04:14:13,823 [DEBUG] response_closed.complete
+2026-01-09 04:14:13,825 [INFO] RAG: Retrieved 3 docs for mode=travel
+2026-01-09 04:14:13,826 [INFO] Available tools: ['search_flights', 'search_flights_sky', 'search_places', 'search_hotels', 'search_airbnb', 'search_ground_transport', 'search_ground_transport_backup', 'get_directions', 'geocode_address', 'reverse_geocode', 'text_search_places', 'search_places_nearby', 'search_jobs', 'get_active_jobs', 'optimize_resume', 'analyze_job_match', 'web_search', 'scrape_webpage', 'crawl_website', 'get_youtube_trends', 'search_youtube', 'get_google_trends', 'search_tweets', 'get_tiktok_trends', 'search_tiktok', 'search_instagram', 'get_instagram_posts', 'search_facebook']
+2026-01-09 04:14:13,826 [INFO] Using agent mode: travel
+2026-01-09 04:14:20,127 [INFO] TOOL CALL: search_flights({'adults': 1.0, 'date_from': '2026-01-20', 'from_location': 'TLL', 'cabin_class': 'ECONOMY', 'to_location': 'HEL'})
+2026-01-09 04:14:20,127 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-09 04:14:20,128 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-09 04:14:20,518 [DEBUG] connect_tcp.started host='kiwi-com-cheap-flights.p.rapidapi.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-01-09 04:14:20,573 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C962A69D10>
+2026-01-09 04:14:20,574 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000002C9629FC3B0> server_hostname='kiwi-com-cheap-flights.p.rapidapi.com' timeout=5.0
+2026-01-09 04:14:20,743 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C962A742B0>
+2026-01-09 04:14:20,744 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-09 04:14:20,744 [DEBUG] send_request_headers.complete
+2026-01-09 04:14:20,744 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-09 04:14:20,745 [DEBUG] send_request_body.complete
+2026-01-09 04:14:20,745 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-09 04:14:21,557 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 09 Jan 2026 02:14:21 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'public, max-age=0, must-revalidate'), (b'Content-Encoding', b'gzip'), (b'Vary', b'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Url'), (b'X-Vercel-Cache', b'MISS'), (b'X-Vercel-Id', b'fra1::iad1::f6md2-1767924860632-a0ddf7eefba1'), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains; preload'), (b'Age', b'0'), (b'X-Matched-Path', b'/api/kiwi/one-way'), (b'X-RateLimit-Requests-Limit', b'300'), (b'X-RateLimit-Requests-Remaining', b'288'), (b'X-RateLimit-Requests-Reset', b'2397337'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499996'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'2397337'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-central-1'), (b'X-RapidAPI-Request-Id', b'd45547d28d2ac883c7ce872baa344694f5787fa9d1a0347b6551dd85a20e6a5e')])
+2026-01-09 04:14:21,558 [INFO] HTTP Request: GET https://kiwi-com-cheap-flights.p.rapidapi.com/one-way?source=TLL&destination=HEL&date=2026-01-20&currency=USD&sort=price&limit=10&adults=1.0&children=0&infants=0&cabinClass=ECONOMY&sortBy=PRICE "HTTP/1.1 200 OK"
+2026-01-09 04:14:21,559 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-09 04:14:21,559 [DEBUG] receive_response_body.complete
+2026-01-09 04:14:21,560 [DEBUG] response_closed.started
+2026-01-09 04:14:21,560 [DEBUG] response_closed.complete
+2026-01-09 04:14:21,561 [DEBUG] close.started
+2026-01-09 04:14:21,562 [DEBUG] close.complete
+2026-01-09 04:14:21,563 [INFO] TOOL RESULT: search_flights - count=11, error=False, prices: ['$74', '74 USD', '74 USD']
+2026-01-09 04:14:21,886 [INFO] TOOL CALL: search_flights_sky({'adults': 1.0, 'date': '2026-01-20', 'cabin_class': 'economy', 'to_location': 'HEL', 'from_location': 'TLL'})
+2026-01-09 04:14:21,886 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-01-09 04:14:21,887 [DEBUG] load_verify_locations cafile='C:\\Users\\krist\\Desktop\\Cursor-Projects\\Projects\\project04\\Crosswind-Console\\backend\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-01-09 04:14:22,291 [DEBUG] connect_tcp.started host='google-flights2.p.rapidapi.com' port=443 local_address=None timeout=30.0 socket_options=None
+2026-01-09 04:14:22,331 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C962A75810>
+2026-01-09 04:14:22,332 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x000002C9629FEBA0> server_hostname='google-flights2.p.rapidapi.com' timeout=30.0
+2026-01-09 04:14:22,475 [DEBUG] start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002C96297C5F0>
+2026-01-09 04:14:22,476 [DEBUG] send_request_headers.started request=<Request [b'GET']>
+2026-01-09 04:14:22,476 [DEBUG] send_request_headers.complete
+2026-01-09 04:14:22,476 [DEBUG] send_request_body.started request=<Request [b'GET']>
+2026-01-09 04:14:22,477 [DEBUG] send_request_body.complete
+2026-01-09 04:14:22,477 [DEBUG] receive_response_headers.started request=<Request [b'GET']>
+2026-01-09 04:14:25,834 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 09 Jan 2026 02:14:25 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'24848'), (b'Connection', b'keep-alive'), (b'ETag', b'W/"6110-bf4SPIt2PXaeG0c8CLT7w9/6u3k"'), (b'X-Powered-By', b'Express'), (b'X-RateLimit-Requests-Limit', b'150'), (b'X-RateLimit-Requests-Remaining', b'136'), (b'X-RateLimit-Requests-Reset', b'2563411'), (b'X-RateLimit-rapid-free-plans-hard-limit-Limit', b'500000'), (b'X-RateLimit-rapid-free-plans-hard-limit-Remaining', b'499986'), (b'X-RateLimit-rapid-free-plans-hard-limit-Reset', b'2563411'), (b'Server', b'RapidAPI-1.2.8'), (b'X-RapidAPI-Version', b'1.2.8'), (b'X-RapidAPI-Region', b'AWS - eu-central-1'), (b'X-RapidAPI-Request-Id', b'33b7535b203e9a04affeb318b0265331572c723405d41b7e5a7bff5d50ba19dc')])
+2026-01-09 04:14:25,835 [INFO] HTTP Request: GET https://google-flights2.p.rapidapi.com/api/v1/searchFlights?departure_id=TLL&arrival_id=HEL&currency=USD&hl=en&adults=1&travel_class=ECONOMY&outbound_date=2026-01-20&type=oneWay "HTTP/1.1 200 OK"
+2026-01-09 04:14:25,835 [DEBUG] receive_response_body.started request=<Request [b'GET']>
+2026-01-09 04:14:25,836 [DEBUG] receive_response_body.complete
+2026-01-09 04:14:25,836 [DEBUG] response_closed.started
+2026-01-09 04:14:25,837 [DEBUG] response_closed.complete
+2026-01-09 04:14:25,837 [DEBUG] close.started
+2026-01-09 04:14:25,838 [DEBUG] close.complete
+2026-01-09 04:14:25,838 [INFO] TOOL RESULT: search_flights_sky - count=0, error=False, prices: ['$81', '$92', '$92']

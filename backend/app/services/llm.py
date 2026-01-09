@@ -38,7 +38,7 @@ try:
         search_flights, search_places, search_hotels, search_flights_sky,
         search_ground_transport, search_ground_transport_backup, get_directions,
         geocode_address, reverse_geocode, text_search_places, search_places_nearby,
-        search_airbnb
+        search_airbnb, search_amadeus_flights, search_amadeus_hotels
     )
     from mcp_servers.trends_server import (
         get_google_trends, get_youtube_trends, search_tweets, search_youtube,
@@ -46,8 +46,9 @@ try:
     )
     
     MCP_TOOLS = [
-        # Travel tools (search_flights=Kiwi, search_flights_sky=Skyscanner - use BOTH for comparison)
-        search_flights, search_flights_sky, search_places, search_hotels, search_airbnb,
+        # Travel tools (search_flights=Kiwi, search_flights_sky=Skyscanner, search_amadeus_*=Amadeus - use for comparison)
+        search_flights, search_flights_sky, search_amadeus_flights, search_amadeus_hotels,
+        search_places, search_hotels, search_airbnb,
         search_ground_transport, search_ground_transport_backup, get_directions,
         geocode_address, reverse_geocode, text_search_places, search_places_nearby,
         # Jobs tools

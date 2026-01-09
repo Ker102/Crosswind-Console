@@ -6,17 +6,17 @@ from fastapi import APIRouter, Depends
 from ..dependencies import get_llm_client
 from ..schemas import LLMRequest, LLMResponse, SandboxRequest, SandboxResponse
 from ..services.llm import GeminiClient
-from ..services.sandbox_llm import SandboxLLMService
+from ..services.sandbox_llm import LangChainSandboxService
 
 router = APIRouter(prefix="/llm", tags=["llm"])
 
 # Singleton sandbox service
 _sandbox_service = None
 
-def get_sandbox_service() -> SandboxLLMService:
+def get_sandbox_service() -> LangChainSandboxService:
     global _sandbox_service
     if _sandbox_service is None:
-        _sandbox_service = SandboxLLMService(
+        _sandbox_service = LangChainSandboxService(
             gemini_api_key=os.getenv("GEMINI_API_KEY", ""),
             model_id=os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         )
@@ -34,7 +34,7 @@ async def run_llm_prompt(
 @router.post("/sandbox", response_model=SandboxResponse)
 async def sandbox_mode(payload: SandboxRequest) -> SandboxResponse:
     """
-    Sandbox mode endpoint - uses RAG for context and remote MCP for tool calling.
+    Sandbox mode endpoint - uses LangChain agent with RAG + persistent MCP tools.
     
     This is the main endpoint for natural language queries that need:
     1. Domain knowledge from RAG (parameter formats, valid values, etc.)
@@ -47,7 +47,7 @@ async def sandbox_mode(payload: SandboxRequest) -> SandboxResponse:
     if payload.history:
         history = [{"role": msg.role, "content": msg.content} for msg in payload.history]
     
-    result = await service.respond_sandbox(
+    result = await service.process(
         prompt=payload.prompt,
         namespace=payload.namespace,
         history=history
