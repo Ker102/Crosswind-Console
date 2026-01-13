@@ -157,29 +157,48 @@ python check_rag_db.py
 
 ---
 
-## Current Progress (2026-01-05)
+## Current Progress (2026-01-13)
 
-### ✅ Completed - Hybrid MCP-RAG Implementation
-- [x] Phase 1: Supabase pgvector setup
-- [x] Phase 2: RAG Service (embed + search)
-- [x] Phase 3: Document parsing & ingestion (11 docs)
-- [x] Phase 4: Remote MCP client configuration
-- [x] Phase 4.5: Dynamic form generator
-- [x] Phase 5: LLM integration (sandbox_llm.py)
-- [x] Phase 6: Frontend integration (SandboxMode.svelte)
+### ✅ Completed
+- [x] **LangChain Migration** (v1.2.3): Replaced raw Gemini SDK with LangChain agent (`bind_tools` pattern).
+- [x] **Amadeus Integration**: Added official Amadeus `Flight Offers` and `Hotel List/Search` tools.
+- [x] **Performance Optimization**: Created persistent HTTP MCP client (latency reduced from ~60s to ~3s).
+- [x] **Hybrid RAG**: Integrated Supabase pgvector with 11 API documentation sources.
+- [x] **Frontend Sandbox**: Functional chat UI with tool execution feedback.
 
 ### 📍 Current State
-- RAG database has **11 documents** with API parameter guidance
-- **~120 remote MCP tools** available (Flights Sky, Booking.com, Google Maps)
-- Sandbox mode operational: RAG context → Gemini → MCP tools → Response
+- **Architecture**: LangChain 1.x + Gemini 2.0 Flash + Supabase RAG
+- **Tools**: ~122 remote MCP tools (Amadeus, Flights Sky, Booking.com, Google Maps)
+- **Performance**: High-speed tool execution via persistent connection pooling
 
 ### 🔜 Next Steps
-- Test end-to-end sandbox flow with live APIs
-- Add Jobs and Trends API documentation to RAG
-- Implement chat session persistence
-- Polish UI/UX for tool execution feedback
+- Implement **Trip Planner Agent** (LangGraph stateful workflows)
+- Add "Human-in-the-loop" approval UI
+- Deepen preference analysis functionality
+
+---
+
+## 🚀 Future Features (Planned)
+
+### Trip Planner Agent (LangGraph)
+A multi-step, stateful AI agent for complete trip planning.
+
+| Feature | Description |
+|---------|-------------|
+| **LangGraph Workflow** | StateGraph with flight → hotel → activity search pipeline |
+| **Human-in-the-loop** | User approval before finalizing itinerary |
+| **Deep Preferences** | Complex constraints ("cheap but comfortable", "beachfront + free cancellation") |
+| **Multimodal Input** | Image upload to find similar destinations/hotels |
+| **Vibe Matching** | Search by abstract concepts ("Cyberpunk aesthetic", "Writer's retreat") |
+
+📄 **Full Design Doc**: [trip_planner_agent_design.md](file:///C:/Users/krist/.gemini/antigravity/brain/823f1366-a4c4-4c01-9a1f-0581b479520f/trip_planner_agent_design.md)
+
+**Dependencies**: `langgraph`, `langgraph-checkpoint-sqlite`
+
+**Estimated Effort**: ~2 weeks
 
 ---
 
 ## Last Updated
-2026-01-05
+2026-01-12
+

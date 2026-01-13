@@ -1,60 +1,54 @@
 # Crosswind Console
 
-![Status](https://img.shields.io/badge/Status-Beta_Release_Loading...-success?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Beta_Release-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Frontend](https://img.shields.io/badge/Frontend-Svelte_5_%2B_Vite-orange?style=for-the-badge&logo=svelte)
-![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_Python-blue?style=for-the-badge&logo=fastapi)
-![AI](https://img.shields.io/badge/AI-Multi--Agent_Orchestration-purple?style=for-the-badge&logo=google-gemini)
+![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_LangChain-blue?style=for-the-badge&logo=fastapi)
+![AI](https://img.shields.io/badge/AI-Gemini_2.0_%2B_RAG-purple?style=for-the-badge&logo=google-gemini)
 
 > **The High-Performance AI Orchestrator for the Modern Explorer.**
-> A unified, immersive research dashboard that coordinates specialized AI agents to surface deep insights in Travel, Careers, and Social Trends.
+> A unified, immersive research dashboard that coordinates specialized specialized AI Agents to surface deep insights in Travel, Careers, and Social Trends. 
 
 ---
 
 ## 🚀 Overview
 
-**Crosswind Console** is a cutting-edge **AI Orchestration Platform** built for speed and depth. Unlike generic chatbots, Crosswind deploys **3 specialized AI Agents** (and growing) that work in tandem to solve complex research tasks.
+**Crosswind Console** is a next-generation **AI Orchestration Platform** built for speed, depth, and precision. It leverages **LangChain 1.x** and **Google Gemini 2.0** to coordinate a fleet of specialized agents that can "think" and "act" using real-time tools.
 
-Built on the blazing-fast combination of **FastAPI** and **Svelte 5**, the application offers a premium, glassmorphic interface that feels instant and alive. It solves information fragmentation by giving each agent access to **powerful, real-time tools**—from deep web scrapers to flight aggregators—allowing them to fetch opportunities that standard searches miss.
+Unlike generic chatbots, Crosswind uses a **Hybrid RAG + MCP Architecture**:
+1.  **RAG (Retrieval-Augmented Generation)**: Injects deep domain knowledge (API manuals, travel guides) into the AI's context.
+2.  **MCP (Model Context Protocol)**: Connects the AI to 120+ real-time tools (Amadeus, Flights Sky, Booking.com) via a persistent, high-performance connection pool.
 
-> **Status**: 🚧 Early Production / Beta Coming Soon
+> **Performance Upgrade (Jan 2026)**: Now featuring a custom HTTP MCP client that reduces tool execution latency from **60s to <3s**.
 
 ---
 
 ## 🧠 Core Capabilities: The 3-Agent System
 
-Crosswind acts as a central brain, routing your intent to the expert agent best suited for the job.
-
-### ✈️ 1. Travel Agent
+### ✈️ 1. Travel Agent (Amadeus + Sky)
 *The Ultimate Trip Architect.*
-*   **Accommodations**: Deep searches for **Airbnb** listings (via Apify) and hotels to find hidden gems and long-term stay deals.
-*   **Flights**: Compares prices across **Skyscanner** and **Kiwi** simultaneously to ensure you get the absolute best fare.
-*   **Ground Transport**: Unique "hybrid logic" that combines Google Search with deep scraping to find local bus and train routes (FlixBus, Rome2Rio).
+*   **Smart Search**: Uses **Amadeus GDS** and **Skyscanner** to find real-time flight availability and pricing.
+*   **Hotel Intelligence**: Cross-references **Amadeus Hotels** and **Booking.com** for best rates.
+*   **Deep Reasoning**: Understands complex queries like *"Find a cheap flight to Paris that lands before noon and a hotel near the Eiffel Tower with a pool."*
 
 ### 💼 2. Jobs & Career Agent
 *Your Personal Career Strategist.*
-*   **Opportunity Scout**: Aggregates job listings from major platforms, filtered by your specific criteria.
-*   **Resume Optimiztion**: analyzes your CV against target roles to maximize match potential.
-*   **Market Analysis**: Scrapes company data to give you the edge in interviews.
+*   **Opportunity Scout**: Aggregates job listings from major platforms filtered by your specific criteria.
+*   **Market Analysis**: Scrapes company data to give you the competitive edge.
 
 ### 📈 3. Trends Agent
 *The Social Signal Decoder.*
-*   **Viral Hunter**: Monitors **TikTok, Twitter, and Instagram** to spot rising trends before they peak.
-*   **Cross-Platform Analysis**: Correlates data across platforms to validate true engagement.
-
-### 🔮 Coming Soon: Stocks & Crypto Agent
-*   **Market Watch**: Real-time analysis of financial markets and crypto assets.
-*   **Sentiment Analysis**: Correlating news and social sentiment with price action.
+*   **Viral Hunter**: Monitors social platforms to spot rising trends before they peak.
+*   **Cross-Platform Analysis**: Correlates data to validate true engagement.
 
 ---
 
-## ⚡ Engineered for Performance
+## ⚡ Engineered for Speed
 
-We refuse to compromise on speed or aesthetics.
-
-*   **Frontend**: Built with **Svelte 5** and **Vite**, delivering an interface that is reactive, lightweight, and capable of rendering complex 3D visualizations (Three.js) without stutter.
-*   **Backend**: **FastAPI** (Python) manages the orchestration layer, handling asynchronous tool execution and LLM streaming with millisecond latency.
-*   **Tooling**: Powered by the **Model Context Protocol (MCP)**, connecting our agents to a vast ecosystem of external APIs and data sources securely.
+*   **Frontend**: **Svelte 5 (Runes)** + **Vite** for an instant, reactive glassmorphic UI.
+*   **Backend**: **FastAPI** + **LangChain** for robust agent orchestration.
+*   **Data Layer**: **Supabase pgvector** for high-speed RAG retrieval.
+*   **Tooling**: **Persistent MCP Client** (Python httpx) for lightning-fast API interaction.
 
 ---
 
@@ -63,11 +57,11 @@ We refuse to compromise on speed or aesthetics.
 | Component | Technology | Role |
 | :--- | :--- | :--- |
 | **Frontend** | Svelte 5, TypeScript, TailwindCSS | High-performance reactive UI |
-| **3D Engine** | Three.js (Spline) | Immersive visual elements |
-| **Backend** | Python, FastAPI, Uvicorn | Async task orchestration |
-| **Intelligence** | Google Gemini Pro | Core reasoning engine |
-| **Data Tools** | MCP, Apify, Firecrawl, Kiwi, Skyscanner | Real-time data fetching |
-| **Infrastructure** | Docker | Containerized deployment |
+| **Orchestration** | **LangChain 1.x** | Agent state & tool binding |
+| **Intelligence** | **Google Gemini 2.0 Flash** | Core reasoning engine |
+| **API Integration** | **FastAPI** + **MCP** | Tool serving & execution |
+| **Knowledge Base** | **Supabase pgvector** | RAG context retrieval |
+| **Travel APIs** | Amadeus, Skyscanner, Booking.com | Real-time global data |
 
 ---
 
@@ -76,14 +70,18 @@ We refuse to compromise on speed or aesthetics.
 ### Prerequisites
 *   Node.js & npm
 *   Python 3.10+
-*   Docker (Optional)
+*   Amadeus / RapidAPI Keys (in `.env`)
 
 ### 1. Backend
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e .
+# Windows
+.\.venv\Scripts\Activate.ps1
+# Mac/Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
@@ -93,7 +91,7 @@ cd frontend
 npm install
 npm run dev
 ```
-Visit `http://localhost:5173` to enter the console.
+Visit `http://localhost:5173` to launch the console.
 
 ---
 
