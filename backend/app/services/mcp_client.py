@@ -33,8 +33,8 @@ class PersistentMCPClient:
         "google-flights2": "google-flights2.p.rapidapi.com",
     }
     
-    def __init__(self, rapidapi_key: str = None):
-        self._rapidapi_key = rapidapi_key or os.getenv("RAPIDAPI_KEY", "")
+    def __init__(self, rapidapi_key: str | None = None):
+        self._rapidapi_key: str | None = rapidapi_key or os.getenv("RAPIDAPI_KEY", "")
         self._client: Optional[httpx.AsyncClient] = None
         self._tool_cache: Dict[str, List[Dict]] = {}
     
@@ -93,9 +93,11 @@ class PersistentMCPClient:
             self._tool_cache[service] = tools
             return tools
             
-        except Exception as e:
+        except (httpx.RequestError, httpx.HTTPStatusError) as e:
             print(f"Error listing tools for {service}: {e}")
             return []
+        except Exception:
+            raise
     
     async def call_tool(
         self, 

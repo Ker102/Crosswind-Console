@@ -186,7 +186,7 @@ Current namespace: {namespace}
         self,
         prompt: str,
         namespace: str = "travel",
-        history: List[Dict] = None
+        history: Optional[List[Dict]] = None
     ) -> SandboxResult:
         """
         Process a user prompt using LangChain with bind_tools pattern.
@@ -239,15 +239,21 @@ Current namespace: {namespace}
             # Invoke LLM with tools
             response = await self.llm.ainvoke(messages)
             
-            # Check for tool calls
-            if hasattr(response, 'tool_calls') and response.tool_calls:
+            # Loop for multi-turn tool execution (max 5 iterations)
+            MAX_ITERATIONS = 5
+            for _ in range(MAX_ITERATIONS):
+                if not (hasattr(response, 'tool_calls') and response.tool_calls):
+                    break
+                    
                 tool_results = []
+                # Execute all tool calls from this turn
                 for tool_call in response.tool_calls:
                     tool_name = tool_call.get("name", "")
                     tool_args = tool_call.get("args", {})
                     tools_used.append(tool_name)
                     
                     # Find and execute the tool
+                    tool_found = False
                     for t in self._tools:
                         if t.name == tool_name:
                             try:
@@ -255,17 +261,26 @@ Current namespace: {namespace}
                                 tool_results.append(f"[{tool_name}]: {result}")
                             except Exception as e:
                                 tool_results.append(f"[{tool_name}]: Error - {e}")
+                            tool_found = True
                             break
+                    if not tool_found:
+                        tool_results.append(f"[{tool_name}]: Error - Tool not found")
                 
-                # Send tool results back to LLM for final response
+                # Append tool results to messages
                 if tool_results:
                     messages.append(response)
-                    messages.append(HumanMessage(content=f"Tool Results:\n" + "\n".join(tool_results)))
-                    final_response = await self.base_llm.ainvoke(messages)
-                    response_text = final_response.content
+                    # Use standard string concatenation, not f-string
+                    messages.append(HumanMessage(content="Tool Results:\n" + "\n".join(tool_results)))
+                    
+                    # Get next response from LLM
+                    response = await self.base_llm.ainvoke(messages)
+                    response_text = response.content
                 else:
                     response_text = response.content
-            else:
+                    break
+            
+            # Final response text (if loop finished or no tools called)
+            if not response_text:
                 response_text = response.content
             
         except Exception as e:

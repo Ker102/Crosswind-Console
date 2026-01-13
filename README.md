@@ -26,17 +26,20 @@ Unlike generic chatbots, Crosswind uses a **Hybrid RAG + MCP Architecture**:
 ## 🧠 Core Capabilities: The 3-Agent System
 
 ### ✈️ 1. Travel Agent (Amadeus + Sky)
+
 *The Ultimate Trip Architect.*
 *   **Smart Search**: Uses **Amadeus GDS** and **Skyscanner** to find real-time flight availability and pricing.
 *   **Hotel Intelligence**: Cross-references **Amadeus Hotels** and **Booking.com** for best rates.
 *   **Deep Reasoning**: Understands complex queries like *"Find a cheap flight to Paris that lands before noon and a hotel near the Eiffel Tower with a pool."*
 
 ### 💼 2. Jobs & Career Agent
+
 *Your Personal Career Strategist.*
 *   **Opportunity Scout**: Aggregates job listings from major platforms filtered by your specific criteria.
 *   **Market Analysis**: Scrapes company data to give you the competitive edge.
 
 ### 📈 3. Trends Agent
+
 *The Social Signal Decoder.*
 *   **Viral Hunter**: Monitors social platforms to spot rising trends before they peak.
 *   **Cross-Platform Analysis**: Correlates data to validate true engagement.
