@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
-from .routers import discovery, llm, autocomplete, mcp_tools
+from .routers import discovery, llm, autocomplete, mcp_tools, trip_planner
 from .schemas import HealthResponse
 from .database import init_db
 
@@ -33,6 +33,7 @@ app.include_router(discovery.router, prefix="/api")
 app.include_router(llm.router, prefix="/api")
 app.include_router(autocomplete.router)
 app.include_router(mcp_tools.router)
+app.include_router(trip_planner.router, prefix="/api")
 
 
 @app.get("/health", response_model=HealthResponse)

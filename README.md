@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Frontend](https://img.shields.io/badge/Frontend-Svelte_5_%2B_Vite-orange?style=for-the-badge&logo=svelte)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_LangChain-blue?style=for-the-badge&logo=fastapi)
-![AI](https://img.shields.io/badge/AI-Gemini_2.0_%2B_RAG-purple?style=for-the-badge&logo=google-gemini)
+![AI](https://img.shields.io/badge/AI-Gemini_3_Pro_Preview_%2B_RAG-purple?style=for-the-badge&logo=google-gemini)
 
 > **The High-Performance AI Orchestrator for the Modern Explorer.**
 > A unified, immersive research dashboard that coordinates specialized specialized AI Agents to surface deep insights in Travel, Careers, and Social Trends. 
@@ -13,7 +13,7 @@
 
 ## 🚀 Overview
 
-**Crosswind Console** is a next-generation **AI Orchestration Platform** built for speed, depth, and precision. It leverages **LangChain 1.x** and **Google Gemini 2.0** to coordinate a fleet of specialized agents that can "think" and "act" using real-time tools.
+**Crosswind Console** is a next-generation **AI Orchestration Platform** built for speed, depth, and precision. It leverages **LangChain 1.2** and **Google Gemini 3 Pro Preview** to coordinate a fleet of specialized agents that can "think" and "act" using real-time tools.
 
 Unlike generic chatbots, Crosswind uses a **Hybrid RAG + MCP Architecture**:
 1.  **RAG (Retrieval-Augmented Generation)**: Injects deep domain knowledge (API manuals, travel guides) into the AI's context.
@@ -60,8 +60,8 @@ Unlike generic chatbots, Crosswind uses a **Hybrid RAG + MCP Architecture**:
 | Component | Technology | Role |
 | :--- | :--- | :--- |
 | **Frontend** | Svelte 5, TypeScript, TailwindCSS | High-performance reactive UI |
-| **Orchestration** | **LangChain 1.x** | Agent state & tool binding |
-| **Intelligence** | **Google Gemini 2.0 Flash** | Core reasoning engine |
+| **Orchestration** | **LangChain 1.2+** | Agent state & tool binding |
+| **Intelligence** | **Google Gemini 3 Pro Preview** | Core reasoning engine |
 | **API Integration** | **FastAPI** + **MCP** | Tool serving & execution |
 | **Knowledge Base** | **Supabase pgvector** | RAG context retrieval |
 | **Travel APIs** | Amadeus, Skyscanner, Booking.com | Real-time global data |

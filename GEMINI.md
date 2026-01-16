@@ -7,7 +7,7 @@ Crosswind-Console is a unified research dashboard that surfaces job opportunitie
 - **Frontend**: Svelte 5 (Runes), Vite, Lucide Icons
 - **Backend**: FastAPI, Python, Uvicorn
 - **Auth**: Next.js, NextAuth, Prisma
-- **AI/Data**: Google Gemini API, MCP (Model Context Protocol), Supabase pgvector
+- **AI/Data**: Google Gemini 3 Pro Preview, LangChain 1.2, MCP (Model Context Protocol), Supabase pgvector
 - **Database**: PostgreSQL + pgvector (Supabase), SQLite (local fallback)
 
 ## Architecture
@@ -114,7 +114,7 @@ executeMCPTool(serverName, toolName, args)
 ```bash
 # Gemini
 GEMINI_API_KEY=your_key
-GEMINI_MODEL=gemini-2.0-flash
+GEMINI_MODEL=gemini-3-pro-preview
 
 # Supabase (RAG)
 SUPABASE_URL=https://xxx.supabase.co
@@ -157,7 +157,7 @@ python check_rag_db.py
 
 ---
 
-## Current Progress (2026-01-13)
+## Current Progress (2026-01-16)
 
 ### ✅ Completed
 - [x] **LangChain Migration** (v1.2.3): Replaced raw Gemini SDK with LangChain agent (`bind_tools` pattern).
@@ -165,14 +165,15 @@ python check_rag_db.py
 - [x] **Performance Optimization**: Created persistent HTTP MCP client (latency reduced from ~60s to ~3s).
 - [x] **Hybrid RAG**: Integrated Supabase pgvector with 11 API documentation sources.
 - [x] **Frontend Sandbox**: Functional chat UI with tool execution feedback.
+- [x] **Trip Planner Phase 1**: LangGraph service with 4 nodes (`parse_intent` → `search_flights` → `search_hotels` → `rank_options`).
 
 ### 📍 Current State
-- **Architecture**: LangChain 1.x + Gemini 2.0 Flash + Supabase RAG
+- **Architecture**: LangChain 1.x + Gemini 2.0 Flash + LangGraph + Supabase RAG
 - **Tools**: ~122 remote MCP tools (Amadeus, Flights Sky, Booking.com, Google Maps)
-- **Performance**: High-speed tool execution via persistent connection pooling
+- **Trip Planner**: Basic graph architecture complete, API endpoint at `/api/trip-planner/start`
 
 ### 🔜 Next Steps
-- Implement **Trip Planner Agent** (LangGraph stateful workflows)
+- Add **Supabase session persistence** for Trip Planner
 - Add "Human-in-the-loop" approval UI
 - Deepen preference analysis functionality
 
@@ -200,5 +201,6 @@ A multi-step, stateful AI agent for complete trip planning.
 ---
 
 ## Last Updated
-2026-01-12
+2026-01-16
+
 

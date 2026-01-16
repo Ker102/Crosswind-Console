@@ -958,3 +958,139 @@ Given that flights for your requested date in 2026 are not yet available,...
 2026-01-09 04:14:25,837 [DEBUG] close.started
 2026-01-09 04:14:25,838 [DEBUG] close.complete
 2026-01-09 04:14:25,838 [INFO] TOOL RESULT: search_flights_sky - count=0, error=False, prices: ['$81', '$92', '$92']
+2026-01-14 08:57:11,770 [DEBUG] Initializing server 'jobs'
+2026-01-14 08:57:11,771 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 08:57:11,771 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 08:57:11,772 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 08:57:11,772 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 08:57:11,772 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 08:57:11,772 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 08:57:11,773 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 08:57:11,794 [DEBUG] Initializing server 'search'
+2026-01-14 08:57:11,794 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 08:57:11,794 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 08:57:11,794 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 08:57:11,795 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 08:57:11,795 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 08:57:11,795 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 08:57:11,795 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 08:57:11,804 [DEBUG] Initializing server 'travel'
+2026-01-14 08:57:11,804 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 08:57:11,805 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 08:57:11,805 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 08:57:11,806 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 08:57:11,806 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 08:57:11,806 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 08:57:11,806 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 08:57:11,849 [DEBUG] Initializing server 'trends'
+2026-01-14 08:57:11,850 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 08:57:11,850 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 08:57:11,850 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 08:57:11,851 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 08:57:11,851 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 08:57:11,851 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 08:57:11,852 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 08:57:15,252 [DEBUG] executing <function connect.<locals>.connector at 0x0000021123869E40>
+2026-01-14 08:57:15,261 [DEBUG] operation <function connect.<locals>.connector at 0x0000021123869E40> completed
+2026-01-14 08:57:15,262 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002112C93D030>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002112C74EA20>, deterministic=True)
+2026-01-14 08:57:15,263 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002112C93D030>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002112C74EA20>, deterministic=True) completed
+2026-01-14 08:57:15,263 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002112C93D030>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-14 08:57:15,263 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002112C93D030>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-14 08:57:15,264 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,264 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 08:57:15,264 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C9389C0>, 'PRAGMA read_uncommitted', [])
+2026-01-14 08:57:15,268 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C9389C0>, 'PRAGMA read_uncommitted', []) completed
+2026-01-14 08:57:15,268 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C9389C0>)
+2026-01-14 08:57:15,268 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C9389C0>) completed
+2026-01-14 08:57:15,269 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C9389C0>)
+2026-01-14 08:57:15,269 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C9389C0>) completed
+2026-01-14 08:57:15,269 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,270 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 08:57:15,270 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,271 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 08:57:15,271 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C938A40>, 'PRAGMA main.table_info("airports")', ())
+2026-01-14 08:57:15,275 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C938A40>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-14 08:57:15,276 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C938A40>)
+2026-01-14 08:57:15,276 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C938A40>) completed
+2026-01-14 08:57:15,276 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C938A40>)
+2026-01-14 08:57:15,277 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C938A40>) completed
+2026-01-14 08:57:15,277 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,278 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 08:57:15,278 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C938A40>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-14 08:57:15,279 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002112C938A40>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-14 08:57:15,279 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C938A40>)
+2026-01-14 08:57:15,280 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002112C938A40>) completed
+2026-01-14 08:57:15,280 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C938A40>)
+2026-01-14 08:57:15,280 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002112C938A40>) completed
+2026-01-14 08:57:15,281 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,281 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 08:57:15,282 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002112C93D030>)
+2026-01-14 08:57:15,282 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002112C93D030>) completed
+2026-01-14 13:07:40,901 [DEBUG] Initializing server 'jobs'
+2026-01-14 13:07:40,902 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 13:07:40,902 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 13:07:40,902 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 13:07:40,903 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 13:07:40,903 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 13:07:40,903 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 13:07:40,903 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 13:07:40,925 [DEBUG] Initializing server 'search'
+2026-01-14 13:07:40,925 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 13:07:40,925 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 13:07:40,925 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 13:07:40,926 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 13:07:40,926 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 13:07:40,926 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 13:07:40,926 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 13:07:40,934 [DEBUG] Initializing server 'travel'
+2026-01-14 13:07:40,935 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 13:07:40,935 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 13:07:40,935 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 13:07:40,935 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 13:07:40,936 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 13:07:40,936 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 13:07:40,936 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 13:07:40,972 [DEBUG] Initializing server 'trends'
+2026-01-14 13:07:40,972 [DEBUG] Registering handler for ListToolsRequest
+2026-01-14 13:07:40,973 [DEBUG] Registering handler for CallToolRequest
+2026-01-14 13:07:40,973 [DEBUG] Registering handler for ListResourcesRequest
+2026-01-14 13:07:40,973 [DEBUG] Registering handler for ReadResourceRequest
+2026-01-14 13:07:40,973 [DEBUG] Registering handler for PromptListRequest
+2026-01-14 13:07:40,974 [DEBUG] Registering handler for GetPromptRequest
+2026-01-14 13:07:40,974 [DEBUG] Registering handler for ListResourceTemplatesRequest
+2026-01-14 13:07:44,236 [DEBUG] executing <function connect.<locals>.connector at 0x000002B416649E40>
+2026-01-14 13:07:44,242 [DEBUG] operation <function connect.<locals>.connector at 0x000002B416649E40> completed
+2026-01-14 13:07:44,242 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002B41F718F40>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002B41F51EB60>, deterministic=True)
+2026-01-14 13:07:44,243 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002B41F718F40>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002B41F51EB60>, deterministic=True) completed
+2026-01-14 13:07:44,243 [DEBUG] executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002B41F718F40>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-14 13:07:44,244 [DEBUG] operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002B41F718F40>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-14 13:07:44,244 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,244 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>) completed
+2026-01-14 13:07:44,245 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA read_uncommitted', [])
+2026-01-14 13:07:44,247 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA read_uncommitted', []) completed
+2026-01-14 13:07:44,248 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,248 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,248 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,248 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,249 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,249 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002B41F718F40>) completed
+2026-01-14 13:07:44,250 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,250 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>) completed
+2026-01-14 13:07:44,250 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA main.table_info("airports")', ())
+2026-01-14 13:07:44,254 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA main.table_info("airports")', ()) completed
+2026-01-14 13:07:44,254 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,254 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,255 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,255 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,256 [DEBUG] executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,256 [DEBUG] operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002B41F718F40>) completed
+2026-01-14 13:07:44,256 [DEBUG] executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA main.table_info("currencies")', ())
+2026-01-14 13:07:44,257 [DEBUG] operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002B41F7088C0>, 'PRAGMA main.table_info("currencies")', ()) completed
+2026-01-14 13:07:44,257 [DEBUG] executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,258 [DEBUG] operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,258 [DEBUG] executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>)
+2026-01-14 13:07:44,258 [DEBUG] operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002B41F7088C0>) completed
+2026-01-14 13:07:44,259 [DEBUG] executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,259 [DEBUG] operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002B41F718F40>) completed
+2026-01-14 13:07:44,259 [DEBUG] executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002B41F718F40>)
+2026-01-14 13:07:44,260 [DEBUG] operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002B41F718F40>) completed
