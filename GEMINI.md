@@ -157,25 +157,26 @@ python check_rag_db.py
 
 ---
 
-## Current Progress (2026-01-16)
+## Current Progress (2026-01-18)
 
-### ✅ Completed
+### Completed
 - [x] **LangChain Migration** (v1.2.3): Replaced raw Gemini SDK with LangChain agent (`bind_tools` pattern).
 - [x] **Amadeus Integration**: Added official Amadeus `Flight Offers` and `Hotel List/Search` tools.
 - [x] **Performance Optimization**: Created persistent HTTP MCP client (latency reduced from ~60s to ~3s).
 - [x] **Hybrid RAG**: Integrated Supabase pgvector with 11 API documentation sources.
 - [x] **Frontend Sandbox**: Functional chat UI with tool execution feedback.
-- [x] **Trip Planner Phase 1**: LangGraph service with 4 nodes (`parse_intent` → `search_flights` → `search_hotels` → `rank_options`).
+- [x] **Trip Planner Phase 1**: LangGraph service with 4 nodes (`parse_intent` -> `search_flights` -> `search_hotels` -> `rank_options`).
+- [x] **Supabase Session Persistence**: Session storage for Trip Planner with CRUD endpoints.
 
-### 📍 Current State
+### Current State
 - **Architecture**: LangChain 1.x + Gemini 2.0 Flash + LangGraph + Supabase RAG
 - **Tools**: ~122 remote MCP tools (Amadeus, Flights Sky, Booking.com, Google Maps)
-- **Trip Planner**: Basic graph architecture complete, API endpoint at `/api/trip-planner/start`
+- **Trip Planner**: Graph architecture complete with session persistence via Supabase
 
-### 🔜 Next Steps
-- Add **Supabase session persistence** for Trip Planner
+### Next Steps
 - Add "Human-in-the-loop" approval UI
 - Deepen preference analysis functionality
+- Frontend integration for Trip Planner
 
 ---
 
