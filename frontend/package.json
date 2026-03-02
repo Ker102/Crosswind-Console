@@ -24,7 +24,7 @@
     "@steeze-ui/svelte-icon": "^1.6.2",
     "@threlte/core": "^8.4.1",
     "@threlte/extras": "^9.8.1",
-    "lucide-svelte": "^0.575.0",
+    "lucide-svelte": "^0.576.0",
     "marked": "^17.0.3",
     "three": "^0.183.2"
   }
