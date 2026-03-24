@@ -167,6 +167,7 @@ python check_rag_db.py
 - [x] **Frontend Sandbox**: Functional chat UI with tool execution feedback.
 - [x] **Trip Planner Phase 1**: LangGraph service with 4 nodes (`parse_intent` -> `search_flights` -> `search_hotels` -> `rank_options`).
 - [x] **Supabase Session Persistence**: Session storage for Trip Planner with CRUD endpoints.
+- [x] **Project Status & Dependencies Update**: Updated README status from Beta to Pre-Release and bumped outdated dependencies across frontend, backend, and auth packages.
 
 ### Current State
 - **Architecture**: LangChain 1.x + Gemini 2.0 Flash + LangGraph + Supabase RAG
@@ -202,6 +203,4 @@ A multi-step, stateful AI agent for complete trip planning.
 ---
 
 ## Last Updated
-2026-01-16
-
-
+2026-03-24

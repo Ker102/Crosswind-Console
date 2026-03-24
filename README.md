@@ -1,6 +1,6 @@
 # Crosswind Console
 
-![Status](https://img.shields.io/badge/Status-Beta_Release-success?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Pre--Release-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Frontend](https://img.shields.io/badge/Frontend-Svelte_5_%2B_Vite-orange?style=for-the-badge&logo=svelte)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI_%2B_LangChain-blue?style=for-the-badge&logo=fastapi)
