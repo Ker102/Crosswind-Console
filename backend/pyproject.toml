@@ -15,7 +15,7 @@ dependencies = [
   "google-generativeai>=0.6,<0.7",
   "mcp[cli]>=1.22,<2",
   "sqlalchemy[asyncio]>=2.0,<3",
-  "asyncpg>=0.29,<1",
+  "asyncpg>=0.31.0,<1",
   "aiosqlite>=0.19,<1",
 ]
 
