@@ -25,7 +25,7 @@
     "@threlte/core": "^8.5.11",
     "@threlte/extras": "^9.15.1",
     "lucide-svelte": "^1.0.1",
-    "marked": "^17.0.6",
+    "marked": "^18.0.3",
     "three": "^0.184.0"
   }
 }
