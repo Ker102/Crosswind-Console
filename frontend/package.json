@@ -12,7 +12,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@tsconfig/svelte": "^5.0.8",
-    "@types/three": "^0.184.0",
+    "@types/three": "^0.184.1",
     "svelte": "^5.55.8",
     "svelte-check": "^4.4.8",
     "tslib": "^2.8.1",
@@ -22,8 +22,8 @@
   "dependencies": {
     "@steeze-ui/simple-icons": "^1.10.1",
     "@steeze-ui/svelte-icon": "^1.6.2",
-    "@threlte/core": "^8.5.11",
-    "@threlte/extras": "^9.15.1",
+    "@threlte/core": "^8.5.14",
+    "@threlte/extras": "^9.19.0",
     "lucide-svelte": "^1.0.1",
     "marked": "^17.0.6",
     "three": "^0.184.0"
