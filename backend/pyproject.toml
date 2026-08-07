@@ -16,7 +16,7 @@ dependencies = [
   "mcp[cli]>=1.22,<2",
   "sqlalchemy[asyncio]>=2.0,<3",
   "asyncpg>=0.29,<1",
-  "aiosqlite>=0.19,<1",
+  "aiosqlite>=0.22.1,<1",
 ]
 
 [project.optional-dependencies]
