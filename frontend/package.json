@@ -23,7 +23,7 @@
     "@steeze-ui/simple-icons": "^1.10.1",
     "@steeze-ui/svelte-icon": "^1.6.2",
     "@threlte/core": "^8.6.1",
-    "@threlte/extras": "^9.22.0",
+    "@threlte/extras": "^9.22.2",
     "lucide-svelte": "^1.0.1",
     "marked": "^17.0.6",
     "three": "^0.186.1"
