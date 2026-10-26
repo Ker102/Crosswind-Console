@@ -11,7 +11,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.3",
     "@prisma/client": "^7.10.1",
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.9",
     "next": "16.4.2",
     "next-auth": "^4.24.15",
     "prisma": "^7.10.1",
